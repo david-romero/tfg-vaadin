@@ -5,7 +5,7 @@
  * Copyright David
  * com.app.ui
  */
-package com.app.ui;
+package com.app.ui.login;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

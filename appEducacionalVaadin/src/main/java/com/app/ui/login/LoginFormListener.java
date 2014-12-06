@@ -5,7 +5,7 @@
  * Copyright David
  * com.app.ui
  */
-package com.app.ui;
+package com.app.ui.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.app.ui.AppUI;
+import com.app.ui.NavigatorUI;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -58,9 +60,10 @@ public class LoginFormListener implements Button.ClickListener {
 			Authentication result = authManager.authenticate(auth);
 			SecurityContextHolder.getContext().setAuthentication(result);
 			AppUI current = (AppUI) UI.getCurrent();
-			Navigator navigator = current.getNavigator();
+			NavigatorUI navigator = (NavigatorUI) current.getNavigator();
 			navigator.navigateTo("user");
 		} catch (Exception e) {
+			e.printStackTrace();
 			Notification.show("Authentication failed: " + e.getMessage());
 		}
 	}

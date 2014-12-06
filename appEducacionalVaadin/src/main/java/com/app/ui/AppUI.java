@@ -13,6 +13,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.app.infrastructure.security.Authority;
+import com.app.ui.login.LoginView;
+import com.app.ui.user.UserView;
+import com.app.ui.user.admin.AdminView;
+import com.app.ui.user.profesor.ProfesorView;
+import com.app.ui.user.tutores.TutorView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
@@ -29,6 +35,10 @@ public class AppUI extends UI {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -2252711826491740298L;
+	/**
+	 * 
+	 */
 	private ApplicationContext applicationContext;
 
 	@Override
@@ -39,9 +49,13 @@ public class AppUI extends UI {
 		ServletContext servletContext = httpSession.getServletContext();
 		applicationContext = WebApplicationContextUtils
 				.getRequiredWebApplicationContext(servletContext);
-		Navigator navigator = new Navigator(this, this);
+		NavigatorUI navigator = new NavigatorUI(this, this);
+		navigator.addViewChangeListener(new ViewChangeListenerUI());
 		navigator.addView("login", LoginView.class);
 		navigator.addView("user", UserView.class);
+		navigator.addView((Authority.PROFESOR+"/inicio").toLowerCase(), ProfesorView.class);
+		navigator.addView((Authority.TUTOR+"/inicio").toLowerCase(), TutorView.class);
+		navigator.addView((Authority.ADMINISTRADOR+"/inicio").toLowerCase(), AdminView.class);
 		navigator.navigateTo("login");
 		setNavigator(navigator);
 	}

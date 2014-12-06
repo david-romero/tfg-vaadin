@@ -5,7 +5,7 @@
  * Copyright David
  * com.app.ui
  */
-package com.app.ui;
+package com.app.ui.logout;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -22,6 +22,11 @@ import com.vaadin.ui.UI;
 public class LogoutListener implements Button.ClickListener {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4911443316178155175L;
+
+	/**
 	 * Constructor
 	 */
 	public LogoutListener() {
@@ -29,7 +34,7 @@ public class LogoutListener implements Button.ClickListener {
 
 	public void buttonClick(Button.ClickEvent clickEvent) {
 	    SecurityContextHolder.clearContext();
-	    UI.getCurrent().close();
+	    //UI.getCurrent().close();
 	    Navigator navigator = UI.getCurrent().getNavigator();
 	    navigator.navigateTo("login");
 	  }
