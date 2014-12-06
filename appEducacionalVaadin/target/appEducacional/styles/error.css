@@ -1,0 +1,12 @@
+a:hover{
+	text-decoration: underline;
+	color: white;
+}
+a:visited{
+	color: white;
+	text-decoration: none;
+}
+a{
+	color: white;
+	text-decoration: none;
+}

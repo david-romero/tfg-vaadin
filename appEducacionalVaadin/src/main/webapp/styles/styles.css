@@ -1,0 +1,187 @@
+
+/*Principal*/
+
+div.titles {
+	
+	background: -moz-linear-gradient(45deg,  rgba(173,173,173,0.65) 0%, rgba(133,133,133,0) 23%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(173,173,173,0.65)), color-stop(23%,rgba(133,133,133,0)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(45deg,  rgba(173,173,173,0.65) 0%,rgba(133,133,133,0) 23%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(45deg,  rgba(173,173,173,0.65) 0%,rgba(133,133,133,0) 23%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(45deg,  rgba(173,173,173,0.65) 0%,rgba(133,133,133,0) 23%,rgba(0,0,0,0) 100%); /* IE10+ */
+	background: linear-gradient(45deg,  rgba(173,173,173,0.65) 0%,rgba(133,133,133,0) 23%,rgba(0,0,0,0) 100%); /* W3C */
+	height: 80px;
+	padding-top: 2px;
+	padding-left: 22px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h1 {
+	font-style: italic;
+}
+
+.header {
+	background-image: url("/ACME/images/mmarmol_negro.jpg");
+}
+
+.div_menu {
+	background: url("/ACME/images/boton.bmp")
+				repeat-x;
+	margin-top: 4px;
+	width: 998px;
+}
+#main {
+	margin: 	0 auto;
+	width: 		998px;
+	background: #ffffff 
+		url(../images/fondo-limpio.jpg) 
+		top center 
+		repeat-y;
+	font-family: Arial,sans-serif;
+	
+}
+
+#logo {
+	padding: 16px;
+}
+
+.buttons {
+	
+	background: url("/ACME/images/boton_2.bmp");
+	-webkit-border-radius: 14px;
+	text-align: center;
+	padding: 6px;
+	color: white;
+	text-transform: uppercase;
+	cursor: pointer;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+.buttons:hover {
+	background: url("/ACME/images/boton_pulsado_2.bmp");
+	-webkit-border-radius: 14px;
+}
+
+a.link {
+	-webkit-border-radius: 14px;
+	background: url("/ACME/images/boton_2.bmp");
+	text-align: center;
+	padding: 6px;
+	display: block;
+	color: white;
+	text-transform: uppercase;
+	cursor: pointer;
+	font-size: 11px;
+	text-decoration: none;
+	width: 56px;
+}
+
+a.linkErased {
+	-webkit-border-radius: 14px;
+	background: url("/ACME/images/boton_2.bmp");
+	text-align: center;
+	padding: 6px;
+	display: block;
+	color: white;
+	text-transform: uppercase;
+	cursor: pointer;
+	font-size: 11px;
+	text-decoration: none;
+	width: 96px;
+}
+a.link:hover {
+	-webkit-border-radius: 14px;
+	background: url("/ACME/images/boton_pulsado_2.bmp");
+}
+
+#credentials {
+	text-align: right;
+	padding-top: 120px;
+	padding-bottom: 120px;
+}
+
+/*login*/
+
+#password {
+	margin-right: 373px;
+}
+
+#username {
+	margin-right: 373px;
+}
+
+#submitButton {
+	margin-top: 20px;
+	margin-right: 467px;
+}
+
+/**/
+
+/*Edit*/
+
+#announcement {
+	text-align: left;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-right: 189px;
+
+}
+
+/*Tabla*/
+
+#tEdit {
+	margin-left: 50px;
+	padding: 3px;
+	border: none;
+}
+
+.label {
+	text-align: right;
+}
+
+.input {
+	text-align: left;
+	
+}
+#title {
+	margin-bottom: 7px;
+}
+
+#datepicker {
+	margin-right: 10px;
+}
+
+#labelDescript {
+	vertical-align: top;
+}
+
+#description {
+	height: 175px;
+	width: 352px;
+	resize: none;
+	margin-bottom: 14px;
+}
+
+#certifications {
+	margin-bottom: 18px;
+}
+
+#exams {
+	margin-bottom: 18px;
+}
+
+#reviewers {
+	margin-bottom: 18px;
+	
+}
+
+#saveButton {
+	margin-left: 78px;
+}
+
+.lastColum {
+	text-align: center;
+	width: 20px;
+	background: white;
+}

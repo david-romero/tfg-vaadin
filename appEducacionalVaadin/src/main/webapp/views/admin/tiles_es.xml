@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2013 Universidad de Sevilla
+ *
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="admin/ban" extends="master.page">
+		<put-attribute name="title" value="Banear usuario" />
+		<put-attribute name="body" value="/views/admin/login.jsp" />
+	</definition>
+	
+	<definition name="admin/create" extends="master.page">
+		<put-attribute name="title" value="Dar de Alta a un administrador" />
+		<put-attribute name="body" value="/views/admin/alta.jsp" />
+	</definition>
+	
+	<definition name="admin/confirm" extends="master.page">
+		<put-attribute name="title" value="Confirmar identidad de usuario" />
+		<put-attribute name="body" value="/views/admin/confirm.jsp" />
+	</definition>
+		
+</tiles-definitions>

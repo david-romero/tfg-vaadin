@@ -1,0 +1,140 @@
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>Spring Web MVC Application</display-name>
+
+	<!-- Servlet 1 -->
+
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>
+	</context-param>
+
+	<!-- Servlet 2 -->
+
+	<servlet>
+		<servlet-name>dispatcher2</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value></param-value> <!-- Keep this parameter empty -->
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher2</servlet-name>
+		<url-pattern>/app/*</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/dispatcher2-servlet.xml</param-value>
+	</context-param>
+
+	<!-- -->
+
+	<!-- Servlet Vaadin -->
+	<servlet>
+		<servlet-name>Vaadin Application Servlet</servlet-name>
+		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+		<init-param>
+			<description>Vaadin UI to display</description>
+			<param-name>UI</param-name>
+			<param-value>com.app.ui.AppUI</param-value>
+		</init-param>
+		<init-param>
+			<description>Application widgetset</description>
+			<param-name>widgetset</param-name>
+			<param-value>com.app.ui.AppWidgetSet</param-value>
+		</init-param>
+	</servlet>
+	
+
+	<servlet-mapping>
+		<servlet-name>Vaadin Application Servlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Vaadin Application Servlet</servlet-name>
+		<url-pattern>/VAADIN/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Java-based annotation-driven Spring container definition -->
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>com.app.config.AppConfig</param-value>
+	</context-param>
+	<context-param>
+		<description>
+		Vaadin production mode</description>
+		<param-name>productionMode</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Security filter -->
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- añadido para serializar a json -->
+	<filter>
+		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Special files -->
+
+	<welcome-file-list>
+		<welcome-file>/views/misc/index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<error-code>403</error-code>
+		<location>/views/misc/403.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/views/misc/404.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/views/misc/500.jsp</location>
+	</error-page>
+
+</web-app>

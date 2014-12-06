@@ -1,0 +1,742 @@
+/* common.css
+ *
+ * Copyright (C) 2013 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ * 
+ */
+
+.error {
+	color: red;
+	font-weight: bolder;
+}
+
+.message {
+	color: red;
+	font-weight: bolder;
+}
+@media (min-width: 991px)
+{
+/* Para pestañas con dispositivos grandes */
+/* tamaño y forma del panel principal */
+div#panel {
+	margin-top: 10px;
+	position: relative;
+	height: 160px;
+}
+
+/* configuracion de las pestañas */
+ul#tabs1 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs1 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs1 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs1 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs1 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles1 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 125px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 10px;
+}
+	div#panel #paneles1 div {
+		margin:10px;
+		width: 98%;
+		height: 105px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}
+	
+/* configuracion de las pestañas */
+ul#tabs2 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 400px;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs2 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs2 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs2 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs2 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles2 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 120px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 0;
+}
+	div#panel #paneles2 div {
+		margin:10px;
+		width: 98%;
+		height: 105px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}
+	
+/* configuracion de las pestañas */
+ul#tabs3 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs3 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs3 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs3 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs3 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles3 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 120px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 10px;
+}
+	div#panel #paneles3 div {
+		margin:10px;
+		width: 98%;
+		height: 85px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}	
+
+/* configuracion de las pestañas */
+ul#tabs4 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs4 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs4 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs4 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs4 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles4 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 125px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 0;
+}
+	div#panel #paneles4 div {
+		margin:10px;
+		padding: 0px 0px 5px 0px;
+		width: 98%;
+		height: 115px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}	
+}
+#alumno
+{
+	margin-left: -3%;
+	border: 0px;
+}
+#alumno label
+{
+	font-family: arial;
+	font-size: 12px;
+}
+#alumnoInfo
+{
+	display: inline-block;
+	position: absolute;
+	left: 40%;
+	top: 13.5%;
+	font-family: arial;
+	font-size: 12px;
+}
+#alumnoInfo img
+{
+	vertical-align: middle; 
+	height: 85px;
+	width: 75px;
+	margin-right: 10px;
+}
+#alumnoInfo span
+{
+	display:inline-block; 
+	vertical-align:middle;
+	margin-right: 60px;
+	color: black;
+}
+#alumnoInfo span p
+{
+	color: #47a3da;
+}
+#alumnoAsunto
+{
+
+}
+#tutorAEnviar
+{
+	
+}
+#contenedorTablas
+{
+	margin-top: 30px;
+}
+#contenedorTablas select
+{
+	
+}
+#contenedorTablas textarea
+{
+	margin-top: 20px;
+	height: 64px;
+	resize:none;
+}
+#tablaNotasDiarias
+{
+	border-spacing: 0px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+#tablaNotasDiarias th
+{
+	border: 1px solid #000;
+	font-size: 14px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	text-align: center;
+}
+#tablaNotasDiarias td
+{
+	border: 1px solid #000;
+	margin: 0 0 0 0;
+	padding: 1px 1px 1px 1px !important;
+}
+#tablaNotasDiarias tr
+{
+	text-align: center;
+	border: 1px solid #000;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+#tablaNotasDiarias button
+{
+	padding-left: 2px;
+	margin-left: 0px;
+	width: 20px;
+	height: 20px;
+}
+#details{
+  position:absolute; background:white; border: 1px solid #D1C9C2; border-top: 0; width: 400px; margin: 0 auto; padding:  7px 15px; text-align: left; -webkit-border-bottom-right-radius: 6px; -webkit-border-bottom-left-radius: 6px; -moz-border-radius-bottomright: 6px; -moz-border-radius-bottomleft: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;
+}
+
+#profesor span
+{
+	border: none;
+	
+}
+#profesor span input
+{
+	width: 35px;
+}
+
+.input_small
+{
+	font-size: small;
+}
+@media (max-width: 991px)
+{
+/* Para pestañas con dispositivos grandes */
+/* tamaño y forma del panel principal */
+div#panel {
+	margin-top: 10px;
+	position: relative;
+	width:104%;
+	height: 160px;
+}
+
+/* configuracion de las pestañas */
+ul#tabs1 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs1 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs1 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs1 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs1 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles1 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 125px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 10px;
+}
+	div#panel #paneles1 div {
+		margin:10px;
+		width: 100%;
+		height: 105px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}
+	
+/* configuracion de las pestañas */
+ul#tabs2 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs2 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs2 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs2 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs2 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles2 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 120px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 10px;
+}
+	div#panel #paneles2 div {
+		margin:10px;
+		width: 100%;
+		height: 105px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}
+	
+/* configuracion de las pestañas */
+ul#tabs3 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs3 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs3 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs3 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs3 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles3 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 100px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 10px;
+}
+	div#panel #paneles3 div {
+		margin:10px;
+		width: 100%;
+		height: 86px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}	
+
+/* configuracion de las pestañas */
+ul#tabs4 {
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 24px;
+	z-index: 1;
+}
+	ul#tabs4 li {
+		float:left;
+		height: 23px;
+		padding-left: 8px;
+		list-style: none;
+		margin-right: 1px;
+		background: url(../images/tabs.png) left -48px;
+	}
+	ul#tabs4 li.actual {
+		height: 24px;
+		background: url(../images/tabs.png) left -72px;
+	}
+		ul#tabs4 li a {
+			display: block;
+				/* hack para ie6 */
+				.display: inline-block;
+				/* fin del hack */
+			height: 23px;
+			line-height: 23px;
+			padding-right: 8px;
+			outline: 0px none;
+			font-family: arial;
+			font-size: 10px;
+			text-decoration: none;
+			color: #000;
+			background: url(../images/tabs.png) right 0px;
+		}
+		
+		ul#tabs4 li.actual a {
+			height: 24px;
+			line-height: 24px;
+			background: url(../images/tabs.png) right -24px;
+			cursor: default;	
+		}
+
+/* Configuración de los paneles */
+div#panel #paneles4 {
+	position:absolute;
+	left: 0px;
+	top: 23px;
+	width: 100%;
+	height: 110px;
+	border: 1px solid #91a7b4;
+	background: #fff;
+	overflow: hidden;
+	z-index: 10px;
+}
+	div#panel #paneles4 div {
+		margin:10px;
+		padding: 0px 0px 0px 0px;
+		width: 100%;
+		height: 115px;
+		font-family: arial;
+		font-size: 12px;
+		text-decoration: none;
+		color: #000;
+		overflow: auto;
+	}	
+}
+
+.alert {
+	margin-top: 5px;
+padding: 8px 35px 8px 14px;
+margin-bottom: 18px;
+color: #c09853;
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+background-color: #fcf8e3;
+border: 1px solid #fbeed5;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
+.alert-heading {
+color: inherit;
+}
+
+.alert .close {
+position: relative;
+top: -2px;
+right: -21px;
+line-height: 18px;
+}
+
+.alert-success {
+color: #468847;
+background-color: #dff0d8;
+border-color: #d6e9c6;
+}
+
+.alert-danger,
+.alert-error {
+color: #b94a48;
+background-color: #f2dede;
+border-color: #eed3d7;
+}

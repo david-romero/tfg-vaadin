@@ -1,0 +1,12 @@
+// Obtener los cursos en los que da clase un profesor
+select a.curso from Profesor p join p.asignaturas a  where p.nombre like 'Amparo' -> No eficiente por string
+// Obtener los profesores de un alumno
+select a.profesor from Asignatura a join a.curso c join c.alumnos alum where alum.id=19
+//Asignaturas de un alumno concreto
+select c.asignaturas from Curso c join c.alumnos alum where alum.id=18
+//Obtener calendario
+select a.diasDelCalendario from Alumno a where a.id=18
+//Obtener todos los items evaluables
+select item from Alumno a join a.diasDelCalendario dias join dias.itemsEvaluable item where a.id=18
+//Obtener todos los items evaluables de un alumno en una evaluación
+select item from Alumno a join a.diasDelCalendario dias join dias.itemsEvaluable item where a.id=18 and item.evaluacion.indicador=1 
