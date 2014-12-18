@@ -131,7 +131,6 @@ public abstract class AbstractController {
 	 */
 	protected void rollbackTransaction() throws TransactionException {
 		assert txStatus != null;
-
 		try {
 			if (!txStatus.isCompleted()) {
 				transactionManager.rollback(txStatus);

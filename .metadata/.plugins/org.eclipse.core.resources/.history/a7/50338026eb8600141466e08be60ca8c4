@@ -1,0 +1,18 @@
+/**
+* ProfesorMenuBarCommand.java
+* appEducacionalVaadin
+* 18/12/2014 20:21:35
+* Copyright David
+* com.app.presenter.profesor
+*/
+package com.app.presenter.profesor;
+
+import com.vaadin.ui.MenuBar;
+
+/**
+ * @author David
+ *
+ */
+public class ProfesorMenuBarCommand implements MenuBar.Command{
+
+}

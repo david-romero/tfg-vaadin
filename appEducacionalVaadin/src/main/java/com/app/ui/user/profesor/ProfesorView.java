@@ -7,23 +7,17 @@
  */
 package com.app.ui.user.profesor;
 
-import java.util.Collection;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import com.app.infrastructure.security.Authority;
+import com.app.presenter.profesor.ProfesorMenuBarCommand;
+import com.app.presenter.profesor.ProfesorPresenter;
 import com.app.ui.logout.LogoutListener;
 import com.app.ui.user.UserAbstractView;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
  * @author David
@@ -31,6 +25,8 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class ProfesorView extends UserAbstractView {
 
+	private HorizontalLayout mainLayout;
+	
 	/**
 	 * 
 	 */
@@ -40,12 +36,47 @@ public class ProfesorView extends UserAbstractView {
 		generateRol();
 		super.enter(event);
 		removeAllComponents();
-		Label labelLogin = new Label("Soy un profesor");
-		addComponent(labelLogin);
+		generateView();
+	}
+
+	/**
+	 * @author David
+	 */
+	private void generateView() {
+		MenuBar barmenu = new MenuBar();
+		// A top-level menu item that opens a submenu
+		MenuItem drinks = barmenu.addItem("Beverages", null, null);
+		
+		// Define a common menu command for all the menu items.
+		ProfesorMenuBarCommand mycommand = new ProfesorMenuBarCommand(this);
+
+		// Submenu item with a sub-submenu
+		MenuItem hots = drinks.addItem("Hot", null, null);
+		hots.addItem("Tea",
+		    new ThemeResource("icons/tea-16px.png"),    mycommand);
+		hots.addItem("Coffee",
+		    new ThemeResource("icons/coffee-16px.png"), mycommand);
+
+		// Another submenu item with a sub-submenu
+		MenuItem colds = drinks.addItem("Cold", null, null);
+		colds.addItem("Milk",      null, mycommand);
+		colds.addItem("Weissbier", null, mycommand);
+
+		// Another top-level item
+		MenuItem snacks = barmenu.addItem("Snacks", null, null);
+		snacks.addItem("Weisswurst", null, mycommand);
+		snacks.addItem("Bratwurst",  null, mycommand);
+		snacks.addItem("Currywurst", null, mycommand);
+		        
+		// Yet another top-level item
+		MenuItem servs = barmenu.addItem("Services", null, null);
+		servs.addItem("Car Service", null, mycommand);
+		addComponent(barmenu);
 		Button logout = new Button("Logout");
 		LogoutListener logoutListener = new LogoutListener();
 		logout.addClickListener(logoutListener);
 		addComponent(logout);
+		mainLayout = new HorizontalLayout();
 	}
 
 	/* (non-Javadoc)
@@ -68,6 +99,21 @@ public class ProfesorView extends UserAbstractView {
 	public void generateRol() {
 		this.rol = new Authority();
 		this.rol.setAuthority(Authority.PROFESOR);
+	}
+
+	/**
+	 * @return mainLayout
+	 */
+	public HorizontalLayout getMainLayout() {
+		return mainLayout;
+	}
+
+	/**
+	 * @param mainLayout the mainLayout to set
+	 * Establecer el mainLayout
+	 */
+	public void setMainLayout(HorizontalLayout mainLayout) {
+		this.mainLayout = mainLayout;
 	}
 
 

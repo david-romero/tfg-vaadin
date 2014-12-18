@@ -8,6 +8,10 @@
 package com.app.config;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import com.app.infrastructure.security.AuthManager;
 import com.app.infrastructure.security.UserAccountService;
 import com.app.ui.login.LoginFormListener;
@@ -27,6 +31,8 @@ import org.springframework.context.annotation.ImportResource;
  *
  */
 public class AppConfig {
+	private static final String PERSISTENCE_UNIT_NAME = "appEducacional";
+
 	@Bean
 	public com.app.infrastructure.security.AuthManager authManager() {
 		com.app.infrastructure.security.AuthManager res = new AuthManager();
@@ -43,4 +49,5 @@ public class AppConfig {
 	public LoginFormListener loginFormListener() {
 		return new LoginFormListener();
 	}
+	
 }

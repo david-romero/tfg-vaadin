@@ -13,7 +13,7 @@
        >
 	
 	 <context:annotation-config/>
-	 <context:component-scan base-package="com.app.domainLayer.domainModel.types"/>
+	 <context:component-scan base-package="com.app.domain.model.types"/>
 
 	<!-- User accounts -->
 
@@ -21,91 +21,91 @@
 		<constructor-arg value="yyyy-MM-dd" />
 	</bean>
 
-	<bean id="userAccount1" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount1" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="profesor1" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="PROFESOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="userAccount3" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount3" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="profesor2" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="PROFESOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="userAccount4" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount4" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="profesor3" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="PROFESOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="userAccount2" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount2" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="tutor1" />
 		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="TUTOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="userAccount5" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount5" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="tutor2" />
 		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="TUTOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="userAccount6" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount6" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="tutor3" />
 		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="TUTOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="userAccount7" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount7" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="tutor4" />
 		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="TUTOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="userAccount8" class="com.app.infrastructureLayer.security.UserAccount">
+	<bean id="userAccount8" class="com.app.infrastructure.security.UserAccount">
 		<property name="username" value="admin1" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
 			<list>
-				<bean class="com.app.infrastructureLayer.security.Authority">
+				<bean class="com.app.infrastructure.security.Authority">
 					<property name="authority" value="ADMINISTRADOR" />
 				</bean>
 			</list>
@@ -114,7 +114,7 @@
 
 	<!-- Other domain beans come here -->
 
-	<bean id="admin1" class="com.app.domainLayer.domainModel.types.Administrador">
+	<bean id="admin1" class="com.app.domain.model.types.Administrador">
 		<property name="nombre" value="David" />
 		<property name="userAccount" ref="userAccount8"></property>
 		<property name="identidadConfirmada" value="True" ></property>
@@ -122,7 +122,7 @@
 		<property name="DNI" value="28842171X"></property>
 	</bean>
 
-	<bean id="profesor1" class="com.app.domainLayer.domainModel.types.Profesor">
+	<bean id="profesor1" class="com.app.domain.model.types.Profesor">
 		<property name="nombre" value="Ana" />
 		<property name="userAccount" ref="userAccount1"></property>
 		<property name="identidadConfirmada" value="True" ></property>
@@ -130,14 +130,8 @@
 		<property name="instituto" value="I.E.S. San Blas"></property>
 		<property name="DNI" value="77953335X"></property>
 		<property name="preferenciasCita" value="Martes a las 9:00; Jueves a las 15:00"></property>
-		<property name="asignaturas">
-			<list>
-				<ref bean="asignatura1"></ref>
-				<ref bean="asignatura2"></ref>
-			</list>
-		</property>
 	</bean>
-	<bean id="profesor2" class="com.app.domainLayer.domainModel.types.Profesor">
+	<!--  <bean id="profesor2" class="com.app.domainLayer.domainModel.types.Profesor">
 		<property name="nombre" value="David" />
 		<property name="userAccount" ref="userAccount3"></property>
 		<property name="identidadConfirmada" value="True" ></property>
@@ -166,7 +160,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="tutor1" class="com.app.domainLayer.domainModel.types.PadreMadreOTutor">
+	-->
+	<bean id="tutor1" class="com.app.domain.model.types.PadreMadreOTutor">
 		<property name="nombre" value="Paco" />
 		<property name="apellidos" value="Alba"></property>
 		<property name="userAccount" ref="userAccount2"></property>
@@ -177,6 +172,7 @@
 			</list>
 		</property>
 	</bean>
+	<!--  
 	<bean id="tutor2" class="com.app.domainLayer.domainModel.types.PadreMadreOTutor">
 		<property name="nombre" value="Terelu" />
 		<property name="apellidos" value="Campos"></property>
@@ -271,8 +267,8 @@
 			</list>
 		</property>
 		<property name="cursoAcademico" ref="cursoAcademico1" />
-	</bean>
-	<bean id="alumno1" class="com.app.domainLayer.domainModel.types.Alumno">
+	</bean>-->
+	<bean id="alumno1" class="com.app.domain.model.types.Alumno">
 		<property name="nombre" value="Mari Angeles" />
 		<property name="apellidos" value="Mañas"></property>
 		<property name="fechaNacimiento">
@@ -283,16 +279,9 @@
 		<property name="padresMadresOTutores">
 			<list>
 				<ref bean="tutor1"></ref>
-				<ref bean="tutor2"></ref>
 			</list>
 		</property>
-		<property name="curso" ref="curso1"></property>
-		<property name="diasDelCalendario">
-			<set value-type="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-				<ref bean="diaDeCalendario1"></ref>
-			</set>
-		</property>
-	</bean>
+	</bean><!--  
 	<bean id="alumno2" class="com.app.domainLayer.domainModel.types.Alumno">
 		<property name="nombre" value="Antonio" ></property>
 		<property name="apellidos" value="Mañas"></property>
@@ -604,8 +593,6 @@
 		<property name="asignatura" ref="asignatura2"></property>
 		<property name="evaluacion" ref="evaluacion3"></property>
 	</bean>
-	<!--  
-	-->
 	<bean id="notaPorEvaluacion4" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno2"></property>
 		<property name="notaFinal" value="2"></property>
@@ -626,6 +613,6 @@
 		<property name="asignatura" ref="asignatura3"></property>
 		<property name="evaluacion" ref="evaluacion3"></property>
 	</bean>
-	
+	-->
 </beans>
 

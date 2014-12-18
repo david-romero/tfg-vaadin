@@ -62,7 +62,6 @@ INDEX VERSION 1.127+E:\Dropbox\git\tfg-vaadin\.metadata\.plugins\org.eclipse.jdt
 1058353027.index
 1606854653.index
 3454125809.index
-3341308202.index
 3767269695.index
 262525481.index
 3411641164.index
