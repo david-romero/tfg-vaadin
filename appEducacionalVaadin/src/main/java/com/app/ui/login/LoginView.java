@@ -7,9 +7,16 @@
  */
 package com.app.ui.login;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Component.Event;
 
 /**
  * @author David
@@ -21,10 +28,54 @@ public class LoginView extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 4892607583348353123L;
+	private static final String NAME = "login";
 
 	public LoginView() {
+		this.setStyleName("body-main");
+		HorizontalLayout headerLayout = new HorizontalLayout();
+		createHeader(headerLayout);
+		HorizontalLayout mainLayout = new HorizontalLayout();
 		LoginForm loginForm = new LoginForm();
-		addComponent(loginForm);
+		mainLayout.addComponent(loginForm);
+		HorizontalLayout footerLayout = new HorizontalLayout();
+		createFooter(footerLayout);
+		addComponent(headerLayout);
+		addComponent(mainLayout);
+		addComponent(footerLayout);
+	}
+
+	/**
+	 * @author David
+	 * @param headerLayout
+	 */
+	private void createHeader(HorizontalLayout headerLayout) {
+		headerLayout.setWidth("100%");
+		headerLayout.setIcon(this.getResource("logoProyecto.png"));
+		Label copyright = new Label("Guardians");
+		headerLayout.addComponent(copyright);
+		Link linkInicio = new Link("Inicio",new ExternalResource("#!"
+                + LoginView.NAME));
+		Link about = new Link("Sobre Nosotros",new ExternalResource("#!"
+                + LoginView.NAME));
+		
+		Link blog = new Link("Blog",new ExternalResource("#!"
+                + LoginView.NAME));
+		Link contact = new Link("Contacto",new ExternalResource("#!"
+                + LoginView.NAME));
+		headerLayout.addComponent(linkInicio);
+		headerLayout.addComponent(about);
+		headerLayout.addComponent(blog);
+		headerLayout.addComponent(contact);
+	}
+
+	/**
+	 * @author David
+	 * @param footerLayout
+	 */
+	private void createFooter(HorizontalLayout footerLayout) {
+		footerLayout.setWidth("100%");
+		Label copyright = new Label("Copyright &copy; 2014, David Romero Alcaide");
+		footerLayout.addComponent(copyright);
 	}
 
 	public void enter(ViewChangeListener.ViewChangeEvent event) {

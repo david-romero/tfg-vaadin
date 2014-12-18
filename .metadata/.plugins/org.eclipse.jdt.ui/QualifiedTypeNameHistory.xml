@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.app.ui.login.LoginFormListener"/>
+<fullyQualifiedTypeName name="com.vaadin.ui.HorizontalLayout"/>
+<fullyQualifiedTypeName name="com.vaadin.ui.Label"/>
+<fullyQualifiedTypeName name="com.vaadin.ui.Link"/>
+<fullyQualifiedTypeName name="com.google.gwt.user.client.ui.ClickListener"/>
+<fullyQualifiedTypeName name="com.vaadin.ui.Component.Listener"/>
+<fullyQualifiedTypeName name="com.vaadin.ui.Component"/>
+<fullyQualifiedTypeName name="com.vaadin.server.ExternalResource"/>
+</qualifiedTypeNameHistroy>

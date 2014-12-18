@@ -1,0 +1,66 @@
+/**
+ * LoginView.java
+ * appEducacionalVaadin
+ * 29/11/2014 14:56:01
+ * Copyright David
+ * com.app.ui
+ */
+package com.app.ui.login;
+
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+
+/**
+ * @author David
+ *
+ */
+public class LoginView extends VerticalLayout implements View {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4892607583348353123L;
+
+	public LoginView() {
+		this.setStyleName("body-main");
+		HorizontalLayout headerLayout = new HorizontalLayout();
+		createHeader(headerLayout);
+		HorizontalLayout mainLayout = new HorizontalLayout();
+		LoginForm loginForm = new LoginForm();
+		mainLayout.addComponent(loginForm);
+		HorizontalLayout footerLayout = new HorizontalLayout();
+		createFooter(footerLayout);
+		addComponent(headerLayout);
+		addComponent(mainLayout);
+		addComponent(footerLayout);
+	}
+
+	/**
+	 * @author David
+	 * @param headerLayout
+	 */
+	private void createHeader(HorizontalLayout headerLayout) {
+		headerLayout.setWidth("100%");
+		headerLayout.setIcon(this.getResource("logoProyecto.png"));
+		Label copyright = new Label("Guardians");
+		headerLayout.addComponent(copyright);
+		
+	}
+
+	/**
+	 * @author David
+	 * @param footerLayout
+	 */
+	private void createFooter(HorizontalLayout footerLayout) {
+		footerLayout.setWidth("100%");
+		Label copyright = new Label("Copyright &copy; 2014, David Romero Alcaide");
+		footerLayout.addComponent(copyright);
+	}
+
+	public void enter(ViewChangeListener.ViewChangeEvent event) {
+	}
+
+}

@@ -685,13 +685,13 @@
     </dependency>
   </dependencies>
   <properties>
-    <spring.version>4.0.0.BUILD-SNAPSHOT</spring.version>
-    <jdk.version>1.7</jdk.version>
     <vaadin.version>7.3.5</vaadin.version>
+    <jdk.version>1.7</jdk.version>
+    <spring.version>4.0.0.BUILD-SNAPSHOT</spring.version>
     <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
     <jackson.version>1.9.9</jackson.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sonar.dynamicAnalysis>true</sonar.dynamicAnalysis>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>true</sonar.dynamicAnalysis>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
