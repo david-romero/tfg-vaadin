@@ -1,0 +1,18 @@
+/**
+* PanelControlView.java
+* appEducacionalVaadin
+* 11/1/2015 19:59:07
+* Copyright David
+* com.app.ui.user.panelControl
+*/
+package com.app.ui.user.panelControl;
+
+import com.vaadin.ui.Panel;
+
+/**
+ * @author David
+ *
+ */
+public class PanelControlView extends Panel implements View{
+
+}

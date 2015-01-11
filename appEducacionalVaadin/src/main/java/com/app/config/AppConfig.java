@@ -8,22 +8,17 @@
 package com.app.config;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import com.app.infrastructure.security.AuthManager;
-import com.app.infrastructure.security.UserAccountService;
-import com.app.ui.login.LoginFormListener;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
+import com.app.infrastructure.security.AuthManager;
+
 @Configuration
 @ComponentScan(basePackages = { "com.app.ui", "com.app.infrastructure.security",
-		"com.app.applicationservices.services" })
+		"com.app.applicationservices.services","com.app.domain.repositories",
+		"com.app.domain.model.types","com.app.presenter.data","com.app.presenter.profesor","com.app.presenter.event"})
 @ImportResource({"/WEB-INF/mvc-dispatcher-servlet.xml"})
 /**
  * 
@@ -31,7 +26,6 @@ import org.springframework.context.annotation.ImportResource;
  *
  */
 public class AppConfig {
-	private static final String PERSISTENCE_UNIT_NAME = "appEducacional";
 
 	@Bean
 	public com.app.infrastructure.security.AuthManager authManager() {
@@ -39,15 +33,6 @@ public class AppConfig {
 		return res;
 	}
 
-	@Bean
-	public UserAccountService userService() {
-		UserAccountService res = new UserAccountService();
-		return res;
-	}
-
-	@Bean
-	public LoginFormListener loginFormListener() {
-		return new LoginFormListener();
-	}
+	
 	
 }

@@ -28,17 +28,21 @@
 	<!-- Servlet Vaadin -->
 	<servlet>
 		<servlet-name>Vaadin Application Servlet</servlet-name>
-		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
 		<init-param>
 			<description>Vaadin UI to display</description>
-			<param-name>UI</param-name>
-			<param-value>com.app.ui.AppUI</param-value>
+			<param-name>beanName</param-name>
+			<param-value>AppUI</param-value>
 		</init-param>
 		<init-param>
 			<description>Application widgetset</description>
 			<param-name>widgetset</param-name>
 			<param-value>com.app.ui.AppWidgetSet</param-value>
 		</init-param>
+		<init-param>
+            <param-name>systemMessagesBeanName</param-name>
+            <param-value>DEFAULT</param-value>
+        </init-param>
 	</servlet>
 	
 
@@ -51,16 +55,16 @@
 		<url-pattern>/VAADIN/*</url-pattern>
 	</servlet-mapping>
 
-	<!-- Java-based annotation-driven Spring container definition -->
+	<!-- Java-based annotation-driven Spring container definition 
 	<context-param>
 		<param-name>contextClass</param-name>
 		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param>
-
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>com.app.config.AppConfig</param-value>
-	</context-param>
+	</context-param>-->
 	<context-param>
 		<description>
 		Vaadin production mode</description>

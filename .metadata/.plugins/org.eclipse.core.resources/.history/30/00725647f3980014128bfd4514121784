@@ -1,0 +1,29 @@
+/**
+* UploadButton.java
+* appEducacionalVaadin
+* 10/1/2015 19:01:59
+* Copyright David
+* com.app.ui.components
+*/
+package com.app.ui.components;
+
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Upload;
+
+/**
+ * @author David
+ *
+ */
+public class UploadButton extends Upload implements Receiver{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6490359252222599198L;
+	
+	public UploadButton(){
+		super("", this)
+		this.setButtonCaption("");
+	}
+
+}

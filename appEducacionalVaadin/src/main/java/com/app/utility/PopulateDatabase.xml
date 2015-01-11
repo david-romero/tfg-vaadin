@@ -131,7 +131,7 @@
 		<property name="DNI" value="77953335X"></property>
 		<property name="preferenciasCita" value="Martes a las 9:00; Jueves a las 15:00"></property>
 	</bean>
-	<!--  <bean id="profesor2" class="com.app.domainLayer.domainModel.types.Profesor">
+	<bean id="profesor2" class="com.app.domain.model.types.Profesor">
 		<property name="nombre" value="David" />
 		<property name="userAccount" ref="userAccount3"></property>
 		<property name="identidadConfirmada" value="True" ></property>
@@ -146,7 +146,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="profesor3" class="com.app.domainLayer.domainModel.types.Profesor">
+	<bean id="profesor3" class="com.app.domain.model.types.Profesor">
 		<property name="nombre" value="Amparo" />
 		<property name="userAccount" ref="userAccount4"></property>
 		<property name="apellidos" value=" Lobato"></property>
@@ -160,7 +160,6 @@
 			</list>
 		</property>
 	</bean>
-	-->
 	<bean id="tutor1" class="com.app.domain.model.types.PadreMadreOTutor">
 		<property name="nombre" value="Paco" />
 		<property name="apellidos" value="Alba"></property>
@@ -172,8 +171,7 @@
 			</list>
 		</property>
 	</bean>
-	<!--  
-	<bean id="tutor2" class="com.app.domainLayer.domainModel.types.PadreMadreOTutor">
+	<bean id="tutor2" class="com.app.domain.model.types.PadreMadreOTutor">
 		<property name="nombre" value="Terelu" />
 		<property name="apellidos" value="Campos"></property>
 		<property name="userAccount" ref="userAccount5"></property>
@@ -184,7 +182,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="tutor3" class="com.app.domainLayer.domainModel.types.PadreMadreOTutor">
+	<bean id="tutor3" class="com.app.domain.model.types.PadreMadreOTutor">
 		<property name="nombre" value="Juan Carlos" />
 		<property name="apellidos" value="Aragon"></property>
 		<property name="userAccount" ref="userAccount6"></property>
@@ -195,7 +193,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="tutor4" class="com.app.domainLayer.domainModel.types.PadreMadreOTutor">
+	<bean id="tutor4" class="com.app.domain.model.types.PadreMadreOTutor">
 		<property name="nombre" value="David" />
 		<property name="apellidos" value="Romero Alcaide"></property>
 		<property name="userAccount" ref="userAccount7"></property>
@@ -206,7 +204,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="cursoAcademico1" class="com.app.domainLayer.domainModel.types.CursoAcademico">
+	<bean id="cursoAcademico1" class="com.app.domain.model.types.CursoAcademico">
 		<property name="inicio">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2013-09-22" />
@@ -219,7 +217,7 @@
 		</property>
 		<property name="denominacion" value="13/14"></property>
 	</bean>
-		<bean id="cursoAcademico2" class="com.app.domainLayer.domainModel.types.CursoAcademico">
+		<bean id="cursoAcademico2" class="com.app.domain.model.types.CursoAcademico">
 		<property name="inicio">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2014-09-22" />
@@ -232,7 +230,7 @@
 		</property>
 		<property name="denominacion" value="14/15"></property>
 	</bean>
-	<bean id="curso1" class="com.app.domainLayer.domainModel.types.Curso">
+	<bean id="curso1" class="com.app.domain.model.types.Curso">
 		<property name="nivel" value="3"></property>
 		<property name="nivelEducativo" value="E.S.O."></property>
 		<property name="identificador" value="A"></property>
@@ -251,7 +249,7 @@
 		</property>
 		<property name="cursoAcademico" ref="cursoAcademico1" />
 	</bean>
-	<bean id="curso2" class="com.app.domainLayer.domainModel.types.Curso">
+	<bean id="curso2" class="com.app.domain.model.types.Curso">
 		<property name="nivel" value="3"></property>
 		<property name="nivelEducativo" value="E.S.O."></property>
 		<property name="identificador" value="B"></property>
@@ -267,7 +265,7 @@
 			</list>
 		</property>
 		<property name="cursoAcademico" ref="cursoAcademico1" />
-	</bean>-->
+	</bean>
 	<bean id="alumno1" class="com.app.domain.model.types.Alumno">
 		<property name="nombre" value="Mari Angeles" />
 		<property name="apellidos" value="Mañas"></property>
@@ -281,8 +279,9 @@
 				<ref bean="tutor1"></ref>
 			</list>
 		</property>
-	</bean><!--  
-	<bean id="alumno2" class="com.app.domainLayer.domainModel.types.Alumno">
+		<property name="curso" ref="curso1"></property>
+	</bean>
+	<bean id="alumno2" class="com.app.domain.model.types.Alumno">
 		<property name="nombre" value="Antonio" ></property>
 		<property name="apellidos" value="Mañas"></property>
 		<property name="padresMadresOTutores">
@@ -296,13 +295,8 @@
 			</bean>
 		</property>
 		<property name="curso" ref="curso1"></property>
-		<property name="diasDelCalendario">
-			<set value-type="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-				<ref bean="diaDeCalendario2"></ref>
-			</set>
-		</property>
 	</bean>
-	<bean id="alumno3" class="com.app.domainLayer.domainModel.types.Alumno">
+	<bean id="alumno3" class="com.app.domain.model.types.Alumno">
 		<property name="nombre" value="Laura" />
 		<property name="apellidos" value="Mañas"></property>
 		<property name="padresMadresOTutores">
@@ -316,15 +310,8 @@
 			</bean>
 		</property>
 		<property name="curso" ref="curso2"></property>
-		<property name="diasDelCalendario">
-			<set value-type="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-				<ref bean="diaDeCalendario4"></ref>
-				<ref bean="diaDeCalendario3"></ref>
-				<ref bean="diaDeCalendario5"></ref>
-			</set>
-		</property>
 	</bean>
-	<bean id="asignatura1" class="com.app.domainLayer.domainModel.types.Asignatura">
+	<bean id="asignatura1" class="com.app.domain.model.types.Asignatura">
 		<property name="nombre" value="Ciencias Sociales"></property>
 		<property name="profesor" ref="profesor1"></property>
 		<property name="curso" ref="curso1"></property>
@@ -341,7 +328,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="asignatura2" class="com.app.domainLayer.domainModel.types.Asignatura">
+	<bean id="asignatura2" class="com.app.domain.model.types.Asignatura">
 		<property name="nombre" value="Ciencias Sociales"></property>
 		<property name="profesor" ref="profesor1"></property>
 		<property name="curso" ref="curso2"></property>
@@ -357,7 +344,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="asignatura3" class="com.app.domainLayer.domainModel.types.Asignatura">
+	<bean id="asignatura3" class="com.app.domain.model.types.Asignatura">
 		<property name="nombre" value="Matemáticas"></property>
 		<property name="profesor" ref="profesor2"></property>
 		<property name="curso" ref="curso1"></property>
@@ -373,7 +360,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="asignatura4" class="com.app.domainLayer.domainModel.types.Asignatura">
+	<bean id="asignatura4" class="com.app.domain.model.types.Asignatura">
 		<property name="nombre" value="Matemáticas"></property>
 		<property name="profesor" ref="profesor2"></property>
 		<property name="curso" ref="curso2"></property>
@@ -390,7 +377,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="asignatura5" class="com.app.domainLayer.domainModel.types.Asignatura">
+	<bean id="asignatura5" class="com.app.domain.model.types.Asignatura">
 		<property name="nombre" value="Lengua Castellana"></property>
 		<property name="profesor" ref="profesor3"></property>
 		<property name="curso" ref="curso1"></property>
@@ -406,64 +393,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="diaDeCalendario1" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="1"></property>
-		<property name="mes" value="1"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno1"></property>
-	</bean>
-	<bean id="diaDeCalendario2" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="2"></property>
-		<property name="mes" value="2"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno2"></property>
-	</bean>
-	<bean id="diaDeCalendario3" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="3"></property>
-		<property name="mes" value="1"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno3"></property>
-	</bean>
-	<bean id="diaDeCalendario4" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="1"></property>
-		<property name="mes" value="4"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno3"></property>
-	</bean>
-	<bean id="diaDeCalendario5" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="5"></property>
-		<property name="mes" value="5"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno3"></property>
-		<property name="itemsEvaluable">
-			<list>
-				<ref bean="item1"></ref>
-			</list>
-		</property>
-	</bean>
-	<bean id="diaDeCalendario6" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="23"></property>
-		<property name="mes" value="1"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno1"></property>
-		<property name="itemsEvaluable">
-			<list>
-				<ref bean="item2"></ref>
-			</list>
-		</property>
-	</bean>
-	<bean id="diaDeCalendario7" class="com.app.domainLayer.domainModel.types.DiaDeCalendario">
-		<property name="dia" value="23"></property>
-		<property name="mes" value="1"></property>
-		<property name="curso" value="2013,2014"></property>
-		<property name="alumno" ref="alumno3"></property>
-		<property name="itemsEvaluable">
-			<list>
-				<ref bean="item3"></ref>
-			</list>
-		</property>
-	</bean>
-	<bean id="evaluacion1" class="com.app.domainLayer.domainModel.types.Evaluacion">
+	<bean id="evaluacion1" class="com.app.domain.model.types.Evaluacion">
 		<property name="inicio">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2014-3-21" />
@@ -481,7 +411,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="evaluacion2" class="com.app.domainLayer.domainModel.types.Evaluacion">
+	<bean id="evaluacion2" class="com.app.domain.model.types.Evaluacion">
 		<property name="inicio">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2014-1-7" />
@@ -499,7 +429,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="evaluacion3" class="com.app.domainLayer.domainModel.types.Evaluacion">
+	<bean id="evaluacion3" class="com.app.domain.model.types.Evaluacion">
 		<property name="fin">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2013-12-22" />
@@ -516,7 +446,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="item1" class="com.app.domainLayer.domainModel.types.itemsevaluables.Examen">
+	<bean id="item1" class="com.app.domain.model.types.itemsevaluables.Examen">
 		<property name="calificacion" value="5"></property>
 		<property name="fecha">
 			<bean factory-bean="dateFormat" factory-method="parse">
@@ -524,15 +454,10 @@
 			</bean>
 		</property>
 		<property name="titulo" value="Tema 1"></property>
-		<property name="diasDelCalendario" >
-			<list>
-				<ref bean="diaDeCalendario5"></ref>
-			</list>
-		</property>
 		<property name="asignatura" ref="asignatura4"></property>
 		<property name="evaluacion" ref="evaluacion1"></property>
 	</bean>
-	<bean id="item3" class="com.app.domainLayer.domainModel.types.itemsevaluables.Examen">
+	<bean id="item3" class="com.app.domain.model.types.itemsevaluables.Examen">
 		<property name="calificacion" value="5"></property>
 		<property name="fecha">
 			<bean factory-bean="dateFormat" factory-method="parse">
@@ -540,30 +465,20 @@
 			</bean>
 		</property>
 		<property name="titulo" value="Tema 1"></property>
-		<property name="diasDelCalendario" >
-			<list>
-				<ref bean="diaDeCalendario7"></ref>
-			</list>
-		</property>
 		<property name="asignatura" ref="asignatura2"></property>
 		<property name="evaluacion" ref="evaluacion1"></property>
 	</bean>
-	<bean id="item2" class="com.app.domainLayer.domainModel.types.itemsevaluables.Examen">
+	<bean id="item2" class="com.app.domain.model.types.itemsevaluables.Examen">
 		<property name="fecha">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2014-1-23" />
 			</bean>
 		</property>
 		<property name="titulo" value="Tema 2"></property>
-		<property name="diasDelCalendario" >
-			<list>
-				<ref bean="diaDeCalendario6"></ref>
-			</list>
-		</property>
 		<property name="asignatura" ref="asignatura4"></property>
 		<property name="evaluacion" ref="evaluacion2"></property>
 	</bean>
-	<bean id="evento1" class="com.app.domainLayer.domainModel.types.Evento">
+	<bean id="evento1" class="com.app.domain.model.types.Evento">
 		<property name="fecha">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="2014-1-23" />
@@ -573,46 +488,45 @@
 		<property name="asignatura" ref="asignatura4"></property>
 		<property name="itemEvaluable" ref="item2"></property>
 	</bean>
-	<bean id="notaPorEvaluacion1" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
+	<bean id="notaPorEvaluacion1" class="com.app.domain.model.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno3"></property>
 		<property name="notaFinal" value="0"></property>
 		<property name="asignatura" ref="asignatura2"></property>
 		<property name="evaluacion" ref="evaluacion2"></property>
 	</bean>
 	
-	<bean id="notaPorEvaluacion2" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
+	<bean id="notaPorEvaluacion2" class="com.app.domain.model.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno3"></property>
 		<property name="notaFinal" value="4"></property>
 		<property name="asignatura" ref="asignatura2"></property>
 		<property name="evaluacion" ref="evaluacion1"></property>
 	</bean>
 	
-	<bean id="notaPorEvaluacion3" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
+	<bean id="notaPorEvaluacion3" class="com.app.domain.model.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno3"></property>
 		<property name="notaFinal" value="5"></property>
 		<property name="asignatura" ref="asignatura2"></property>
 		<property name="evaluacion" ref="evaluacion3"></property>
 	</bean>
-	<bean id="notaPorEvaluacion4" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
+	<bean id="notaPorEvaluacion4" class="com.app.domain.model.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno2"></property>
 		<property name="notaFinal" value="2"></property>
 		<property name="asignatura" ref="asignatura3"></property>
 		<property name="evaluacion" ref="evaluacion2"></property>
 	</bean>
 	
-	<bean id="notaPorEvaluacion5" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
+	<bean id="notaPorEvaluacion5" class="com.app.domain.model.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno2"></property>
 		<property name="notaFinal" value="6"></property>
 		<property name="asignatura" ref="asignatura3"></property>
 		<property name="evaluacion" ref="evaluacion1"></property>
 	</bean>
 	
-	<bean id="notaPorEvaluacion6" class="com.app.domainLayer.domainModel.types.NotaPorEvaluacion">
+	<bean id="notaPorEvaluacion6" class="com.app.domain.model.types.NotaPorEvaluacion">
 		<property name="alumno" ref="alumno2"></property>
 		<property name="notaFinal" value="7"></property>
 		<property name="asignatura" ref="asignatura3"></property>
 		<property name="evaluacion" ref="evaluacion3"></property>
 	</bean>
-	-->
 </beans>
 

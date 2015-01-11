@@ -9,7 +9,10 @@ package com.app.ui.logout;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.app.presenter.event.AppEducacionalEvent.UserLoggedOutEvent;
+import com.app.presenter.event.AppEducacionalEventBus;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
@@ -33,10 +36,7 @@ public class LogoutListener implements Button.ClickListener {
 	}
 
 	public void buttonClick(Button.ClickEvent clickEvent) {
-	    SecurityContextHolder.clearContext();
-	    //UI.getCurrent().close();
-	    Navigator navigator = UI.getCurrent().getNavigator();
-	    navigator.navigateTo("login");
+		 AppEducacionalEventBus.post(new UserLoggedOutEvent());
 	  }
 	
 }

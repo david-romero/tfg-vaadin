@@ -1,0 +1,44 @@
+/**
+* UploadButton.java
+* appEducacionalVaadin
+* 10/1/2015 19:01:59
+* Copyright David
+* com.app.ui.components
+*/
+package com.app.ui.components;
+
+import java.io.OutputStream;
+
+import com.app.presenter.data.PersonaProvider;
+import com.app.presenter.data.PersonaProviderImpl;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.Upload.Receiver;
+
+/**
+ * @author David
+ *
+ */
+public class UploadButton extends Upload {
+
+	private PersonaProvider personaProvider;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6490359252222599198L;
+	
+	public UploadButton(){
+		personaProvider = new PersonaProviderImpl();
+		super("", this)
+		this.setButtonCaption("");
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public OutputStream receiveUpload(String filename, String mimeType) {
+		return null;
+	}
+
+}

@@ -1,0 +1,16 @@
+/**
+* PersonaProviderImpl.java
+* appEducacionalVaadin
+* 10/1/2015 19:07:02
+* Copyright David
+* com.app.presenter.data
+*/
+package com.app.presenter.data;
+
+/**
+ * @author David
+ *
+ */
+public class PersonaProviderImpl implements PersonaProvider{
+
+}

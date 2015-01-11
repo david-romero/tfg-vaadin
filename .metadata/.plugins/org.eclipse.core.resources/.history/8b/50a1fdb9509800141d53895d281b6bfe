@@ -1,0 +1,76 @@
+/**
+ * LoginView.java
+ * appEducacionalVaadin
+ * 29/11/2014 14:56:01
+ * Copyright David
+ * com.app.ui
+ */
+package com.app.ui.login;
+
+import org.springframework.context.annotation.Scope;
+
+import ru.xpoft.vaadin.VaadinView;
+
+import com.google.gwt.user.client.ui.Widget;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Component.Event;
+
+@org.springframework.stereotype.Component
+@Scope("prototype")
+@VaadinView(LoginView.NAME)
+/**
+ * @author David
+ *
+ */
+public class LoginView extends VerticalLayout implements View {
+
+	public static final String NAME = "login";
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4892607583348353123L;
+
+	public LoginView() {
+		setSizeFull();
+		setStyleName("loginview");
+
+		LoginForm loginForm = generateLoginForm();
+		addComponent(loginForm);
+		
+		setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
+		
+		addStyleName("v-align-center");
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
+	 */
+	@Override
+	public void enter(ViewChangeEvent event) {
+	}
+
+	/**
+	 * @author David
+	 * @return
+	 */
+	private LoginForm generateLoginForm() {
+		return null;
+	}
+	
+	private class LoginForm{
+		
+	}
+	
+}

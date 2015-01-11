@@ -6,6 +6,8 @@
  */
 package com.app.domain.model.types;
 
+import java.util.Arrays;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -13,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -63,6 +66,11 @@ public abstract class Persona extends DomainEntity {
 	 * dni de la persona
 	 */
 	private String dni;
+	
+	/**
+	 * imagen de la persona
+	 */
+	private byte[] imagen;
 
 	/**
 	 * Indica si la identidad de esta persona está confirmada
@@ -191,5 +199,30 @@ public abstract class Persona extends DomainEntity {
 	 */
 	public void setUserAccount(UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+	
+	@Lob
+	@Column(name = "imagen")
+	/**
+	 * @return imagen
+	 */
+	public byte[] getImagen() {
+		if (this.imagen != null) {
+			return imagen.clone();
+		} else {
+			return new byte[0];
+		}
+	}
+
+	/**
+	 * @param imagen
+	 *            the imagen to set Establecer el imagen
+	 */
+	public void setImagen(final byte[] imagen) {
+		if (imagen == null) {
+			this.imagen = new byte[0];
+		} else {
+			this.imagen = Arrays.copyOf(imagen, imagen.length);
+		}
 	}
 }

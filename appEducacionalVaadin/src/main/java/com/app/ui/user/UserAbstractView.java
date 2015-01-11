@@ -9,6 +9,7 @@ package com.app.ui.user;
 
 import java.util.Collection;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -20,14 +21,16 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@org.springframework.stereotype.Component
 /**
  * @author David
  *
  */
-public abstract class UserAbstractView extends VerticalLayout implements View {
+public abstract class UserAbstractView extends HorizontalLayout implements View {
 
 	
 	protected Authority rol;

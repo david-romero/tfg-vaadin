@@ -1,0 +1,18 @@
+/**
+* UploadButton.java
+* appEducacionalVaadin
+* 10/1/2015 19:01:59
+* Copyright David
+* com.app.ui.components
+*/
+package com.app.ui.components;
+
+import com.vaadin.ui.Button;
+
+/**
+ * @author David
+ *
+ */
+public class UploadButton extends Button {
+
+}

@@ -7,25 +7,32 @@
  */
 package com.app.ui.user.profesor;
 
-import com.app.infrastructure.security.Authority;
-import com.app.presenter.profesor.ProfesorMenuBarCommand;
-import com.app.presenter.profesor.ProfesorPresenter;
-import com.app.ui.logout.LogoutListener;
-import com.app.ui.user.UserAbstractView;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.MenuItem;
+import org.springframework.context.annotation.Scope;
 
+import ru.xpoft.vaadin.VaadinView;
+
+import com.app.infrastructure.security.Authority;
+import com.app.ui.NavigatorUI;
+import com.app.ui.user.MenuComponent;
+import com.app.ui.user.UserAbstractView;
+import com.app.ui.user.calendario.CalendarioView;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+
+@org.springframework.stereotype.Component
+@Scope("prototype")
+@VaadinView(ProfesorView.NAME)
 /**
  * @author David
  *
  */
 public class ProfesorView extends UserAbstractView {
 
-	private HorizontalLayout mainLayout;
+	private NavigatorUI navigator;
+	
+	public static final String NAME = "profesor";
 	
 	/**
 	 * 
@@ -37,46 +44,29 @@ public class ProfesorView extends UserAbstractView {
 		super.enter(event);
 		removeAllComponents();
 		generateView();
+		
+		
+		
 	}
-
+	
 	/**
 	 * @author David
 	 */
 	private void generateView() {
-		MenuBar barmenu = new MenuBar();
-		// A top-level menu item that opens a submenu
-		MenuItem drinks = barmenu.addItem("Beverages", null, null);
-		
-		// Define a common menu command for all the menu items.
-		ProfesorMenuBarCommand mycommand = new ProfesorMenuBarCommand(this);
+		setSizeFull();
+        addStyleName("mainview");
 
-		// Submenu item with a sub-submenu
-		MenuItem hots = drinks.addItem("Hot", null, null);
-		hots.addItem("Tea",
-		    new ThemeResource("icons/tea-16px.png"),    mycommand);
-		hots.addItem("Coffee",
-		    new ThemeResource("icons/coffee-16px.png"), mycommand);
+        addComponent(new MenuComponent());
 
-		// Another submenu item with a sub-submenu
-		MenuItem colds = drinks.addItem("Cold", null, null);
-		colds.addItem("Milk",      null, mycommand);
-		colds.addItem("Weissbier", null, mycommand);
-
-		// Another top-level item
-		MenuItem snacks = barmenu.addItem("Snacks", null, null);
-		snacks.addItem("Weisswurst", null, mycommand);
-		snacks.addItem("Bratwurst",  null, mycommand);
-		snacks.addItem("Currywurst", null, mycommand);
-		        
-		// Yet another top-level item
-		MenuItem servs = barmenu.addItem("Services", null, null);
-		servs.addItem("Car Service", null, mycommand);
-		addComponent(barmenu);
-		Button logout = new Button("Logout");
-		LogoutListener logoutListener = new LogoutListener();
-		logout.addClickListener(logoutListener);
-		addComponent(logout);
-		mainLayout = new HorizontalLayout();
+        ComponentContainer content = new CssLayout();
+        content.addStyleName("view-content");
+        content.setSizeFull();
+        addComponent(content);
+        
+        setExpandRatio(content, 1.0f);
+        
+        this.navigator = new NavigatorUI(getUI(), content);
+        this.navigator.addView("calendario", CalendarioView.class);
 	}
 
 	/* (non-Javadoc)
@@ -101,20 +91,7 @@ public class ProfesorView extends UserAbstractView {
 		this.rol.setAuthority(Authority.PROFESOR);
 	}
 
-	/**
-	 * @return mainLayout
-	 */
-	public HorizontalLayout getMainLayout() {
-		return mainLayout;
-	}
-
-	/**
-	 * @param mainLayout the mainLayout to set
-	 * Establecer el mainLayout
-	 */
-	public void setMainLayout(HorizontalLayout mainLayout) {
-		this.mainLayout = mainLayout;
-	}
+	
 
 
 }

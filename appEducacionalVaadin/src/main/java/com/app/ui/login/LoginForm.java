@@ -1,57 +1,42 @@
 /**
- * LoginView.java
- * appEducacionalVaadin
- * 29/11/2014 14:05:37
- * Copyright David
- * com.app.ui
- */
+* LoginFirm.java
+* appEducacionalVaadin
+* 10/1/2015 0:51:13
+* Copyright David
+* com.app.ui.login
+*/
 package com.app.ui.login;
 
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 
-import com.app.ui.AppUI;
-import com.vaadin.server.ExternalResource;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
-/**
- * 
- * @author David
- *
- */
-public class LoginForm extends VerticalLayout {
+@org.springframework.stereotype.Component
+@Scope("prototype")
+class LoginForm extends VerticalLayout {
+	
+	public LoginForm(){
+		
+	}
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6294808981525997285L;
-	private TextField txtLogin = new TextField("Login: ");
-	private PasswordField txtPassword = new PasswordField("Password: ");
-	private Button btnLogin = new Button("Login");
-	private Embedded e = new Embedded(null, new ExternalResource(
-			"http://www.youtube.com/v/meXvxkn1Y_8&hl=en_US&fs=1&"));
-
-	public LoginForm() {
-		e.setMimeType("application/x-shockwave-flash");
-		e.setParameter("allowFullScreen", "true");
-		e.setWidth("320px");
-		e.setHeight("265px");
-		addComponent(e);
-		addComponent(txtLogin);
-		addComponent(txtPassword);
-		addComponent(btnLogin);
-		LoginFormListener loginFormListener = getLoginFormListener();
-		btnLogin.addClickListener(loginFormListener);
-	}
-
-	public LoginFormListener getLoginFormListener() {
-		AppUI ui = (AppUI) UI.getCurrent();
-		ApplicationContext context = ui.getApplicationContext();
-		return context.getBean(LoginFormListener.class);
-	}
+	private static final long serialVersionUID = 2405284242525298112L;
+	private TextField txtLogin;
+	private PasswordField txtPassword;
 
 	public TextField getTxtLogin() {
 		return txtLogin;
@@ -59,5 +44,62 @@ public class LoginForm extends VerticalLayout {
 
 	public PasswordField getTxtPassword() {
 		return txtPassword;
+	}
+
+	private Component buildFields() {
+		HorizontalLayout fields = new HorizontalLayout();
+		fields.setSpacing(true);
+		fields.addStyleName("fields");
+
+		txtLogin = new TextField("Username");
+		txtLogin.setIcon(FontAwesome.USER);
+		txtLogin.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+
+		txtPassword = new PasswordField("Password");
+		txtPassword.setIcon(FontAwesome.LOCK);
+		txtPassword.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+
+		final Button signin = new Button("Sign In");
+		signin.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		signin.setClickShortcut(KeyCode.ENTER);
+		signin.focus();
+
+		fields.addComponents(txtLogin, txtPassword, signin);
+		fields.setComponentAlignment(signin, Alignment.BOTTOM_LEFT);
+
+		return fields;
+	}
+
+	private Component buildLabels() {
+		CssLayout labels = new CssLayout();
+		labels.addStyleName("labels");
+
+		Label welcome = new Label("Welcome");
+		welcome.setSizeUndefined();
+		welcome.addStyleName(ValoTheme.LABEL_H4);
+		welcome.addStyleName(ValoTheme.LABEL_COLORED);
+		labels.addComponent(welcome);
+
+		Label title = new Label("QuickTickets Dashboard");
+		title.setSizeUndefined();
+		title.addStyleName(ValoTheme.LABEL_H3);
+		title.addStyleName(ValoTheme.LABEL_LIGHT);
+		labels.addComponent(title);
+		return labels;
+	}
+
+	@Override
+	public void attach() {
+		final VerticalLayout loginPanel = new VerticalLayout();
+		loginPanel.setSizeUndefined();
+		loginPanel.setSpacing(true);
+		Responsive.makeResponsive(loginPanel);
+		loginPanel.addStyleName("login-panel");
+
+		loginPanel.addComponent(buildLabels());
+		loginPanel.addComponent(buildFields());
+		loginPanel.addComponent(new CheckBox("Remember me", true));
+		addComponent(loginPanel);
+		setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
 	}
 }

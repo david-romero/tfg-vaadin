@@ -9,10 +9,14 @@ package com.app.ui.user;
 
 import java.util.Collection;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import ru.xpoft.vaadin.VaadinView;
 
 import com.app.infrastructure.security.Authority;
 import com.app.ui.logout.LogoutListener;
@@ -25,12 +29,16 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Component
+@VaadinView(UserView.NAME)
 /**
  * @author David
  *
  */
 public class UserView extends VerticalLayout implements View {
 
+	public static final String NAME = "user";
+	
 	/**
 	 * 
 	 */

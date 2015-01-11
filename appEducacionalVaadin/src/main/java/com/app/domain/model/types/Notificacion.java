@@ -49,6 +49,8 @@ public class Notificacion extends DomainEntity {
 	 * Quien envia la notificacion: Profesor o Tutor
 	 */
 	private String emisor;
+	
+	private boolean leida;
 
 	@NotBlank
 	/**
@@ -171,5 +173,21 @@ public class Notificacion extends DomainEntity {
 		noti.setPadreMadreOTutor(padreMadreOTutor);
 		noti.setProfesor(profesor);
 		return noti;
+	}
+
+	@NotNull
+	/**
+	 * @return leida
+	 */
+	public boolean isLeida() {
+		return leida;
+	}
+
+	/**
+	 * @param leida the leida to set
+	 * Establecer el leida
+	 */
+	public void setLeida(boolean leida) {
+		this.leida = leida;
 	}
 }

@@ -10,6 +10,7 @@ package com.app.applicationservices.services;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Date;
@@ -48,12 +49,17 @@ import org.springframework.util.Assert;
 
 import com.app.domain.model.types.Alumno;
 import com.app.domain.model.types.Cita;
+import com.app.domain.model.types.ItemEvaluable;
+import com.app.domain.model.types.NotaPorEvaluacion;
+import com.app.domain.model.types.Notificacion;
 import com.app.domain.model.types.PadreMadreOTutor;
 import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
 import com.app.domain.repositories.CitaRepository;
 import com.app.infrastructure.CustomMailSender;
 import com.app.infrastructure.exceptions.GeneralException;
+import com.app.presenter.data.DataProvider;
+import com.google.gwt.thirdparty.guava.common.collect.Lists;
 
 @Transactional
 @Service
@@ -61,7 +67,12 @@ import com.app.infrastructure.exceptions.GeneralException;
  * @author David Romero Alcaide
  *
  */
-public class CitaService {
+public class CitaService implements Serializable,DataProvider{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7186451063200256750L;
 
 	/**
 	 * Constructor
@@ -352,8 +363,8 @@ public class CitaService {
 	 * @param tutor
 	 */
 	public Collection<Cita> findTutorEmitidas(PadreMadreOTutor tutor) {
-		Assert.isTrue(tutorService.findPrincipal().equals(tutor));
-		Assert.notNull(tutorService.findPrincipal());
+		//Assert.isTrue(tutorService.findPrincipal().equals(tutor));
+		//Assert.notNull(tutorService.findPrincipal());
 		Collection<Cita> emitidas = citaRepositorio.findTutorEmitidas(tutor
 				.getId());
 		return emitidas;
@@ -364,8 +375,8 @@ public class CitaService {
 	 * @param tutor
 	 */
 	public Collection<Cita> findTutorRecibidas(PadreMadreOTutor tutor) {
-		Assert.isTrue(tutorService.findPrincipal().equals(tutor));
-		Assert.notNull(tutorService.findPrincipal());
+		//Assert.isTrue(tutorService.findPrincipal().equals(tutor));
+		//Assert.notNull(tutorService.findPrincipal());
 		Collection<Cita> emitidas = citaRepositorio.findTutorRecibidas(tutor
 				.getId());
 		return emitidas;
@@ -376,8 +387,8 @@ public class CitaService {
 	 * @param tutor
 	 */
 	public Collection<Cita> findProfesorEmitidas(Profesor tutor) {
-		Assert.notNull(profesorService.findPrincipal());
-		Assert.isTrue(profesorService.findPrincipal().equals(tutor));
+		//Assert.notNull(profesorService.findPrincipal());
+		//Assert.isTrue(profesorService.findPrincipal().equals(tutor));
 		Collection<Cita> emitidas = citaRepositorio.findProfesorEmitidas(tutor
 				.getId());
 		return emitidas;
@@ -388,8 +399,8 @@ public class CitaService {
 	 * @param tutor
 	 */
 	public Collection<Cita> findProfesorRecibidas(Profesor tutor) {
-		Assert.notNull(profesorService.findPrincipal());
-		Assert.isTrue(profesorService.findPrincipal().equals(tutor));
+		//Assert.notNull(profesorService.findPrincipal());
+		//Assert.isTrue(profesorService.findPrincipal().equals(tutor));
 		Collection<Cita> emitidas = citaRepositorio.findProfesorRecibidas(tutor
 				.getId());
 		return emitidas;
@@ -419,6 +430,81 @@ public class CitaService {
 				new Date(System.currentTimeMillis())));
 		cita.setConfirmadoProfesor(true);
 		this.save(cita, cita.getProfesor());
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getRecentTransactions(int)
+	 */
+	@Override
+	public Collection<Cita> getRecentTransactions(int count) {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getDailyRevenuesByMovie(int)
+	 */
+	@Override
+	public Collection<ItemEvaluable> getDailyRevenuesByMovie(int id) {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getTotalMovieRevenues()
+	 */
+	@Override
+	public Collection<ItemEvaluable> getTotalMovieRevenues() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getUnreadNotificationsCount()
+	 */
+	@Override
+	public int getUnreadNotificationsCount() {
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getNotifications()
+	 */
+	@Override
+	public Collection<Notificacion> getNotifications() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getTotalSum()
+	 */
+	@Override
+	public double getTotalSum() {
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getMovies()
+	 */
+	@Override
+	public Collection<NotaPorEvaluacion> getMovies() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getMovie(int)
+	 */
+	@Override
+	public NotaPorEvaluacion getMovie(int movieId) {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.app.presenter.data.DataProvider#getTransactionsBetween(java.util.Date, java.util.Date)
+	 */
+	@Override
+	public Collection<Cita> getTransactionsBetween(Date startDate, Date endDate,Profesor profesor) {
+		List<Cita> allCitas = Lists.newArrayList();
+		allCitas.addAll(findProfesorEmitidas(profesor));
+		allCitas.addAll(findProfesorRecibidas(profesor));
+		return allCitas;
 	}
 
 }

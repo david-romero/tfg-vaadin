@@ -1,0 +1,16 @@
+/**
+* LoginFirm.java
+* appEducacionalVaadin
+* 10/1/2015 0:51:13
+* Copyright David
+* com.app.ui.login
+*/
+package com.app.ui.login;
+
+/**
+ * @author David
+ *
+ */
+public class LoginFirm {
+
+}

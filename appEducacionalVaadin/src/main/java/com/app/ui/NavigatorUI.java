@@ -14,6 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import ru.xpoft.vaadin.DiscoveryNavigator;
+
 import com.app.ui.user.UserAbstractView;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.navigator.NavigationStateManager;
@@ -29,7 +31,7 @@ import com.vaadin.ui.UI;
  * @author David
  *
  */
-public class NavigatorUI extends Navigator {
+public class NavigatorUI extends DiscoveryNavigator {
 
 	/* (non-Javadoc)
 	 * @see com.vaadin.navigator.Navigator#fireBeforeViewChange(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)

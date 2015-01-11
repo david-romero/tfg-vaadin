@@ -7,6 +7,7 @@
  */
 package com.app.applicationservices.services;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,7 +34,12 @@ import com.google.common.collect.Lists;
  * @author David Romero Alcaide
  *
  */
-public class AdministradorService {
+public class AdministradorService implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2301222240849237937L;
 
 	@Autowired
 	/**

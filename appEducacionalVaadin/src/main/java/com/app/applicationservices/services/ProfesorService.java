@@ -7,8 +7,12 @@
  */
 package com.app.applicationservices.services;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,7 @@ import com.app.domain.model.types.Curso;
 import com.app.domain.model.types.DiaDeCalendario;
 import com.app.domain.model.types.ItemEvaluable;
 import com.app.domain.model.types.PadreMadreOTutor;
+import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
 import com.app.domain.model.types.itemsevaluables.Actividad;
 import com.app.domain.model.types.itemsevaluables.EjerciciosEntregados;
@@ -31,9 +36,13 @@ import com.app.domain.repositories.ProfesorRepository;
 import com.app.infrastructure.security.Authority;
 import com.app.infrastructure.security.LoginService;
 import com.app.infrastructure.security.UserAccount;
+import com.app.presenter.data.PersonaProvider;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.vaadin.ui.Upload.FinishedEvent;
+import com.vaadin.ui.Upload.StartedEvent;
+import com.vaadin.ui.Upload.SucceededEvent;
 
 @Service
 @Transactional
@@ -41,9 +50,14 @@ import com.google.common.collect.Lists;
  * @author David Romero Alcaide
  *
  */
-public class ProfesorService {
+public class ProfesorService implements Serializable{
 
 	// Repositorios gestionados
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -928342560252536918L;
 
 	@Autowired
 	/**
@@ -478,5 +492,8 @@ public class ProfesorService {
 		}
 		return bandera;
 	}
+
+	
+	
 	
 }

@@ -24,6 +24,5 @@
 	<context:component-scan base-package="com.app.infrastructure.security" />
 	<context:component-scan base-package="com.app.applicationservices.services" />
 	<context:component-scan base-package="com.app.api.controllers" />
-	<context:component-scan base-package="com.app.web.controllers" />
 
 </beans>

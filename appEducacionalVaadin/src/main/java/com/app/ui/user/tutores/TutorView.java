@@ -14,13 +14,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import ru.xpoft.vaadin.DiscoveryNavigator;
+
 import com.app.infrastructure.security.Authority;
+import com.app.ui.NavigatorUI;
 import com.app.ui.logout.LogoutListener;
+import com.app.ui.user.MenuComponent;
 import com.app.ui.user.UserAbstractView;
+import com.app.ui.user.calendario.CalendarioView;
+import com.app.ui.user.panelControl.PanelControlView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -35,17 +43,34 @@ public class TutorView extends UserAbstractView {
 	 * 
 	 */
 	private static final long serialVersionUID = -4830300048826230639L;
+	
+	private DiscoveryNavigator navigator;
 
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		generateRol();
 		super.enter(event);
 		removeAllComponents();
-		Label labelLogin = new Label("Soy un tutor");
-		addComponent(labelLogin);
-		Button logout = new Button("Logout");
-		LogoutListener logoutListener = new LogoutListener();
-		logout.addClickListener(logoutListener);
-		addComponent(logout);
+		generateView();
+	}
+	
+	/**
+	 * @author David
+	 */
+	private void generateView() {
+		setSizeFull();
+        addStyleName("mainview");
+
+        addComponent(new MenuComponent());
+
+        ComponentContainer content = new CssLayout();
+        content.addStyleName("view-content");
+        content.setSizeFull();
+        addComponent(content);
+        setExpandRatio(content, 1.0f);
+        
+        this.navigator = new NavigatorUI(getUI(), content);
+        this.navigator.addView("calendario", CalendarioView.class);
+        this.navigator.addView("panelControl", PanelControlView.class);
 	}
 
 	/* (non-Javadoc)

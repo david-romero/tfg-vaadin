@@ -1,0 +1,23 @@
+/**
+* PersonaProvider.java
+* appEducacionalVaadin
+* 29/12/2014 21:26:04
+* Copyright David
+* com.app.presenter.data
+*/
+package com.app.presenter.data;
+
+import com.app.domain.model.types.Persona;
+import com.vaadin.shared.ui.upload.UploadClientRpc;
+import com.vaadin.ui.Upload.ProgressListener;
+import com.vaadin.ui.Upload.Receiver;
+
+/**
+ * @author David
+ *
+ */
+public interface PersonaProvider extends Receiver,ProgressListener,SucceededListener{
+
+	public Persona getPersona();
+	
+}

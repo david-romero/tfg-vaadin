@@ -9,6 +9,7 @@ package com.app.applicationservices.services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.util.Assert;
 import com.app.domain.model.types.Cita;
 import com.app.domain.model.types.Notificacion;
 import com.app.domain.model.types.PadreMadreOTutor;
+import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
 import com.app.domain.repositories.NotificacionRepository;
 import com.google.common.base.Predicate;
@@ -90,7 +92,7 @@ public class NotificacionService {
 	 * @param tutor
 	 */
 	public Collection<Notificacion> findTutorEmitidas(PadreMadreOTutor tutor) {
-		Assert.notNull(tutorService.findPrincipal());
+		//Assert.notNull(tutorService.findPrincipal());
 		Collection<Notificacion> emitidas = notificacionRepositorio
 				.findTutorEmitidas(tutor.getId());
 		Iterable<Notificacion> emitidasSinCitas = Iterables.filter(emitidas,
@@ -107,7 +109,7 @@ public class NotificacionService {
 	 * @param tutor
 	 */
 	public Collection<Notificacion> findTutorRecibidas(PadreMadreOTutor tutor) {
-		Assert.notNull(tutorService.findPrincipal());
+		//Assert.notNull(tutorService.findPrincipal());
 		Collection<Notificacion> emitidas = notificacionRepositorio
 				.findTutorRecibidas(tutor.getId());
 		Iterable<Notificacion> emitidasSinCitas = Iterables.filter(emitidas,
@@ -124,7 +126,7 @@ public class NotificacionService {
 	 * @param tutor
 	 */
 	public Collection<Notificacion> findProfesorEmitidas(Profesor tutor) {
-		Assert.notNull(profesorService.findPrincipal());
+		//Assert.notNull(profesorService.findPrincipal());
 		Collection<Notificacion> emitidas = notificacionRepositorio
 				.findProfesorEmitidas(tutor.getId());
 		Iterable<Notificacion> emitidasSinCitas = Iterables.filter(emitidas,
@@ -141,7 +143,7 @@ public class NotificacionService {
 	 * @param tutor
 	 */
 	public Collection<Notificacion> findProfesorRecibidas(Profesor tutor) {
-		Assert.notNull(profesorService.findPrincipal());
+		//Assert.notNull(profesorService.findPrincipal());
 		Collection<Notificacion> emitidas = notificacionRepositorio
 				.findProfesorRecibidas(tutor.getId());
 		Iterable<Notificacion> emitidasSinCitas = Iterables.filter(emitidas,
@@ -151,6 +153,33 @@ public class NotificacionService {
 					}
 				});
 		return Lists.newArrayList(emitidasSinCitas);
+	}
+	
+	public int getNotificacionesNoLeidas(Persona persona){
+		if ( persona instanceof Profesor ){
+			Profesor profe = (Profesor) persona;
+			List<Notificacion> l1 = Lists.newArrayList(findProfesorEmitidas(profe));
+			l1.addAll(findProfesorRecibidas(profe));
+			return Lists.newArrayList(Iterables.filter(l1, new Predicate<Notificacion>() {
+
+				@Override
+				public boolean apply(Notificacion input) {
+					return input.isLeida();
+				}
+			})).size();
+		}else if ( persona instanceof PadreMadreOTutor ){
+			PadreMadreOTutor profe = (PadreMadreOTutor) persona;
+			List<Notificacion> l1 = Lists.newArrayList(findTutorEmitidas(profe));
+			l1.addAll(findTutorRecibidas(profe));
+			return Lists.newArrayList(Iterables.filter(l1, new Predicate<Notificacion>() {
+
+				@Override
+				public boolean apply(Notificacion input) {
+					return input.isLeida();
+				}
+			})).size();
+		}
+		return 0;
 	}
 
 }

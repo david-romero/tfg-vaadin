@@ -25,20 +25,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class AuthManager implements AuthenticationManager {
 
 	@Autowired
-	private LoginService userService;
+	private LoginService loginService;
 
 	public Authentication authenticate(Authentication auth)
 			throws AuthenticationException {
 		String username = (String) auth.getPrincipal();
 		String password = (String) auth.getCredentials();
-		UserDetails user = userService.loadUserByUsername(username);
+		UserDetails user = loginService.loadUserByUsername(username);
 		if (user != null && user.getPassword().equals(password)) {
 			Collection<? extends GrantedAuthority> authorities = user
 					.getAuthorities();
-			return new UsernamePasswordAuthenticationToken(username, password,
+			Credentials credentials = new Credentials();
+			credentials.setJ_username(username);
+			credentials.setPassword(password);
+			return new UsernamePasswordAuthenticationToken(user, password,
 					authorities);
 		}
 		throw new BadCredentialsException("Bad Credentials");
 	}
+	
+	
 
 }

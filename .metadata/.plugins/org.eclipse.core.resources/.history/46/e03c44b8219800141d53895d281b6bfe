@@ -1,0 +1,170 @@
+/**
+ * AppUi.java
+ * appEducacionalVaadin
+ * 29/11/2014 14:39:22
+ * Copyright David
+ * com.app.ui
+ */
+package com.app.ui;
+
+import java.util.Collection;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.app.infrastructure.security.Authority;
+import com.app.infrastructure.security.UserAccount;
+import com.app.presenter.data.DataProvider;
+import com.app.presenter.data.DummyDataProvider;
+import com.app.presenter.data.PersonaProvider;
+import com.app.presenter.event.AppEducacionalEventBus;
+import com.app.ui.login.LoginView;
+import com.app.ui.user.UserView;
+import com.app.ui.user.admin.AdminView;
+import com.app.ui.user.calendario.CalendarioView;
+import com.app.ui.user.profesor.ProfesorView;
+import com.app.ui.user.tutores.TutorView;
+import com.app.applicationservices.services.*;
+import com.app.domain.model.types.Persona;
+import com.google.gwt.thirdparty.guava.common.collect.Lists;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.Responsive;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.server.WrappedHttpSession;
+import com.vaadin.server.WrappedSession;
+import com.vaadin.ui.UI;
+
+@Component
+@Scope("prototype")
+@Push
+@PreserveOnRefresh
+@Theme("appeducacionalvaadin")
+/**
+ * @author David
+ *
+ */
+public class AppUI extends UI {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2252711826491740298L;
+	/**
+	 * 
+	 */
+	@Autowired
+    private transient ApplicationContext applicationContext;
+	
+	@Autowired
+	private ProfesorService profesorService;
+	
+	@Autowired
+	private AdministradorService adminService;
+	
+	@Autowired
+	private CitaService citaService;
+	
+	private final AppEducacionalEventBus dashboardEventbus = new AppEducacionalEventBus();
+	private final DataProvider dataProvider = new DummyDataProvider();
+
+	@Override
+	protected void init(VaadinRequest request) {
+		WrappedSession session = request.getWrappedSession();
+		HttpSession httpSession = ((WrappedHttpSession) session)
+				.getHttpSession();
+		Responsive.makeResponsive(this);
+		AppEducacionalEventBus.register(this);
+		ServletContext servletContext = httpSession.getServletContext();
+		applicationContext = WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servletContext);
+		NavigatorUI navigator = new NavigatorUI(this, this);
+		navigator.addViewChangeListener(new ViewChangeListenerUI());
+		navigator.addView("login", LoginView.class);
+		navigator.addView("user", UserView.class);
+		navigator.addView("calendario", CalendarioView.class);
+
+		navigator.addView((Authority.PROFESOR+"/inicio").toLowerCase(), ProfesorView.class);
+		navigator.addView((Authority.TUTOR+"/inicio").toLowerCase(), TutorView.class);
+		navigator.addView((Authority.ADMINISTRADOR+"/inicio").toLowerCase(), AdminView.class);
+		
+		setNavigator(navigator);
+		
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		if (authentication != null && authentication.isAuthenticated()) {
+			
+		}else{
+			LoginView loginView = new LoginView();
+			setContent(loginView);
+            addStyleName("loginview");
+		}
+		
+		navigator.navigateTo("login");
+		
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+	
+	public static AppEducacionalEventBus getAppEducacionalEventbus() {
+        return ((AppUI) getCurrent()).dashboardEventbus;
+    }
+	
+	/**
+     * @return An instance for accessing the (dummy) services layer.
+     */
+    public static DataProvider getDataProvider() {
+        return ((AppUI) getCurrent()).citaService;
+    }
+
+    
+    /**
+     * @return An instance for accessing the (dummy) services layer.
+     */
+    public static PersonaProvider getPersonaProvider() {
+        return ((AppUI) getCurrent()).profesorService;
+    }
+    
+    public static String getAuthority(){
+    	SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		String authority = "";
+		if (authentication != null && authentication.isAuthenticated()) {
+			Collection<? extends GrantedAuthority> authorities = authentication
+					.getAuthorities();
+			GrantedAuthority grantedAuthority = Lists.newArrayList(authorities)
+					.get(0);
+			authority = grantedAuthority.getAuthority();
+		}
+		return authority;
+    }
+    
+    public static UserAccount getCurrentUser() {
+        return (UserAccount) VaadinSession.getCurrent().getAttribute(
+                UserAccount.class.getName());
+    }
+    
+    public Persona getPersonaLogada(){
+    	switch (Lists.newArrayList(getCurrentUser().getAuthorities()).get(0).getAuthority()) {
+		case Authority.PROFESOR:
+			return profesorService.findByUserAccount(getCurrentUser());
+		case Authority.ADMINISTRADOR:
+			return adminService.findByUserAccount(getCurrentUser());
+		default:
+			break;
+		}
+    	return null;
+    }
+}
