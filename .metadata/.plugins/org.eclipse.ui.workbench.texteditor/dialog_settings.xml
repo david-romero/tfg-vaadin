@@ -2,22 +2,25 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="model" key="selection"/>
-		<item value="false" key="casesensitive"/>
+		<item value="2015" key="selection"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="2014"/>
+			<item value="apellidos"/>
+			<item value="nombre"/>
 			<item value="domainModel"/>
 			<item value="domainLayer"/>
 			<item value="MultiMapb"/>
 			<item value="Dashboard"/>
 			<item value="infrastructureLayer"/>
-			<item value="filter"/>
-			<item value="button"/>
-			<item value="input"/>
 		</list>
 		<list key="replacehistory">
+			<item value="2015"/>
+			<item value="getApellidos()"/>
+			<item value="getNombre()"/>
 			<item value="model"/>
 			<item value="domain"/>
 			<item value="AppEducacional"/>

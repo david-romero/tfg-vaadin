@@ -12,36 +12,35 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
-
-import javax.transaction.Transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.InitBinder;
 
 import ru.xpoft.vaadin.VaadinView;
 
-import com.app.applicationservices.services.AdministradorService;
 import com.app.applicationservices.services.CitaService;
+import com.app.applicationservices.services.EventoService;
 import com.app.applicationservices.services.PadreMadreOTutorService;
 import com.app.applicationservices.services.ProfesorService;
-import com.app.domain.model.types.Administrador;
 import com.app.domain.model.types.Cita;
-import com.app.domain.model.types.NotaPorEvaluacion;
+import com.app.domain.model.types.Evento;
 import com.app.domain.model.types.PadreMadreOTutor;
+import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
-import com.app.infrastructure.security.AuthManager;
+import com.app.infrastructure.exceptions.GeneralException;
 import com.app.infrastructure.security.Authority;
 import com.app.infrastructure.security.UserAccount;
 import com.app.presenter.event.AppEducacionalEvent.BrowserResizeEvent;
 import com.app.presenter.event.AppEducacionalEventBus;
 import com.app.ui.AppUI;
-import com.app.ui.user.MenuComponent;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.navigator.View;
@@ -49,7 +48,6 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -57,7 +55,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -92,7 +89,13 @@ public final class CalendarioView extends CssLayout implements View {
 	
 	private ProfesorService profesorService;
 	
+	private Persona person;
+	
 	private PadreMadreOTutorService tutorService;
+	
+	private EventoService eventoService;
+	
+	private Cita citaAModificar;
     
     public static final String NAME = "calendario";
 
@@ -129,6 +132,7 @@ public final class CalendarioView extends CssLayout implements View {
 		profesorService = applicationContext.getBean(ProfesorService.class);
 		citaService = applicationContext.getBean(CitaService.class);
 		tutorService = applicationContext.getBean(PadreMadreOTutorService.class);
+		eventoService = applicationContext.getBean(EventoService.class);
 	}
 
     @Override
@@ -166,7 +170,7 @@ public final class CalendarioView extends CssLayout implements View {
         calendarLayout.setCaption("Calendar");
         calendarLayout.setMargin(true);
 
-        calendar = new Calendar(new MovieEventProvider());
+        calendar = new Calendar(new EventProvider());
         calendar.setWidth(100.0f, Unit.PERCENTAGE);
         calendar.setHeight(1000.0f, Unit.PIXELS);
 
@@ -181,7 +185,7 @@ public final class CalendarioView extends CssLayout implements View {
         });
         calendarLayout.addComponent(calendar);
 
-        calendar.setFirstVisibleHourOfDay(11);
+        calendar.setFirstVisibleHourOfDay(7);
         calendar.setLastVisibleHourOfDay(23);
 
         calendar.setHandler(new BasicEventMoveHandler() {
@@ -198,6 +202,7 @@ public final class CalendarioView extends CssLayout implements View {
                             - editableEvent.getStart().getTime();
                     setDates(editableEvent, newFromTime,
                             new Date(newFromTime.getTime() + length));
+                    citaAModificar = editableEvent.cita;
                     setTrayVisible(true);
                 }
             }
@@ -206,6 +211,7 @@ public final class CalendarioView extends CssLayout implements View {
                     final Date end) {
                 event.start = start;
                 event.end = end;
+                event.getCita().setFecha(start);
             }
         });
         calendar.setHandler(new BasicEventResizeHandler() {
@@ -231,8 +237,67 @@ public final class CalendarioView extends CssLayout implements View {
         CssLayout catalog = new CssLayout();
         catalog.setCaption("Catalog");
         catalog.addStyleName("catalog");
-        /*
-        for (final NotaPorEvaluacion movie : AppUI.getDataProvider().getMovies()) {
+        //Persona person = null;
+        UserAccount account = AppUI.getCurrentUser();
+    	List<Cita> allCitas = Lists.newArrayList();
+    	Collection<Cita> allCitas1 = null;
+    	Collection<Cita> allCitas2 = null;
+    	List<Evento> eventos = Lists.newArrayList();
+    	switch ( Lists.newArrayList(account.getAuthorities()).get(0).getAuthority()) {
+		case Authority.PROFESOR:
+			Profesor profesor = profesorService.findByUserAccount(account);
+			person = profesor;
+			allCitas1 = citaService.findProfesorEmitidas(profesor);
+    		allCitas2 = citaService.findProfesorRecibidas(profesor);
+    		eventos.addAll(eventoService.findAllProfesor(profesor));
+			break;
+		case Authority.TUTOR:
+			PadreMadreOTutor tutor = tutorService.findByUserAccount(account);
+			person = tutor;
+			allCitas1 = citaService.findTutorEmitidas(tutor);
+    		allCitas2 = citaService.findTutorRecibidas(tutor);
+    		eventos.addAll(eventoService.findAllTutor(tutor));
+			break;
+
+		default:
+			break;
+		}
+		
+		allCitas.addAll(allCitas1);
+		allCitas.addAll(allCitas2);
+		
+		List<com.app.utility.Event> events = Lists.newArrayList();
+		events.addAll(Lists.newArrayList(Iterables.transform(allCitas, new Function<Cita, com.app.utility.Event>() {
+
+			@Override
+			public com.app.utility.Event apply(Cita input) {
+				com.app.utility.Event event = new com.app.utility.Event();
+				event.setDate(input.getFecha());
+				event.setDescription(input.getContenido());
+				event.setTitle(input.getContenido());
+				event.setType("Cita");
+				return event;
+			}
+
+			
+		})));
+		events.addAll(Lists.newArrayList(Iterables.transform(eventos, new Function<Evento, com.app.utility.Event>() {
+
+			@Override
+			public com.app.utility.Event apply(Evento input) {
+				com.app.utility.Event event = new com.app.utility.Event();
+				event.setDate(input.getFecha());
+				event.setDescription(input.getItemEvaluable().getTitulo() + " " + input.getAsignatura().getNombre());
+				event.setTitle(" Nuevo Evento ");
+				event.setType("Evento");
+				return event;
+			}
+
+			
+		})));
+        
+        
+        for (final com.app.utility.Event event : events) {
             VerticalLayout frame = new VerticalLayout();
             frame.addStyleName("frame");
             frame.setWidthUndefined();
@@ -242,7 +307,7 @@ public final class CalendarioView extends CssLayout implements View {
 				
 				@Override
 				public InputStream getStream() {
-					InputStream myInputStream = new ByteArrayInputStream(movie.getAlumno().getImagen()); 
+					InputStream myInputStream = new ByteArrayInputStream(person.getImagen()); 
 					return myInputStream;
 				}
 			};
@@ -254,7 +319,7 @@ public final class CalendarioView extends CssLayout implements View {
             poster.setHeight(145.0f, Unit.PIXELS);
             frame.addComponent(poster);
 
-            Label titleLabel = new Label("Nota: " +movie.getNotaFinal());
+            Label titleLabel = new Label(event.getTitle());
             titleLabel.setWidth(120.0f, Unit.PIXELS);
             frame.addComponent(titleLabel);
 
@@ -268,7 +333,6 @@ public final class CalendarioView extends CssLayout implements View {
             });
             catalog.addComponent(frame);
         }
-        */
         return catalog;
     }
 
@@ -297,6 +361,18 @@ public final class CalendarioView extends CssLayout implements View {
         Button confirm = new Button("Confirm");
         confirm.addStyleName(ValoTheme.BUTTON_PRIMARY);
         confirm.addClickListener(close);
+        confirm.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				try {
+					citaService.save(citaAModificar, person);
+				} catch (GeneralException e) {
+					Notification.show("Error " + e.getMessage() , Notification.Type.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+			}
+		});
         tray.addComponent(confirm);
         tray.setComponentAlignment(confirm, Alignment.MIDDLE_LEFT);
 
@@ -333,7 +409,7 @@ public final class CalendarioView extends CssLayout implements View {
     public void enter(final ViewChangeEvent event) {
     }
 
-    private class MovieEventProvider implements CalendarEventProvider {
+    private class EventProvider implements CalendarEventProvider {
 
         @Override
         public List<CalendarEvent> getEvents(final Date startDate,
@@ -364,7 +440,11 @@ public final class CalendarioView extends CssLayout implements View {
     		allCitas.addAll(allCitas2);
             List<CalendarEvent> result = new ArrayList<CalendarEvent>();
             for (Cita cita : allCitas) {
-            	Date end = new Date(cita.getFecha().getTime()+1000);
+            	Date end = cita.getFecha();
+            	GregorianCalendar calendar = new GregorianCalendar();
+            	calendar.setTime(end);
+            	calendar.add(GregorianCalendar.HOUR, 2);
+            	end = new Date(calendar.getTimeInMillis());
                 result.add(new CitaEvent(cita.getFecha(), end , cita));
             }
             return result;

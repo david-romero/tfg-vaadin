@@ -1,0 +1,16 @@
+/**
+* InlineTextEditor.java
+* appEducacionalVaadin
+* 15/1/2015 21:08:31
+* Copyright David
+* com.app.ui.components
+*/
+package com.app.ui.components;
+
+/**
+ * @author David
+ *
+ */
+public class InlineTextEditor {
+
+}

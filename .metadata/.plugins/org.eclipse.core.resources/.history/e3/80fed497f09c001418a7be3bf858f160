@@ -1,0 +1,17 @@
+/**
+* InformesView.java
+* appEducacionalVaadin
+* 15/1/2015 20:55:50
+* Copyright David
+* com.app.ui.user.informes
+*/
+package com.app.ui.user.informes;
+
+/**
+ * @author David
+ *
+ */
+public class InformesView extends TabSheet implements View, CloseHandler,
+ReportEditorListener{
+
+}

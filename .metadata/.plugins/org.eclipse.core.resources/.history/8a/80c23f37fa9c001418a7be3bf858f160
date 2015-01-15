@@ -1,0 +1,32 @@
+/**
+* ImprimirUI.java
+* appEducacionalVaadin
+* 15/1/2015 22:04:37
+* Copyright David
+* com.app.ui
+*/
+package com.app.ui;
+
+import com.vaadin.ui.UI;
+
+/**
+ * @author David
+ *
+ */
+public class ImprimirUI extends UI{
+
+	@Override
+    protected void init(VaadinRequest request) {
+        // Have some content to print
+        setContent(new Label(
+            "<h1>Here's some dynamic content</h1>\n" +
+            "<p>This is to be printed.</p>",
+            ContentMode.HTML));
+        
+        // Print automatically when the window opens
+        JavaScript.getCurrent().execute(
+            "setTimeout(function() {" +
+            "  print(); self.close();}, 0);");
+    }
+	
+}
