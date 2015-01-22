@@ -8,10 +8,13 @@
 package com.app.ui.user;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.User;
+import org.vaadin.easyuploads.UploadField;
+import org.vaadin.easyuploads.UploadField.FieldType;
 
 import com.app.applicationservices.services.AdministradorService;
 import com.app.applicationservices.services.CitaService;
@@ -35,6 +38,7 @@ import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.ThemeResource;
@@ -48,6 +52,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -183,17 +188,14 @@ public class ProfilePreferencesWindow extends Window {
 		root.setMargin(true);
 		root.addStyleName("profile-form");
 
-		VerticalLayout pic = new VerticalLayout();
+		/*VerticalLayout pic = new VerticalLayout();
 		pic.setSizeUndefined();
 		pic.setSpacing(true);
-		Image profilePic = null;
+		Resource source;
 		if (personaAEditar.getImagen() != null
 				&& personaAEditar.getImagen().length > 0) {
-			com.vaadin.server.StreamResource source;
 			StreamSource source2 = new StreamResource.StreamSource() {
-				/**
-				 * 
-				 */
+
 				private static final long serialVersionUID = -3823582436185258502L;
 
 				public InputStream getStream() {
@@ -204,20 +206,21 @@ public class ProfilePreferencesWindow extends Window {
 				}
 			};
 			source = new StreamResource(source2, "profile-picture.png");
-			profilePic = new Image("", source);
 		} else {
-			profilePic = new Image("", new ThemeResource(
-					"img/profile-pic-300px.jpg"));
+			source = new ThemeResource(
+					"img/profile-pic-300px.jpg");
 		}
+		Image profilePic = new Image("", source);
 		profilePic.setWidth(100.0f, Unit.PIXELS);
 		profilePic.markAsDirty();
 		pic.addComponent(profilePic);
 
-		UploadButton upload = new UploadButton();
-		upload.addStyleName(ValoTheme.BUTTON_TINY);
-		pic.addComponent(upload);
+		
 
-		root.addComponent(pic);
+		root.addComponent(pic);*/
+		
+		UploadButton upload = new UploadButton();
+		root.addComponent(upload);
 
 		FormLayout details = new FormLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
@@ -301,8 +304,6 @@ public class ProfilePreferencesWindow extends Window {
 				fieldGroup.discard();
 				// Updated user should also be persisted to database. But
 				// not in this demo.
-
-				
 
 				AppEducacionalEventBus.post(new ProfileUpdatedEvent());
 				close();

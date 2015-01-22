@@ -84,14 +84,14 @@
 
 	<context:annotation-config />
 	<!-- <mvc:annotation-driven validator="validator" conversion-service="conversionService" 
-		/> Converters -->
+		/> Converters 
 
 	<import resource="config/converters.xml" />
 
 	<bean id="conversionService"
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters" ref="converters" />
-	</bean>
+	</bean>-->
 
 	<!-- my Beans -->
 	<bean id="RetrasoService" class="com.app.applicationservices.services.RetrasoService">

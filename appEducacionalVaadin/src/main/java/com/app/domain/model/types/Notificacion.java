@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.app.domain.model.DomainEntity;
@@ -44,6 +45,11 @@ public class Notificacion extends DomainEntity {
 	 * Contenido de la notificación
 	 */
 	private String contenido;
+	
+	/**
+	 * Titulo de la notificación
+	 */
+	private String titulo;
 
 	/**
 	 * Quien envia la notificacion: Profesor o Tutor
@@ -189,5 +195,21 @@ public class Notificacion extends DomainEntity {
 	 */
 	public void setLeida(boolean leida) {
 		this.leida = leida;
+	}
+
+	@NotEmpty
+	/**
+	 * @return titulo
+	 */
+	public String getTitulo() {
+		return titulo;
+	}
+
+	/**
+	 * @param titulo the titulo to set
+	 * Establecer el titulo
+	 */
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 }

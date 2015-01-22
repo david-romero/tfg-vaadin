@@ -630,6 +630,7 @@
 				<constructor-arg value="2015-1-12" />
 			</bean>
 		</property>
+		<property name="titulo" value="Cita entre un profesor y un tutor"></property>
 		<property name="profesor" ref="profesor1"></property>
 		<property name="padreMadreOTutor" ref="tutor1"></property>
 	</bean>

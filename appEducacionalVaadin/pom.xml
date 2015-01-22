@@ -703,6 +703,11 @@
 			<artifactId>googleanalyticstracker</artifactId>
 			<version>2.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>easyuploads</artifactId>
+			<version>7.3.4</version>
+		</dependency>
 	</dependencies>
 	<properties>
 		<vaadin.version>7.3.5</vaadin.version>

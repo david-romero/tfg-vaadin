@@ -21,7 +21,7 @@ import com.vaadin.server.Resource;
  */
 public enum UserMenuHelper {
 
-	PANELCONTROL("panelControl", PanelControlView.class, FontAwesome.HOME, true), 
+	PANELCONTROL("Panel de Control", PanelControlView.class, FontAwesome.HOME, true), 
 	SALES("sales", ProfesorView.class, FontAwesome.BAR_CHART_O, false), 
 	TRANSACTIONS("transactions", ProfesorView.class, FontAwesome.TABLE, false), 
 	REPORTS("Informes", InformesView.class, FontAwesome.FILE_TEXT_O, true),

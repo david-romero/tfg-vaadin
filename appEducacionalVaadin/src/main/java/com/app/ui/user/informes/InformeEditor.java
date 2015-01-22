@@ -82,16 +82,17 @@ public class InformeEditor extends VerticalLayout {
 	}
 
 	private Component buildPalette() {
+		HorizontalLayout layoutContainer = new HorizontalLayout();
 		HorizontalLayout paletteLayout = new HorizontalLayout();
 		paletteLayout.setSpacing(true);
-		paletteLayout.setWidthUndefined();
+		paletteLayout.setWidth(80, Unit.PERCENTAGE);
 		paletteLayout.addStyleName("palette");
 
 		paletteLayout.addComponent(buildPaletteItem(PaletteItemType.TEXT));
 		paletteLayout.addComponent(buildPaletteItem(PaletteItemType.TABLE));
 		paletteLayout.addComponent(buildPaletteItem(PaletteItemType.CHART));
 
-		paletteLayout.addComponent(buildOtherItem(PaletteItemType.PRINT));
+		//paletteLayout.addComponent(buildOtherItem(PaletteItemType.PRINT));
 
 		paletteLayout.addLayoutClickListener(new LayoutClickListener() {
 			/**
@@ -106,20 +107,20 @@ public class InformeEditor extends VerticalLayout {
 						PaletteItemType data = (PaletteItemType) ((DragAndDropWrapper) event
 								.getChildComponent()).getData();
 						addWidget(data, null);
-					}else{
-						// Create a window that contains what you want to print
-						VaadinSession.getCurrent().setAttribute("layout", canvas);
-						// Create an opener extension
-						BrowserWindowOpener opener = new BrowserWindowOpener(
-								ImprimirUI.class);
-						opener.setFeatures("height=200,width=400,resizable");
-						opener.extend(canvas);
 					}
 				}
 			}
 		});
+		
+		HorizontalLayout helperLayour = new HorizontalLayout();
+		helperLayour.addComponent(buildOtherItem(PaletteItemType.PRINT));
+		
+		
+		
+		layoutContainer.addComponent(paletteLayout);
+		layoutContainer.addComponent(helperLayour);
 
-		return paletteLayout;
+		return layoutContainer;
 	}
 
 	private Component buildPaletteItem(final PaletteItemType type) {
@@ -158,7 +159,7 @@ public class InformeEditor extends VerticalLayout {
 				BrowserWindowOpener opener = new BrowserWindowOpener(
 						ImprimirUI.class);
 				opener.setFeatures("height=200,width=400,resizable");
-				opener.extend(canvas);
+				opener.extend(l);
 			}
 		});
 		return l;

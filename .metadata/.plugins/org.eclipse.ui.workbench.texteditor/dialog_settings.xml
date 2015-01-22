@@ -2,29 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="2015" key="selection"/>
+		<item value="header" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="footer"/>
+			<item value="cita"/>
+			<item value="Cita"/>
 			<item value="2014"/>
 			<item value="apellidos"/>
 			<item value="nombre"/>
 			<item value="domainModel"/>
 			<item value="domainLayer"/>
-			<item value="MultiMapb"/>
-			<item value="Dashboard"/>
-			<item value="infrastructureLayer"/>
 		</list>
 		<list key="replacehistory">
+			<item value="header"/>
+			<item value="Notificacion"/>
 			<item value="2015"/>
 			<item value="getApellidos()"/>
 			<item value="getNombre()"/>
 			<item value="model"/>
 			<item value="domain"/>
 			<item value="AppEducacional"/>
-			<item value="infrastructure"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
