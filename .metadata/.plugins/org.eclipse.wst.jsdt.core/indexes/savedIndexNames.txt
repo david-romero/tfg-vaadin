@@ -1,7 +1,0 @@
-INDEX VERSION 1.3+E:\Dropbox\git\tfg-vaadin\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-4259099100.index
-3667521183.index
-3509354701.index
-2177134521.index
-1559143182.index
-2673991974.index

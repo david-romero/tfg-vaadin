@@ -1,9 +1,0 @@
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:05:10 +0100] "POST /appEducacional/ui/HEARTBEAT/?v-uiId=0 HTTP/1.1" 410 1073
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:04 +0100] "GET /appEducacional/ui/ HTTP/1.1" 200 2030
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:04 +0100] "GET /appEducacional/VAADIN/widgetsets/com.app.ui.AppWidgetSet/com.app.ui.AppWidgetSet.nocache.js?1419030364348 HTTP/1.1" 200 8067
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:05 +0100] "POST /appEducacional/ui/?v-1419030364350 HTTP/1.1" 200 4277
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:12 +0100] "POST /appEducacional/ui/UIDL/?v-wsver=7.3.5&v-uiId=0 HTTP/1.1" 200 1671
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:13 +0100] "GET /appEducacional/VAADIN/themes/appeducacionalvaadin/icons/tea-16px.png HTTP/1.1" 404 -
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:13 +0100] "GET /appEducacional/VAADIN/themes/appeducacionalvaadin/icons/coffee-16px.png HTTP/1.1" 404 -
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:28 +0100] "POST /appEducacional/ui/UIDL/?v-uiId=0 HTTP/1.1" 200 1854
-0:0:0:0:0:0:0:1 - - [20/Dec/2014:00:06:41 +0100] "POST /appEducacional/ui/UIDL/?v-uiId=0 HTTP/1.1" 200 1819

@@ -1,1 +1,0 @@
-0:0:0:0:0:0:0:1 - - [10/Dec/2014:20:38:56 +0100] "POST /appEducacional/ui/HEARTBEAT/?v-uiId=0 HTTP/1.1" 410 1073
