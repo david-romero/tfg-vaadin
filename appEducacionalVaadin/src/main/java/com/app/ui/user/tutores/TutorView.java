@@ -22,7 +22,7 @@ import com.app.ui.logout.LogoutListener;
 import com.app.ui.user.MenuComponent;
 import com.app.ui.user.UserAbstractView;
 import com.app.ui.user.calendario.CalendarioView;
-import com.app.ui.user.panelControl.PanelControlView;
+import com.app.ui.user.panelControl.view.PanelControlView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

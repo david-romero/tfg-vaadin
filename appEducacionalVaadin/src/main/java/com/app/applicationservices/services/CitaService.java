@@ -102,6 +102,8 @@ public class CitaService implements Serializable,DataProvider{
 		nota.setFecha(new Date());
 		nota.setConfirmadoProfesor(false);
 		nota.setConfirmadoTutor(false);
+		nota.setTitulo("");
+		nota.setContenido("");
 		return nota;
 	}
 

@@ -8,8 +8,9 @@
 package com.app.ui.user;
 
 import com.app.ui.user.calendario.CalendarioView;
+import com.app.ui.user.calificaciones.CalificacionesView;
 import com.app.ui.user.informes.InformesView;
-import com.app.ui.user.panelControl.PanelControlView;
+import com.app.ui.user.panelControl.view.PanelControlView;
 import com.app.ui.user.profesor.ProfesorView;
 import com.vaadin.navigator.View;
 import com.vaadin.server.FontAwesome;
@@ -25,7 +26,8 @@ public enum UserMenuHelper {
 	SALES("sales", ProfesorView.class, FontAwesome.BAR_CHART_O, false), 
 	TRANSACTIONS("transactions", ProfesorView.class, FontAwesome.TABLE, false), 
 	REPORTS("Informes", InformesView.class, FontAwesome.FILE_TEXT_O, true),
-	SCHEDULE("calendario", CalendarioView.class, FontAwesome.CALENDAR_O, false);
+	SCHEDULE("calendario", CalendarioView.class, FontAwesome.CALENDAR_O, false),
+	CALIFICACIONES("Calificaciones", CalificacionesView.class, FontAwesome.EDIT, false);
 
     private final String viewName;
     private final Class<? extends View> viewClass;

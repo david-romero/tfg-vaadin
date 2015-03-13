@@ -59,6 +59,10 @@ public class NotificacionService {
 
 	public Notificacion create() {
 		Notificacion nota = new Notificacion();
+		nota.setTitulo("");
+		nota.setPadreMadreOTutor(new PadreMadreOTutor());
+		nota.setLeida(false);
+		nota.setContenido("");
 		nota.setFecha(new Date());
 		return nota;
 	}

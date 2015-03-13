@@ -16,9 +16,10 @@ import com.app.ui.NavigatorUI;
 import com.app.ui.user.MenuComponent;
 import com.app.ui.user.UserAbstractView;
 import com.app.ui.user.calendario.CalendarioView;
+import com.app.ui.user.calificaciones.CalificacionesView;
 import com.app.ui.user.informes.InformesView;
 import com.app.ui.user.notificaciones.view.NotificacionesView;
-import com.app.ui.user.panelControl.PanelControlView;
+import com.app.ui.user.panelControl.view.PanelControlView;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -73,6 +74,8 @@ public class ProfesorView extends UserAbstractView {
         this.navigator.addView("Informes", InformesView.class);
         this.navigator.addView("Panel de Control", PanelControlView.class);
         this.navigator.addView("notificaciones", NotificacionesView.class);
+        this.navigator.addView("Calificaciones", CalificacionesView.class);
+        this.navigator.navigateTo("Panel de Control");
 	}
 
 	/* (non-Javadoc)

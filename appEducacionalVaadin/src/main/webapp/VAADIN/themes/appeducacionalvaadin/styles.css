@@ -11258,19 +11258,19 @@ div.v-layout.v-horizontal.v-widget {
 	min-height: 220px;
 }
 
-.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[width-range~="0-700px"] .dashboard-panel-slot {
+.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[width-range~="0-700px"] .appeducacional-panel-slot {
 	width: 100% !important;
 }
 
-.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[width-range~="701px-"] .dashboard-panel-slot {
+.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[width-range~="701px-"] .appeducacional-panel-slot {
 	width: 50% !important;
 }
 
-.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[height-range~="0-440px"] .dashboard-panel-slot {
+.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[height-range~="0-440px"] .appeducacional-panel-slot {
 	height: 100%;
 }
 
-.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[height-range~="441px-"] .dashboard-panel-slot {
+.appeducacionalvaadin .appeducacional-view.appeducacional-view .appeducacional-panels[height-range~="441px-"] .appeducacional-panel-slot {
 	height: 50%;
 }
 

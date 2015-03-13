@@ -173,6 +173,23 @@ public class ProfesorService implements Serializable{
 				.getId());
 		return cursos;
 	}
+	
+	/**
+	 * Obtener los cursos en los que imparte docencia un profesor
+	 * 
+	 * @author David Romero Alcaide
+	 * @param profesor
+	 * @return
+	 */
+	public Collection<Curso> getCursosImparteDocencia(Profesor profesor) {
+		Assert.notNull(profesor);
+		Assert.isTrue(profesor.getId() > 0);
+		Assert.isTrue(profesor.isIdentidadConfirmada());
+		Collection<Curso> cursos;
+		cursos = profesorRepositorio.getCursosDondeImparteClase(profesor
+				.getId());
+		return cursos;
+	}
 
 	/**
 	 * Obtiene la asignatura vinculada a un curso y a un profesor
@@ -494,6 +511,15 @@ public class ProfesorService implements Serializable{
 	}
 
 	
-	
+	public List<PadreMadreOTutor> getTutoresAlumnosPertenecientesProfesor(Profesor profesor){
+		List<PadreMadreOTutor> tutores = Lists.newArrayList();
+		List<Alumno> alumnosProfesor = (List<Alumno>) getTodosLosAlumnosProfesor(profesor);
+		for ( Alumno alumno : alumnosProfesor ){
+			if (alumno.getPadresMadresOTutores() != null && alumno.getPadresMadresOTutores().size() > 0){
+				tutores.addAll(alumno.getPadresMadresOTutores());
+			}
+		}
+		return tutores;
+	}
 	
 }

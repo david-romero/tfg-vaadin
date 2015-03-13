@@ -6,6 +6,7 @@
  */
 package com.app.domain.model.types;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import javax.persistence.Access;
@@ -36,7 +37,12 @@ import com.app.infrastructure.security.UserAccount;
  * @author David
  * Clase abstracta que representa el concepto de persona
  */
-public abstract class Persona extends DomainEntity {
+public abstract class Persona extends DomainEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6952106395526350006L;
 
 	/**
 	 * Constructor vacio
@@ -76,6 +82,24 @@ public abstract class Persona extends DomainEntity {
 	 * Indica si la identidad de esta persona está confirmada
 	 */
 	private boolean identidadConfirmada;
+	
+	private String notas;
+
+	@NotNull
+	/**
+	 * @return notas
+	 */
+	public String getNotas() {
+		return notas;
+	}
+
+	/**
+	 * @param notas the notas to set
+	 * Establecer el notas
+	 */
+	public void setNotas(String notas) {
+		this.notas = notas;
+	}
 
 	@NotBlank
 	@Column(unique = true)

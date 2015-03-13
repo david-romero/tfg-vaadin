@@ -121,7 +121,7 @@
 						</execution>
 					</executions>
 					<configuration>
-						<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+						<extraJvmArgs></extraJvmArgs>
 						<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
 						<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
 						<noServer>true</noServer>
@@ -707,6 +707,21 @@
 			<groupId>org.vaadin.addon</groupId>
 			<artifactId>easyuploads</artifactId>
 			<version>7.3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>animator</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>dom</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zybnet</groupId>
+			<artifactId>vaadin-autocomplete</artifactId>
+			<version>1.1.0</version>
 		</dependency>
 	</dependencies>
 	<properties>

@@ -17,12 +17,21 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 	">
 
-
+	<context:component-scan base-package="com.app" />
 	<context:component-scan base-package="com.app.domain.model.types" />
 	<context:component-scan base-package="com.app.domain.model" />
 	<context:component-scan base-package="com.app.domain.repositories" />
 	<context:component-scan base-package="com.app.infrastructure.security" />
 	<context:component-scan base-package="com.app.applicationservices.services" />
 	<context:component-scan base-package="com.app.api.controllers" />
+	<context:component-scan base-package="com.app.api.controllers" />
+	<context:component-scan base-package="com.app.api.controllers.profesor" />
+	<context:component-scan base-package="com.app.applicationservices.services" />
+	<context:component-scan base-package="com.app.domain.repositories" />
+	<context:component-scan base-package="com.app.domain.model.types" />
+	<context:component-scan base-package="com.app.infrastructure.security" />
+	
+	<context:component-scan base-package="com.app.ui" />
+	<context:component-scan base-package="com.app.config" />
 
 </beans>

@@ -36,7 +36,7 @@ import com.app.ui.login.LoginView;
 import com.app.ui.user.UserView;
 import com.app.ui.user.admin.AdminView;
 import com.app.ui.user.calendario.CalendarioView;
-import com.app.ui.user.panelControl.PanelControlView;
+import com.app.ui.user.panelControl.view.PanelControlView;
 import com.app.ui.user.profesor.ProfesorView;
 import com.app.ui.user.tutores.TutorView;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;

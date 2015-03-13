@@ -8,42 +8,40 @@
 package com.app.ui.user.notificaciones.view;
 
 import java.util.List;
-import java.util.function.Consumer;
 
-import org.springframework.context.ApplicationContext;
+import org.vaadin.jouni.animator.Animator;
+import org.vaadin.jouni.dom.client.Css;
 
-import com.app.applicationservices.services.NotificacionService;
-import com.app.applicationservices.services.EventoService;
-import com.app.applicationservices.services.PadreMadreOTutorService;
-import com.app.applicationservices.services.ProfesorService;
 import com.app.domain.model.types.Notificacion;
-import com.app.domain.model.types.Persona;
 import com.app.ui.AppUI;
+import com.app.ui.user.notificaciones.presenter.NotificacionesPresenter;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Accordion;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author David
  *
  */
-public class NotificacionesView extends GridLayout implements View {
+public class NotificacionesView extends CssLayout implements View {
 
 	private List<Notificacion> notificaciones;
 
-	private Integer contenedorFilas ;
 	
 	/**
 	 * 
@@ -74,47 +72,79 @@ public class NotificacionesView extends GridLayout implements View {
 	@Override
 	public void attach() {
 		super.attach();
+		setHeightUndefined();
 		if ( notificaciones == null ){
 			initializeView();
 		}
-		notificaciones.forEach(new Consumer<Notificacion>() {
-
-			@Override
-			public void accept(Notificacion t) {
+		
+		for ( Notificacion t : notificaciones ){
+			ThemeResource photoResource = new ThemeResource(
+					"img/profile-pic-300px.jpg");
+			Image img = new Image("",photoResource);
+			img.addStyleName("v-icon");
+			img.setWidth(40.0f, Unit.PIXELS);
+			img.setHeight(100,Unit.PERCENTAGE);
+			Label emisor = new Label(t.getPadreMadreOTutor().getNombre()+" "+t.getPadreMadreOTutor().getApellidos());
+			emisor.addStyleName(ValoTheme.LABEL_H4);
+			
+			
+			Label titulo = new Label(t.getTitulo());
+			titulo.addStyleName(ValoTheme.LABEL_H3);
+			HorizontalLayout header = new HorizontalLayout(img,emisor, titulo);
+			header.setComponentAlignment(emisor, Alignment.MIDDLE_CENTER);
+			header.setComponentAlignment(img, Alignment.MIDDLE_LEFT);
+			header.setComponentAlignment(titulo, Alignment.MIDDLE_RIGHT);
+			header.setExpandRatio(img, 1f);
+			header.setExpandRatio(emisor, 3f);
+			header.setExpandRatio(titulo, 7f);
+			//header.addStyleName(ValoTheme.LAYOUT_CARD);
+			header.setMargin(false);
+			header.setSizeFull();
+			header.setSpacing(false);
+			Label contenido = new Label(t.getContenido());
+			contenido.setContentMode(ContentMode.HTML);
+			HorizontalLayout body = new HorizontalLayout(contenido);
+			body.setSizeFull();
+			body.setVisible(false);
+			VerticalLayout layout = new VerticalLayout(header,body);
+			addComponent(layout);
+			header.addStyleName(ValoTheme.WINDOW_TOP_TOOLBAR);
+			header.addLayoutClickListener(new LayoutClickListener() {
 				
-				Label fecha = new Label(t.getFecha().toString());
-				Label titulo = new Label(t.getTitulo());
-				HorizontalLayout header = new HorizontalLayout(fecha,titulo);
-				header.setSizeFull();
-				TextArea contenido = new TextArea(t.getContenido());
-				contenido.setReadOnly(true);
-				HorizontalLayout body = new HorizontalLayout(contenido);
-				body.setSizeFull();
-				Accordion accordion = new Accordion(header,body);
-				accordion.setSizeFull();
-				addComponent(accordion, 0, contenedorFilas);
-				contenedorFilas++;
-			}
-		});
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -1749687906071209879L;
+
+				@Override
+				public void layoutClick(LayoutClickEvent event) {
+					if (body.isVisible()){
+						body.setVisible(false);
+						Animator.animate(body, new Css().translateY("-100px")).delay(0).duration(2000);
+					}else{
+						body.setVisible(true);
+						Animator.animate(body, new Css().translateY("100px")).delay(0).duration(2000);
+					}
+				}
+			});
+		}
+
 	}
 	
 	private void initializeView(){
 		NotificacionesPresenter presenter = new NotificacionesPresenter();
 		notificaciones = presenter.getNotificacines();
-		contenedorFilas = 0;
-		setColumns(1);
-		setRows(notificaciones.size()+1);
 		setSizeFull();
-		createHeaderToolbar();
+		createHeaderToolbar(presenter);
 	}
 
 	/**
 	 * @author David
 	 */
-	private void createHeaderToolbar() {
+	private void createHeaderToolbar(NotificacionesPresenter presenter) {
 		HorizontalLayout header = new HorizontalLayout();
 		header.addStyleName(ValoTheme.WINDOW_TOP_TOOLBAR);
-		header.setWidth("100%");
+		header.setWidth(100,Unit.PERCENTAGE);
 		Button showAll = new Button("View All Notifications",
 				new ClickListener() {
 					/**
@@ -130,28 +160,18 @@ public class NotificacionesView extends GridLayout implements View {
 		showAll.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
 		showAll.addStyleName(ValoTheme.BUTTON_SMALL);
 		Button add = new Button("",FontAwesome.PLUS);
-		add.addClickListener(e->{
-			NotificacionCreateWindow window = new NotificacionCreateWindow();
-			AppUI.getCurrent().addWindow(window);
-		});
+		add.addClickListener(presenter);
 				
 		add.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
 		add.addStyleName(ValoTheme.BUTTON_SMALL);
 		header.addComponent(showAll);
 		header.addComponent(add);
 		header.setComponentAlignment(add, Alignment.MIDDLE_RIGHT);
-		addComponent(header, 0 , contenedorFilas);
-		contenedorFilas++;
+		header.setHeightUndefined();
+		addComponent(header);
 		
 	}
 
-	private class NotificacionCreateWindow extends Window{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1299573468494488377L;
-		
-	}
+	
 	
 }

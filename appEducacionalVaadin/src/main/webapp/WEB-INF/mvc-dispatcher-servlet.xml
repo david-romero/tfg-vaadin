@@ -16,15 +16,7 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="com.app.api.controllers" />
-	<context:component-scan base-package="com.app.api.controllers.profesor" />
-	<context:component-scan base-package="com.app.applicationservices.services" />
-	<context:component-scan base-package="com.app.domain.repositories" />
-	<context:component-scan base-package="com.app.domain.model.types" />
-	<context:component-scan base-package="com.app.infrastructure.security" />
-	<context:component-scan base-package="com.app" />
-	<context:component-scan base-package="com.app.ui" />
-	<context:component-scan base-package="com.app.config" />
+	
 
 	<tx:annotation-driven />
 	<mvc:annotation-driven>
@@ -79,8 +71,6 @@
 	<bean id="openEntityManagerInViewInterceptor"
 		class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" />
 
-
-	<import resource="config/packages.xml" />
 
 	<context:annotation-config />
 	<!-- <mvc:annotation-driven validator="validator" conversion-service="conversionService" 

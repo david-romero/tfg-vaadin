@@ -120,6 +120,7 @@
 		<property name="identidadConfirmada" value="True" ></property>
 		<property name="apellidos" value="Romero Alcaide"></property>
 		<property name="DNI" value="28842171X"></property>
+		<property name="notas" value=""></property>
 	</bean>
 
 	<bean id="profesor1" class="com.app.domain.model.types.Profesor">
@@ -130,6 +131,7 @@
 		<property name="instituto" value="I.E.S. San Blas"></property>
 		<property name="DNI" value="77953335X"></property>
 		<property name="preferenciasCita" value="Martes a las 9:00; Jueves a las 15:00"></property>
+		<property name="notas" value=""></property>
 	</bean>
 	<bean id="profesor2" class="com.app.domain.model.types.Profesor">
 		<property name="nombre" value="David" />
@@ -139,6 +141,7 @@
 		<property name="instituto" value="I.E.S. San Blas"></property>
 		<property name="DNI" value="63155827N"></property>
 		<property name="preferenciasCita" value="Martes a las 9:00; Jueves a las 15:00"></property>
+		<property name="notas" value=""></property>
 		<property name="asignaturas">
 			<list>
 				<ref bean="asignatura3"></ref>
@@ -154,6 +157,7 @@
 		<property name="instituto" value="I.E.S. San Blas"></property>
 		<property name="DNI" value="86237280E"></property>
 		<property name="preferenciasCita" value="Martes a las 9:00; Jueves a las 15:00"></property>
+		<property name="notas" value=""></property>
 		<property name="asignaturas">
 			<list>
 				<ref bean="asignatura5"></ref>
@@ -165,6 +169,7 @@
 		<property name="apellidos" value="Alba"></property>
 		<property name="userAccount" ref="userAccount2"></property>
 		<property name="DNI" value="28842171X"></property>
+		<property name="notas" value=""></property>
 		<property name="tutorandos">
 			<list>
 				<ref bean="alumno1"></ref>
@@ -176,6 +181,7 @@
 		<property name="apellidos" value="Campos"></property>
 		<property name="userAccount" ref="userAccount5"></property>
 		<property name="DNI" value="12345678Z"></property>
+		<property name="notas" value=""></property>
 		<property name="tutorandos">
 			<list>
 				<ref bean="alumno1"></ref>
@@ -187,7 +193,9 @@
 		<property name="apellidos" value="Aragon"></property>
 		<property name="userAccount" ref="userAccount6"></property>
 		<property name="DNI" value="48993752A"></property>
+		<property name="notas" value=""></property>
 		<property name="tutorandos">
+		
 			<list>
 				<ref bean="alumno2"></ref>
 			</list>
@@ -198,6 +206,7 @@
 		<property name="apellidos" value="Romero Alcaide"></property>
 		<property name="userAccount" ref="userAccount7"></property>
 		<property name="DNI" value="48950972A"></property>
+		<property name="notas" value=""></property>
 		<property name="tutorandos">
 			<list>
 				<ref bean="alumno3"></ref>

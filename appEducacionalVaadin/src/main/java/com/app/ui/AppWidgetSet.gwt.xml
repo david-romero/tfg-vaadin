@@ -46,4 +46,12 @@
     <inherits name="com.vaadin.addon.timeline.gwt.TimelineWidgetSet" />
 
     <inherits name="com.vaadin.addon.charts.Widgetset" />
+
+    <inherits name="org.vaadin.easyuploads.Widgetset" />
+
+    <inherits name="org.vaadin.jouni.animator.AnimatorWidgetset" />
+
+    <inherits name="org.vaadin.jouni.dom.DomWidgetset" />
+
+    <inherits name="com.zybnet.autocomplete.AutocompleteWidgetSet" />
 </module>

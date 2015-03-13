@@ -9,13 +9,16 @@ package com.app.ui.user.calendario;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.app.ui.components.*;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -41,37 +44,57 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.StreamResource;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
+import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PopupView;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventResize;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.MoveEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEventProvider;
+import com.vaadin.ui.components.calendar.handler.BasicDateClickHandler;
 import com.vaadin.ui.components.calendar.handler.BasicEventMoveHandler;
 import com.vaadin.ui.components.calendar.handler.BasicEventResizeHandler;
 import com.vaadin.ui.themes.ValoTheme;
+import com.app.ui.user.calendario.presenter.*;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
@@ -82,25 +105,17 @@ public final class CalendarioView extends CssLayout implements View {
 
     private Calendar calendar;
     private Component tray;
-    
-    private ApplicationContext applicationContext;
-    
-	private CitaService citaService;
+ 
+    private CalendarioPresenter presenter;
 	
-	private ProfesorService profesorService;
-	
-	private Persona person;
-	
-	private PadreMadreOTutorService tutorService;
-	
-	private EventoService eventoService;
+	private TabSheet tabs;
 	
 	private Cita citaAModificar;
     
     public static final String NAME = "calendario";
 
     public CalendarioView() {
-        loadBeans();
+        presenter = new CalendarioPresenter(this);
     }
     
     @Override
@@ -109,12 +124,16 @@ public final class CalendarioView extends CssLayout implements View {
         addStyleName("schedule");
         AppEducacionalEventBus.register(this);
 
-        TabSheet tabs = new TabSheet();
+        tabs = new TabSheet();
         tabs.setSizeFull();
         tabs.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
         tabs.addComponent(buildCalendarView());
         tabs.addComponent(buildCatalogView());
+	    Cita cita = presenter.create(Profesor.class);
+	    cita.setFecha(new Date());
+	    CitaCreateLayout layout = new CitaCreateLayout(cita,presenter);
+        tabs.addTab(layout, null, FontAwesome.PLUS);
 
         addComponent(tabs);
 
@@ -123,17 +142,6 @@ public final class CalendarioView extends CssLayout implements View {
 
         injectMovieCoverStyles();
     }
-    
-    /**
-	 * @author David
-	 */
-	private void loadBeans() {
-		applicationContext = ( (AppUI) UI.getCurrent() ).getApplicationContext();
-		profesorService = applicationContext.getBean(ProfesorService.class);
-		citaService = applicationContext.getBean(CitaService.class);
-		tutorService = applicationContext.getBean(PadreMadreOTutorService.class);
-		eventoService = applicationContext.getBean(EventoService.class);
-	}
 
     @Override
     public void detach() {
@@ -171,6 +179,7 @@ public final class CalendarioView extends CssLayout implements View {
         calendarLayout.setMargin(true);
 
         calendar = new Calendar(new EventProvider());
+        calendar.setFirstVisibleDayOfWeek(1);
         calendar.setWidth(100.0f, Unit.PERCENTAGE);
         calendar.setHeight(1000.0f, Unit.PIXELS);
 
@@ -212,6 +221,12 @@ public final class CalendarioView extends CssLayout implements View {
                 event.start = start;
                 event.end = end;
                 event.getCita().setFecha(start);
+                try {
+					presenter.save(event.getCita(), Profesor.class);
+				} catch (GeneralException e) {
+					
+					e.printStackTrace();
+				}
             }
         });
         calendar.setHandler(new BasicEventResizeHandler() {
@@ -225,10 +240,25 @@ public final class CalendarioView extends CssLayout implements View {
         java.util.Calendar initialView = java.util.Calendar.getInstance();
         initialView.add(java.util.Calendar.DAY_OF_WEEK,
                 -initialView.get(java.util.Calendar.DAY_OF_WEEK) + 1);
-        calendar.setStartDate(initialView.getTime());
+        
+        int primerDiaMes = 1;
+        int mesActual  = initialView.get(java.util.Calendar.MONTH);
+        int anioActual = initialView.get(java.util.Calendar.YEAR);
+        int ultimoDiaMes = initialView.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+			Date inicioMes = sdf.parse(primerDiaMes+"/"+mesActual +"/"+anioActual);
+			Date finMes = sdf.parse(ultimoDiaMes+"/"+mesActual +"/"+anioActual);
+	        
+	        calendar.setStartDate(inicioMes);
 
-        initialView.add(java.util.Calendar.DAY_OF_WEEK, 6);
-        calendar.setEndDate(initialView.getTime());
+	        calendar.setEndDate(finMes);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
+
+        
 
         return calendarLayout;
     }
@@ -237,34 +267,9 @@ public final class CalendarioView extends CssLayout implements View {
         CssLayout catalog = new CssLayout();
         catalog.setCaption("Catalog");
         catalog.addStyleName("catalog");
-        //Persona person = null;
-        UserAccount account = AppUI.getCurrentUser();
-    	List<Cita> allCitas = Lists.newArrayList();
-    	Collection<Cita> allCitas1 = null;
-    	Collection<Cita> allCitas2 = null;
-    	List<Evento> eventos = Lists.newArrayList();
-    	switch ( Lists.newArrayList(account.getAuthorities()).get(0).getAuthority()) {
-		case Authority.PROFESOR:
-			Profesor profesor = profesorService.findByUserAccount(account);
-			person = profesor;
-			allCitas1 = citaService.findProfesorEmitidas(profesor);
-    		allCitas2 = citaService.findProfesorRecibidas(profesor);
-    		eventos.addAll(eventoService.findAllProfesor(profesor));
-			break;
-		case Authority.TUTOR:
-			PadreMadreOTutor tutor = tutorService.findByUserAccount(account);
-			person = tutor;
-			allCitas1 = citaService.findTutorEmitidas(tutor);
-    		allCitas2 = citaService.findTutorRecibidas(tutor);
-    		eventos.addAll(eventoService.findAllTutor(tutor));
-			break;
 
-		default:
-			break;
-		}
-		
-		allCitas.addAll(allCitas1);
-		allCitas.addAll(allCitas2);
+
+        List<Cita> allCitas = presenter.findAll();
 		
 		List<com.app.utility.Event> events = Lists.newArrayList();
 		events.addAll(Lists.newArrayList(Iterables.transform(allCitas, new Function<Cita, com.app.utility.Event>() {
@@ -281,7 +286,7 @@ public final class CalendarioView extends CssLayout implements View {
 
 			
 		})));
-		events.addAll(Lists.newArrayList(Iterables.transform(eventos, new Function<Evento, com.app.utility.Event>() {
+		/*events.addAll(Lists.newArrayList(Iterables.transform(eventos, new Function<Evento, com.app.utility.Event>() {
 
 			@Override
 			public com.app.utility.Event apply(Evento input) {
@@ -294,7 +299,7 @@ public final class CalendarioView extends CssLayout implements View {
 			}
 
 			
-		})));
+		})));*/
         
         
         for (final com.app.utility.Event event : events) {
@@ -307,7 +312,7 @@ public final class CalendarioView extends CssLayout implements View {
 				
 				@Override
 				public InputStream getStream() {
-					InputStream myInputStream = new ByteArrayInputStream(person.getImagen()); 
+					InputStream myInputStream = new ByteArrayInputStream(presenter.getProfesor().getImagen()); 
 					return myInputStream;
 				}
 			};
@@ -366,7 +371,7 @@ public final class CalendarioView extends CssLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
-					citaService.save(citaAModificar, person);
+					presenter.save(citaAModificar, Profesor.class);
 				} catch (GeneralException e) {
 					Notification.show("Error " + e.getMessage() , Notification.Type.ERROR_MESSAGE);
 					e.printStackTrace();
@@ -416,28 +421,7 @@ public final class CalendarioView extends CssLayout implements View {
                 final Date endDate) {
             // Transactions are dynamically fetched from the backend service
             // when needed.
-        	UserAccount account = AppUI.getCurrentUser();
-        	List<Cita> allCitas = Lists.newArrayList();
-        	Collection<Cita> allCitas1 = null;
-        	Collection<Cita> allCitas2 = null;
-        	switch ( Lists.newArrayList(account.getAuthorities()).get(0).getAuthority()) {
-			case Authority.PROFESOR:
-				Profesor profesor = profesorService.findByUserAccount(account);
-				allCitas1 = citaService.findProfesorEmitidas(profesor);
-	    		allCitas2 = citaService.findProfesorRecibidas(profesor);
-				break;
-			case Authority.TUTOR:
-				PadreMadreOTutor tutor = tutorService.findByUserAccount(account);
-				allCitas1 = citaService.findTutorEmitidas(tutor);
-	    		allCitas2 = citaService.findTutorRecibidas(tutor);
-				break;
-
-			default:
-				break;
-			}
-   		
-    		allCitas.addAll(allCitas1);
-    		allCitas.addAll(allCitas2);
+        	List<Cita> allCitas = presenter.findAll();
             List<CalendarEvent> result = new ArrayList<CalendarEvent>();
             for (Cita cita : allCitas) {
             	Date end = cita.getFecha();
@@ -450,6 +434,27 @@ public final class CalendarioView extends CssLayout implements View {
             return result;
         }
     }
+    // Create a dynamically updating content for the popup
+    public class PopupTextFieldContent implements PopupView.Content {
+        private final HorizontalLayout layout;
+        private final TextField textField = new TextField(
+                "Minimized HTML content", "Click to edit");
+ 
+        public PopupTextFieldContent(Date fecha) {
+        	textField.setValue(fecha.toString());
+            layout = new HorizontalLayout(textField);
+        }
+ 
+        @Override
+        public final Component getPopupComponent() {
+            return layout;
+        }
+ 
+        @Override
+        public final String getMinimizedValueAsHTML() {
+            return textField.getValue();
+        }
+    };
 
     public final class CitaEvent implements CalendarEvent {
 
@@ -510,5 +515,179 @@ public final class CalendarioView extends CssLayout implements View {
         }
 
     }
+    
+    /**
+     * @author David
+     *
+     */
+    public class CitaCreateLayout extends VerticalLayout {
+
+    	@PropertyId("titulo")
+    	private TextField titulo;
+    	@PropertyId("contenido")
+    	private RichTextArea contenido;
+    	@PropertyId("padreMadreOTutor")
+    	private ComboBox combo;
+    	@PropertyId("fecha")
+    	private DateField datepicker;
+    	
+    	private Cita cita;
+    	
+    	private CalendarioPresenter presenter;
+
+    	private final BeanFieldGroup<Cita> fieldGroup;
+    	/**
+    	 * 
+    	 */
+    	private static final long serialVersionUID = 1299573468494488377L;
+
+    	public CitaCreateLayout(Cita cita,CalendarioPresenter presenter) {
+    		this.cita = cita;
+    		this.presenter = presenter;
+    		Responsive.makeResponsive(this);
+
+    		setSizeFull();
+    		VerticalLayout content = new VerticalLayout();
+    		content.addComponent(buildForm());
+    		content.addComponent(buildFooter());
+    		
+    		addComponent(content);
+    		
+    		fieldGroup = new BeanFieldGroup<Cita>(Cita.class);
+    		fieldGroup.bindMemberFields(this);
+    		fieldGroup.setItemDataSource(cita);
+    		fieldGroup.setBuffered(true);
+    		
+    	}
+
+    	/**
+    	 * @author David
+    	 * @return
+    	 */
+    	private Component buildFooter() {
+    		HorizontalLayout footer = new HorizontalLayout();
+    		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
+    		footer.setWidth(100.0f, Unit.PERCENTAGE);
+
+    		Button ok = new Button("OK");
+    		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
+    		ok.addClickListener(new ClickListener() {
+    			/**
+    			 * 
+    			 */
+    			private static final long serialVersionUID = -296792393671130920L;
+
+    			@Override
+    			public void buttonClick(ClickEvent event) {
+    				try {
+    					fieldGroup.commit();
+
+    					presenter.save(cita,com.app.domain.model.types.Profesor.class);
+
+    					Notification success = new Notification(
+    							"Cita creada satisfactoriamente");
+    					success.setDelayMsec(2000);
+    					success.setStyleName("bar success small");
+    					success.setPosition(Position.BOTTOM_CENTER);
+    					success.show(Page.getCurrent());
+    					
+    				} catch (CommitException | GeneralException e) {
+    					Notification.show("Error while updating profile",
+    							Type.ERROR_MESSAGE);
+    				}
+
+    			}
+    		});
+    		ok.focus();
+
+    		Button discard = new Button("Cancelar");
+    		discard.addStyleName(ValoTheme.BUTTON_PRIMARY);
+    		discard.addClickListener(new ClickListener() {
+    			/**
+    			 * 
+    			 */
+    			private static final long serialVersionUID = -2506358446761353801L;
+
+    			@Override
+    			public void buttonClick(ClickEvent event) {
+    				fieldGroup.discard();
+
+    			}
+    		});
+    		HorizontalLayout footersButtons = new HorizontalLayout();
+    		footersButtons.addComponent(ok);
+    		footersButtons.addComponent(discard);
+    		footersButtons.setSpacing(true);
+    		footer.addComponent(footersButtons);
+    		footer.setComponentAlignment(footersButtons, Alignment.BOTTOM_RIGHT);
+    		return footer;
+    	}
+
+    	/**
+    	 * @author David
+    	 */
+    	private Component buildForm() {
+    		VerticalLayout root = new VerticalLayout();
+    		root.setSpacing(true);
+    		root.setMargin(true);
+    		root.setSizeFull();
+    		root.addComponent(generateHeader());
+    		FormLayout details = new FormLayout();
+    		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
+    		root.addComponent(details);
+    		root.setExpandRatio(details, 1);
+
+    		titulo = new TextField("Título");
+    		details.addComponent(titulo);
+    		datepicker = new DateField("Fecha", cita.getFecha());
+    		datepicker.setSizeFull();
+    		datepicker.setRangeStart(new Date());
+    		datepicker.setResolution(Resolution.MINUTE);
+    		datepicker.setDateFormat("dd/MM/yyyy HH:mm");
+    		details.addComponent(datepicker);
+    		contenido = new RichTextArea("Contenido");
+    		contenido.setSizeFull();
+
+    		IndexedContainer container =  
+    				presenter.getContainer(PadreMadreOTutor.class);
+    		
+    		combo = new ComboBox("Tutor", container);
+    		combo.addStyleName(ValoTheme.COMBOBOX_ALIGN_CENTER);
+    		combo.addStyleName(ValoTheme.COMBOBOX_LARGE);
+    			
+    		details.addComponent(combo);
+    		
+    		details.addComponent(contenido);
+    		return root;
+    	}
+
+    	/**
+    	 * @author David
+    	 * @return
+    	 */
+    	private Component generateHeader() {
+    		HorizontalLayout header = new HorizontalLayout();
+    		header.addStyleName(ValoTheme.WINDOW_TOP_TOOLBAR);
+    		header.setWidth(100,Unit.PERCENTAGE);
+    		Label etiqueta = new Label("Nueva Cita");
+    		etiqueta.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+    		etiqueta.addStyleName(ValoTheme.BUTTON_SMALL);
+    		Label icon = new Label(FontAwesome.CALENDAR.getHtml());
+    		icon.setContentMode(ContentMode.HTML);		
+    		icon.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+    		icon.addStyleName(ValoTheme.BUTTON_SMALL);
+    		header.addComponent(etiqueta);
+    		header.addComponent(icon);
+    		header.setComponentAlignment(icon, Alignment.MIDDLE_RIGHT);
+    		header.setHeightUndefined();
+    		return header;
+    	}
+
+    }
+    
+    public void showTab(Integer tab){
+    	tabs.setSelectedTab(tab);
+    }
+
 
 }
