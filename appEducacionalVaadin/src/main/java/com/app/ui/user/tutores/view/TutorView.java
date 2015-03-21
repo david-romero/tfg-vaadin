@@ -1,56 +1,42 @@
 /**
- * ProfesorView.java
+ * LoginView.java
  * appEducacionalVaadin
- * 06/12/2014 14:05:37
+ * 29/11/2014 14:05:37
  * Copyright David
- * com.app.ui.user.tutores
+ * com.app.ui
  */
-package com.app.ui.user.profesor;
+package com.app.ui.user.tutores.view;
 
-import org.springframework.context.annotation.Scope;
-
-import ru.xpoft.vaadin.VaadinView;
+import ru.xpoft.vaadin.DiscoveryNavigator;
 
 import com.app.infrastructure.security.Authority;
 import com.app.ui.NavigatorUI;
 import com.app.ui.user.MenuComponent;
 import com.app.ui.user.UserAbstractView;
-import com.app.ui.user.calendario.CalendarioView;
-import com.app.ui.user.calificaciones.CalificacionesView;
-import com.app.ui.user.informes.InformesView;
-import com.app.ui.user.notificaciones.view.NotificacionesView;
+import com.app.ui.user.calendario.view.CalendarioView;
 import com.app.ui.user.panelControl.view.PanelControlView;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 
-@org.springframework.stereotype.Component
-@Scope("prototype")
-@VaadinView(ProfesorView.NAME)
 /**
  * @author David
  *
  */
-public class ProfesorView extends UserAbstractView {
+public class TutorView extends UserAbstractView {
 
-	private NavigatorUI navigator;
-	
-	public static final String NAME = "profesor";
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4830300048826230639L;
+	
+	private DiscoveryNavigator navigator;
 
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		generateRol();
 		super.enter(event);
 		removeAllComponents();
 		generateView();
-		
-		
-		
 	}
 	
 	/**
@@ -66,18 +52,23 @@ public class ProfesorView extends UserAbstractView {
         content.addStyleName("view-content");
         content.setSizeFull();
         addComponent(content);
-        
         setExpandRatio(content, 1.0f);
         
         this.navigator = new NavigatorUI(getUI(), content);
         this.navigator.addView("calendario", CalendarioView.class);
-        this.navigator.addView("Informes", InformesView.class);
-        this.navigator.addView("Panel de Control", PanelControlView.class);
-        this.navigator.addView("notificaciones", NotificacionesView.class);
-        this.navigator.addView("Calificaciones", CalificacionesView.class);
-        this.navigator.navigateTo("Panel de Control");
+        this.navigator.addView("panelControl", PanelControlView.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.app.ui.user.UserAbstractView#generateRol()
+	 */
+	@Override
+	public void generateRol() {
+		this.rol = new Authority();
+		this.rol.setAuthority(Authority.TUTOR);
+	}
+
+	
 	/* (non-Javadoc)
 	 * @see com.app.ui.user.UserAbstractView#getRol()
 	 */
@@ -90,17 +81,5 @@ public class ProfesorView extends UserAbstractView {
 			return super.getRol();
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see com.app.ui.user.UserAbstractView#generateRol()
-	 */
-	@Override
-	public void generateRol() {
-		this.rol = new Authority();
-		this.rol.setAuthority(Authority.PROFESOR);
-	}
-
 	
-
-
 }

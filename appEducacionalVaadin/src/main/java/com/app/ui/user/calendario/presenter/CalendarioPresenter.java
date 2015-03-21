@@ -11,10 +11,10 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
+import com.app.applicationservices.services.CitaService;
 import com.app.applicationservices.services.EventoService;
 import com.app.applicationservices.services.PadreMadreOTutorService;
 import com.app.applicationservices.services.ProfesorService;
-import com.app.applicationservices.services.Service;
 import com.app.domain.model.types.Cita;
 import com.app.domain.model.types.PadreMadreOTutor;
 import com.app.domain.model.types.Persona;
@@ -22,12 +22,10 @@ import com.app.domain.model.types.Profesor;
 import com.app.infrastructure.exceptions.GeneralException;
 import com.app.infrastructure.security.UserAccount;
 import com.app.ui.AppUI;
-import com.app.ui.user.calendario.CalendarioView;
-import com.app.ui.user.notificaciones.view.NotificacionesView;
+import com.app.ui.user.calendario.view.CalendarioView;
+import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.UI;
-import com.app.applicationservices.services.*;
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 
 /**
  * @author David

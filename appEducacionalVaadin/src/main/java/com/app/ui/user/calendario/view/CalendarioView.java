@@ -5,48 +5,36 @@
 * Copyright David
 * com.app.ui.user.calendario
 */
-package com.app.ui.user.calendario;
+package com.app.ui.user.calendario.view;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.app.ui.components.*;
-
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import ru.xpoft.vaadin.VaadinView;
 
-import com.app.applicationservices.services.CitaService;
-import com.app.applicationservices.services.EventoService;
-import com.app.applicationservices.services.PadreMadreOTutorService;
-import com.app.applicationservices.services.ProfesorService;
 import com.app.domain.model.types.Cita;
-import com.app.domain.model.types.Evento;
 import com.app.domain.model.types.PadreMadreOTutor;
-import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
 import com.app.infrastructure.exceptions.GeneralException;
-import com.app.infrastructure.security.Authority;
-import com.app.infrastructure.security.UserAccount;
 import com.app.presenter.event.AppEducacionalEvent.BrowserResizeEvent;
 import com.app.presenter.event.AppEducacionalEventBus;
-import com.app.ui.AppUI;
+import com.app.ui.user.calendario.presenter.CalendarioPresenter;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
@@ -56,17 +44,15 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.shared.Position;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -77,24 +63,21 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventResize;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.MoveEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEventProvider;
-import com.vaadin.ui.components.calendar.handler.BasicDateClickHandler;
 import com.vaadin.ui.components.calendar.handler.BasicEventMoveHandler;
 import com.vaadin.ui.components.calendar.handler.BasicEventResizeHandler;
 import com.vaadin.ui.themes.ValoTheme;
-import com.app.ui.user.calendario.presenter.*;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")

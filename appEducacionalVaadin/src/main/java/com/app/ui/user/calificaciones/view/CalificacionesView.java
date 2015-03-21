@@ -5,7 +5,7 @@
 * Copyright David
 * com.app.ui.user.calificaciones
 */
-package com.app.ui.user.calificaciones;
+package com.app.ui.user.calificaciones.view;
 
 import java.util.List;
 
@@ -15,14 +15,16 @@ import com.app.utility.Pair;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author David
  *
  */
-public class CalificacionesView extends VerticalLayout implements View{
+public class CalificacionesView extends Panel implements View{
 
 	TabSheet tabSheet;
 	
@@ -30,8 +32,11 @@ public class CalificacionesView extends VerticalLayout implements View{
 	
 	CalificacionesPresenter presenter;
 	
+	private VerticalLayout root;
+	
 	public CalificacionesView(){
 		this.tabSheet = new TabSheet();
+		root = new VerticalLayout();
 		presenter = CalificacionesPresenter.getInstance();
 		tabsCaption = presenter.getTabs();
 	}
@@ -54,10 +59,16 @@ public class CalificacionesView extends VerticalLayout implements View{
 	 */
 	@Override
 	public void attach() {
+		setSizeFull();
+		addStyleName(ValoTheme.PANEL_BORDERLESS);
 		super.attach();
-		addComponent(tabSheet);
+		setContent(root);
+		tabSheet.addStyleName("right-aligned-tabs");
+		root.addComponent(tabSheet);
 		for ( Pair<Component,String> pair : tabsCaption ){
 			tabSheet.addTab(pair.getFirst()).setCaption(pair.getSecond());
+			/*addComponent(pair.getFirst());
+			break;*/
 		}
 	}
 

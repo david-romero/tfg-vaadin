@@ -5,40 +5,26 @@
  * Copyright David
  * com.app.ui.user.admin
  */
-package com.app.ui.user.admin;
-
-import java.util.Collection;
+package com.app.ui.user.admin.view;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import ru.xpoft.vaadin.VaadinView;
 
 import com.app.applicationservices.services.AdministradorService;
-import com.app.applicationservices.services.PadreMadreOTutorService;
-import com.app.applicationservices.services.ProfesorService;
 import com.app.domain.model.types.Administrador;
 import com.app.infrastructure.security.AuthManager;
 import com.app.infrastructure.security.Authority;
 import com.app.infrastructure.security.UserAccount;
 import com.app.ui.AppUI;
-import com.app.ui.logout.LogoutListener;
 import com.app.ui.user.MenuComponent;
 import com.app.ui.user.UserAbstractView;
-import com.app.ui.user.profesor.ProfesorView;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
