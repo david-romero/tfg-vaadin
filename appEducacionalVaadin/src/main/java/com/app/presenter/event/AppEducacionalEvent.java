@@ -13,10 +13,9 @@ import javax.transaction.Transaction;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.app.ui.NavigatorUI;
 import com.app.ui.user.UserMenuHelper;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
@@ -51,8 +50,7 @@ public abstract class AppEducacionalEvent {
     	
     	public UserLoggedOutEvent(){
     		SecurityContextHolder.clearContext();
-    	    Navigator navigator = UI.getCurrent().getNavigator();
-    	    navigator.navigateTo("login");
+    		Page.getCurrent().reload();
     	}
     	
     }

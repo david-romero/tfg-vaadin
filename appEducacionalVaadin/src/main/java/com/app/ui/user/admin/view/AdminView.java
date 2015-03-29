@@ -13,18 +13,17 @@ import org.springframework.context.annotation.Scope;
 import ru.xpoft.vaadin.VaadinView;
 
 import com.app.applicationservices.services.AdministradorService;
-import com.app.domain.model.types.Administrador;
 import com.app.infrastructure.security.AuthManager;
 import com.app.infrastructure.security.Authority;
-import com.app.infrastructure.security.UserAccount;
 import com.app.ui.AppUI;
+import com.app.ui.NavigatorUI;
 import com.app.ui.user.MenuComponent;
 import com.app.ui.user.UserAbstractView;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import com.app.ui.user.admin.view.banear.usuarios.*;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
@@ -45,6 +44,8 @@ public class AdminView extends UserAbstractView {
 	private ApplicationContext applicationContext;
 	private com.app.infrastructure.security.AuthManager authManager;
 	private AdministradorService adminService;
+	
+	private NavigatorUI navigator;
 
 	public AdminView(){
 		loadBeans();
@@ -88,11 +89,11 @@ public class AdminView extends UserAbstractView {
         ComponentContainer content = new CssLayout();
         content.addStyleName("view-content");
         content.setSizeFull();
-        UserAccount account = AppUI.getCurrentUser();
-        Administrador admin = adminService.findByUserAccount(account);
-        content.addComponent(new Label(admin.getUserAccount().getUsername()));
         addComponent(content);
         setExpandRatio(content, 1.0f);
+        this.navigator = new NavigatorUI(getUI(), content);
+        this.navigator.addView("BanearUsuario", BanearUsuarioView.class);
+        this.navigator.navigateTo("BanearUsuario");
 	}
 
 	/* (non-Javadoc)

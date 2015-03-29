@@ -30,6 +30,11 @@ import org.springframework.util.Assert;
 public class PadreMadreOTutor extends Persona {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6043543732172413695L;
+
+	/**
 	 * Constructor que inicializa las colecciones.
 	 */
 	public PadreMadreOTutor() {

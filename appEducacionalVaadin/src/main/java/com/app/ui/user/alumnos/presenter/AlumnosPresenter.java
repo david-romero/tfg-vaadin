@@ -7,6 +7,8 @@
  */
 package com.app.ui.user.alumnos.presenter;
 
+import java.util.Collection;
+import com.app.domain.model.types.itemsevaluables.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,9 @@ import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.ui.UI;
@@ -131,13 +135,10 @@ public class AlumnosPresenter {
 	 * @author David
 	 * @return
 	 */
-	public JPAContainer<Alumno> getAlumnosContainer() {
+	public JPAContainer<Alumno> getAlumnosContainerEnCurso() {
 		List<Curso> cursos = Lists.newArrayList(profesorService.getCursosImparteDocencia(getProfesor()));
 		
-		// And there we have it
-		JPAContainer<Alumno> items = new JPAContainer<Alumno>(
-				Alumno.class);
-		items.setEntityProvider(entityProvider);
+		JPAContainer<Alumno> items = getAlumnosContainer();
 		List<Filter> filters = Lists.newArrayList();
 		for (Curso curso : cursos){
 			Filter filter = new Compare.Equal("curso", curso.getId());
@@ -148,6 +149,24 @@ public class AlumnosPresenter {
 		Filter filterOr = new Or(array);
 		items.addContainerFilter(filterOr);
 		return items;
+	}
+
+	/**
+	 * @author David
+	 * @return
+	 */
+	private JPAContainer<Alumno> getAlumnosContainer() {
+		// And there we have it
+		JPAContainer<Alumno> items = new JPAContainer<Alumno>(
+				Alumno.class);
+		items.setEntityProvider(entityProvider);
+		return items;
+	}
+	
+	public Container getFaltasAsistenciaAlumno(Alumno a){
+		Collection<FaltaDeAsistencia> faltas = profesorService.findAllFaltaSinJustificarMiAsignaturas(a);
+		IndexedContainer container = new IndexedContainer(faltas);
+		return container;
 	}
 
 }

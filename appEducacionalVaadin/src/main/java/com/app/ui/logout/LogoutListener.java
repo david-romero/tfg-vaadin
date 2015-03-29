@@ -7,16 +7,9 @@
  */
 package com.app.ui.logout;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import com.app.presenter.event.AppEducacionalEvent.UserLoggedOutEvent;
 import com.app.presenter.event.AppEducacionalEventBus;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
-
-
 
 /**
  * @author David
@@ -36,7 +29,7 @@ public class LogoutListener implements Button.ClickListener {
 	}
 
 	public void buttonClick(Button.ClickEvent clickEvent) {
-		 AppEducacionalEventBus.post(new UserLoggedOutEvent());
-	  }
-	
+		AppEducacionalEventBus.post(new UserLoggedOutEvent());
+	}
+
 }

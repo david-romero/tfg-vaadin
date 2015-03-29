@@ -20,6 +20,11 @@ import javax.persistence.Entity;
 public class Administrador extends Persona {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2584127127405605820L;
+
+	/**
 	 * Constructor
 	 */
 	public Administrador() {

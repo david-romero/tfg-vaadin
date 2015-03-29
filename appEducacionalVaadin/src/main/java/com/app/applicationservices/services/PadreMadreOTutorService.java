@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.app.domain.domainservices.Valida;
 import com.app.domain.model.types.Alumno;
 import com.app.domain.model.types.PadreMadreOTutor;
 import com.app.domain.model.types.Profesor;
@@ -104,7 +105,9 @@ public class PadreMadreOTutorService {
 	 */
 	public void save(PadreMadreOTutor padreMadreOTutor) {
 		Assert.notNull(padreMadreOTutor);
-		Assert.notEmpty(padreMadreOTutor.getUserAccount().getAuthorities());
+		Assert.isTrue(Valida.validaDNI(padreMadreOTutor.getDNI()), "pasarLista.error");
+		Assert.isTrue(padreMadreOTutor.getApellidos().length() >= 4, "pasarLista.error");
+		Assert.isTrue(padreMadreOTutor.getNombre().length() > 2, "pasarLista.error");
 		padreMadreOTutorRepositorio.save(padreMadreOTutor);
 	}
 

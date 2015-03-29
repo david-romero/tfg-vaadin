@@ -3,6 +3,8 @@ com.vaadin.integration.eclipse.useLatestNightly=false
 com.vaadin.integration.eclipse.widgetsetBuildsSuspended=true
 com.vaadin.integration.eclipse.widgetsetCompilationEta=110352
 com.vaadin.integration.eclipse.widgetsetDirty=true
+com.vaadin.integration.eclipse.widgetsetExtraParameters=-Dgwt.extraJvmArgs\="-Dvaadin.charts.developer.license\=dba62abf-e763-4b39-91db-b8a644c3bd07"
+com.vaadin.integration.eclipse.widgetsetParallelism=8
 com.vaadin.integration.eclipse.widgetsetStyle=OBF
 com.vaadin.integration.eclipse.widgetsetVerbose=true
 eclipse.preferences.version=1

@@ -8,6 +8,7 @@
 package com.app.ui.user.alumnos.view;
 
 import java.io.ByteArrayInputStream;
+import com.app.ui.user.alumno.view.*;
 import java.io.InputStream;
 
 import org.tepi.filtertable.FilterTable;
@@ -17,6 +18,8 @@ import com.app.ui.components.alumnos.AlumnosFilterGenerator;
 import com.app.ui.components.alumnos.AlumnosTable;
 import com.app.ui.user.alumnos.presenter.AlumnosPresenter;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
@@ -57,7 +60,7 @@ public class AlumnosView extends VerticalLayout implements View{
 	public void enter(ViewChangeEvent event) {
 		setCaption("Mis Alumnos");
 		tabla = new FilterTable();
-		tabla.setContainerDataSource(presenter.getAlumnosContainer());
+		tabla.setContainerDataSource(presenter.getAlumnosContainerEnCurso());
 		tabla.addStyleName(ValoTheme.TABLE_BORDERLESS);
 		tabla.addStyleName(ValoTheme.TABLE_NO_STRIPES);
 		tabla.addStyleName(ValoTheme.TABLE_NO_VERTICAL_LINES);
@@ -77,6 +80,16 @@ public class AlumnosView extends VerticalLayout implements View{
 		tabla.setSortContainerPropertyId("nombre");
         
 		tabla.addGeneratedColumn("imagen", getImageColumnGenerator() );
+		tabla.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Alumno a = (Alumno) event.getProperty().getValue();
+				AlumnoView perfil = new AlumnoView(a);
+				removeAllComponents();
+				addComponent(perfil);
+			}
+		});
 		addComponent(tabla);
 	}
 	
