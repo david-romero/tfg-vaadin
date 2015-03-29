@@ -36,18 +36,24 @@ public class AlumnoView extends AlumnoPerfilView implements View{
 	
 	protected AlumnosPresenter presenter;
 	
-	/**
-	 * Constructor
-	 */
-	public AlumnoView(Alumno alumno) {
-		this.alumno = alumno;
+	public AlumnoView(){
+		presenter = AlumnosPresenter.getInstance();
 	}
+	
 
 	/* (non-Javadoc)
 	 * @see com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
 	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
+		// split at "/", add each part as a label
+        String[] msgs = event.getParameters().split("/");
+        if ( msgs == null || msgs.length != 1 ){
+        	throw new IllegalArgumentException();
+        }else{
+        	Integer idAlumno = new Integer(msgs[0]);
+        	this.alumno = presenter.getAlumno(idAlumno);
+        }
 		generateImage();
 		generateTableFaltas();
 		
@@ -58,8 +64,8 @@ public class AlumnoView extends AlumnoPerfilView implements View{
 	 */
 	private void generateTableFaltas() {
 		table.setContainerDataSource(presenter.getFaltasAsistenciaAlumno(alumno));
-		table.setVisibleColumns("asignatura","fecha");
-		table.setColumnHeaders("Asignatura","Fecha");
+		/*table.setVisibleColumns("asignatura","fecha");
+		table.setColumnHeaders("Asignatura","Fecha");*/
 		table.refreshRowCache();
 	}
 

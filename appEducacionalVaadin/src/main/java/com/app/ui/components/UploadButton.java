@@ -57,12 +57,13 @@ Upload.Receiver, Upload.SucceededListener, Upload.FailedListener{
 		upload = new Upload("Change...", this);
 		setImmediate(true);
 		upload.setImmediate(true);
-		addComponent(upload);
+		
 		Resource source = new ThemeResource(
 				"img/profile-pic-300px.jpg");
 		image = new Image("", source);
 		image.markAsDirty();
 		addComponent(image);
+		addComponent(upload);
 		
 	}
 

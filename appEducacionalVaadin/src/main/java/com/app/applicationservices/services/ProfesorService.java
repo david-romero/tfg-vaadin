@@ -380,6 +380,8 @@ public class ProfesorService implements Serializable{
 		return items;
 	}
 	
+	
+	
 	/**
 	 * @author David Romero Alcaide
 	 * @return
@@ -418,7 +420,7 @@ public class ProfesorService implements Serializable{
 	 */
 	public Collection<FaltaDeAsistencia> findAllFaltaSinJustificar(
 			Asignatura asign) {
-		Collection<ItemEvaluable> items = findAllItems();
+		Collection<ItemEvaluable> items = findAllItems(asign.getProfesor());
 		List<FaltaDeAsistencia> faltasList = Lists.newArrayList();
 		for (ItemEvaluable item : items) {
 			if (item instanceof FaltaDeAsistencia
@@ -438,11 +440,10 @@ public class ProfesorService implements Serializable{
 	 * @return
 	 */
 	public Collection<FaltaDeAsistencia> findAllFaltaSinJustificarMiAsignaturas(
-			final Alumno a) {
+			final Alumno a,Profesor p) {
 		Assert.notNull(a);
-		Assert.notNull(findPrincipal());
-		Assert.isTrue(findPrincipal().isIdentidadConfirmada());
-		Asignatura asign = getAsignaturaCursoProfesor(a.getCurso());
+		Assert.isTrue(p.isIdentidadConfirmada());
+		Asignatura asign = getAsignaturaCursoProfesor(a.getCurso(),p);
 		Collection<FaltaDeAsistencia> faltas = findAllFaltaSinJustificar(asign);
 		Iterable<FaltaDeAsistencia> faltasFiltradas = Iterables.filter(faltas,
 				new Predicate<FaltaDeAsistencia>() {

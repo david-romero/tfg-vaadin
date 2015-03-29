@@ -132,7 +132,7 @@ public class MenuComponent extends CustomComponent {
 	}
 
 	private Component buildTitle() {
-		Label logo = new Label("QuickTickets <strong>Dashboard</strong>",
+		Label logo = new Label("Guardians <strong>Dashboard</strong>",
 				ContentMode.HTML);
 		logo.setSizeUndefined();
 		HorizontalLayout logoWrapper = new HorizontalLayout(logo);
@@ -166,7 +166,7 @@ public class MenuComponent extends CustomComponent {
 					"img/profile-pic-300px.jpg"), null);
 		}
 		updateUserName(null);
-		settingsItem.addItem("Edit Profile", new Command() {
+		settingsItem.addItem("Editar Perfil", new Command() {
 			/**
 			 * 
 			 */
@@ -177,7 +177,7 @@ public class MenuComponent extends CustomComponent {
 				ProfilePreferencesWindow.open(user, false);
 			}
 		});
-		settingsItem.addItem("Preferences", new Command() {
+		settingsItem.addItem("Preferiencias", new Command() {
 			/**
 			 * 
 			 */

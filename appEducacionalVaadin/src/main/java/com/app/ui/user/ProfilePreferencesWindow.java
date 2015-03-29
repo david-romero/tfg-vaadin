@@ -10,28 +10,18 @@ package com.app.ui.user;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.userdetails.User;
-import org.vaadin.easyuploads.UploadField;
-import org.vaadin.easyuploads.UploadField.FieldType;
 
 import com.app.applicationservices.services.AdministradorService;
-import com.app.applicationservices.services.CitaService;
 import com.app.applicationservices.services.PadreMadreOTutorService;
 import com.app.applicationservices.services.ProfesorService;
-import com.app.domain.model.types.PadreMadreOTutor;
 import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
-import com.app.infrastructure.security.Authority;
-import com.app.infrastructure.security.UserAccount;
 import com.app.presenter.event.AppEducacionalEvent.CloseOpenWindowsEvent;
-import com.app.presenter.event.AppEducacionalEvent.ProfileUpdatedEvent;
 import com.app.presenter.event.AppEducacionalEventBus;
 import com.app.ui.AppUI;
-import com.app.ui.components.OptionalSelect;
-import com.app.ui.components.UploadButton;
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.PropertyId;
@@ -41,29 +31,30 @@ import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.UserError;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.Upload.ProgressListener;
+import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -107,10 +98,20 @@ public class ProfilePreferencesWindow extends Window {
 	private TextField emailField;
 	@PropertyId("telefono")
 	private TextField phoneField;
+	
+	private ProgressBar progressBar;
+	
+	ByteArrayOutputStream os;
+	
+	private String filename;
+	
+	private Image profilePic;
 
 	private ProfilePreferencesWindow(final Persona persona,
 			final boolean preferencesTabOpen) {
 		loadBeans();
+		os = new ByteArrayOutputStream(1024);
+		progressBar = new ProgressBar();
 		personaAEditar = persona;
 
 		addStyleName("profile-window");
@@ -188,7 +189,7 @@ public class ProfilePreferencesWindow extends Window {
 		root.setMargin(true);
 		root.addStyleName("profile-form");
 
-		/*VerticalLayout pic = new VerticalLayout();
+		VerticalLayout pic = new VerticalLayout();
 		pic.setSizeUndefined();
 		pic.setSpacing(true);
 		Resource source;
@@ -207,20 +208,92 @@ public class ProfilePreferencesWindow extends Window {
 			};
 			source = new StreamResource(source2, "profile-picture.png");
 		} else {
-			source = new ThemeResource(
-					"img/profile-pic-300px.jpg");
+			source = new ThemeResource("img/profile-pic-300px.jpg");
 		}
-		Image profilePic = new Image("", source);
+		profilePic = new Image("", source);
 		profilePic.setWidth(100.0f, Unit.PIXELS);
 		profilePic.markAsDirty();
 		pic.addComponent(profilePic);
 
-		
+		Upload upload = new Upload("", new Receiver() {
 
-		root.addComponent(pic);*/
-		
-		UploadButton upload = new UploadButton();
-		root.addComponent(upload);
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -9072669962584531985L;
+
+			@Override
+			public OutputStream receiveUpload(String filename, String mimeType) {
+				os.reset();
+				progressBar = new ProgressBar(0.0f);
+				progressBar.setVisible(true);
+				return os;
+			}
+		});
+		upload.addSucceededListener(new SucceededListener() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -129726637043975522L;
+
+			@Override
+			public void uploadSucceeded(SucceededEvent event) {
+				Resource source = new StreamResource(
+		                new StreamResource.StreamSource() {
+		                    /**
+							 * 
+							 */
+							private static final long serialVersionUID = 3561230243878849854L;
+
+							public InputStream getStream() {
+		                        return new ByteArrayInputStream(os.toByteArray());
+		                    }
+		                }, filename) {
+		            /**
+							 * 
+							 */
+							private static final long serialVersionUID = -2835737445785315855L;
+
+					@Override
+		            public String getMIMEType() {
+		                return "image/png";
+		            }
+		        };
+		        
+		        profilePic.setSource(source);
+		        profilePic.markAsDirty();
+		        profilePic.setSizeUndefined();
+		        profilePic.setWidth(100.0f, Unit.PIXELS);
+			}
+		});
+		upload.addProgressListener(new ProgressListener() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2381209050087325148L;
+
+			@Override
+			public void updateProgress(long readBytes, long contentLength) {
+				if (contentLength == -1)
+                    progressBar.setIndeterminate(true);
+                else {
+                	progressBar.setIndeterminate(false);
+                	progressBar.setValue(((float)readBytes) /
+                                      ((float)contentLength));
+                }
+			}
+		});
+		upload.setImmediate(true);
+		upload.setButtonCaption("Cambiar...");
+		pic.addComponent(upload);
+		progressBar.setVisible(false);
+		pic.addComponent(progressBar);
+
+		root.addComponent(pic);
+
+		// root.addComponent(upload);
 
 		FormLayout details = new FormLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
@@ -270,6 +343,10 @@ public class ProfilePreferencesWindow extends Window {
 					fieldGroup.commit();
 					// Updated user should also be persisted to database. But
 					// not in this demo.
+					if ( personaAEditar instanceof Profesor ){
+						personaAEditar.setImagen(os.toByteArray());
+						profesorService.save((Profesor) personaAEditar);
+					}
 
 					Notification success = new Notification(
 							"Profile updated successfully");
@@ -277,8 +354,7 @@ public class ProfilePreferencesWindow extends Window {
 					success.setStyleName("bar success small");
 					success.setPosition(Position.BOTTOM_CENTER);
 					success.show(Page.getCurrent());
-
-					AppEducacionalEventBus.post(new ProfileUpdatedEvent());
+					
 					close();
 				} catch (CommitException e) {
 					e.printStackTrace();
@@ -289,8 +365,6 @@ public class ProfilePreferencesWindow extends Window {
 			}
 		});
 		ok.focus();
-		footer.addComponent(ok);
-		footer.setComponentAlignment(ok, Alignment.TOP_RIGHT);
 		Button cancel = new Button("Cancelar");
 		cancel.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		cancel.addClickListener(new ClickListener() {
@@ -305,13 +379,18 @@ public class ProfilePreferencesWindow extends Window {
 				// Updated user should also be persisted to database. But
 				// not in this demo.
 
-				AppEducacionalEventBus.post(new ProfileUpdatedEvent());
+				// AppEducacionalEventBus.post(new ProfileUpdatedEvent());
 				close();
 
 			}
 		});
 		footer.addComponent(cancel);
-		footer.setComponentAlignment(cancel, Alignment.TOP_RIGHT);
+		HorizontalLayout footersButtons = new HorizontalLayout();
+		footersButtons.addComponent(ok);
+		footersButtons.addComponent(cancel);
+		footersButtons.setSpacing(true);
+		footer.addComponent(footersButtons);
+		footer.setComponentAlignment(footersButtons, Alignment.TOP_RIGHT);
 		return footer;
 	}
 

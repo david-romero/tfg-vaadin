@@ -8,30 +8,31 @@
 package com.app.ui.user.alumnos.view;
 
 import java.io.ByteArrayInputStream;
-import com.app.ui.user.alumno.view.*;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 
 import org.tepi.filtertable.FilterTable;
 
 import com.app.domain.model.types.Alumno;
+import com.app.ui.NavigatorUI;
 import com.app.ui.components.alumnos.AlumnosFilterGenerator;
-import com.app.ui.components.alumnos.AlumnosTable;
+import com.app.ui.user.alumno.view.AlumnoView;
 import com.app.ui.user.alumnos.presenter.AlumnosPresenter;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
+import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.CustomTable;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.CustomTable.ColumnGenerator;
 import com.vaadin.ui.CustomTable.RowHeaderMode;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -59,7 +60,30 @@ public class AlumnosView extends VerticalLayout implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		setCaption("Mis Alumnos");
-		tabla = new FilterTable();
+		tabla = new FilterTable(){
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5413768116471213682L;
+
+			/* (non-Javadoc)
+			 * @see com.vaadin.ui.CustomTable#formatPropertyValue(java.lang.Object, java.lang.Object, com.vaadin.data.Property)
+			 */
+			@Override
+			protected String formatPropertyValue(Object rowId, Object colId,
+					Property<?> property) {
+				if ("fechaNacimiento".equals(colId)){
+					SimpleDateFormat sp = new SimpleDateFormat("dd/MM/yyyy");
+					return sp.format(property.getValue());
+				}else{
+					return super.formatPropertyValue(rowId, colId, property);
+				}
+			}
+			
+			
+			
+		};
 		tabla.setContainerDataSource(presenter.getAlumnosContainerEnCurso());
 		tabla.addStyleName(ValoTheme.TABLE_BORDERLESS);
 		tabla.addStyleName(ValoTheme.TABLE_NO_STRIPES);
@@ -82,12 +106,18 @@ public class AlumnosView extends VerticalLayout implements View{
 		tabla.addGeneratedColumn("imagen", getImageColumnGenerator() );
 		tabla.addValueChangeListener(new ValueChangeListener() {
 			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8874809901541299258L;
+
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				Alumno a = (Alumno) event.getProperty().getValue();
-				AlumnoView perfil = new AlumnoView(a);
-				removeAllComponents();
-				addComponent(perfil);
+				Integer idAlumno = (Integer) event.getProperty().getValue();
+				NavigatorUI navigator = (NavigatorUI) getUI().getNavigator();
+				navigator.addView("Alumno", AlumnoView.class);
+				navigator.navigateTo("Alumno"+"/"+idAlumno.toString());
+				
 			}
 		});
 		addComponent(tabla);

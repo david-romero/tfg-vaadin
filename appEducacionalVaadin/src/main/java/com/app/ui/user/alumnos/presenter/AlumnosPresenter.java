@@ -8,7 +8,6 @@
 package com.app.ui.user.alumnos.presenter;
 
 import java.util.Collection;
-import com.app.domain.model.types.itemsevaluables.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ import javax.persistence.Persistence;
 import org.springframework.context.ApplicationContext;
 
 import com.app.applicationservices.services.AdministradorService;
+import com.app.applicationservices.services.AlumnoService;
 import com.app.applicationservices.services.NotificacionService;
 import com.app.applicationservices.services.PadreMadreOTutorService;
 import com.app.applicationservices.services.ProfesorService;
@@ -27,7 +27,9 @@ import com.app.domain.model.types.Alumno;
 import com.app.domain.model.types.Curso;
 import com.app.domain.model.types.Persona;
 import com.app.domain.model.types.Profesor;
+import com.app.domain.model.types.itemsevaluables.FaltaDeAsistencia;
 import com.app.infrastructure.security.UserAccount;
+import com.app.presenter.profesor.ProfesorPresenter;
 import com.app.ui.AppUI;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.addon.jpacontainer.EntityProvider;
@@ -51,6 +53,8 @@ public class AlumnosPresenter {
 	private PadreMadreOTutorService tutorService;
 
 	private ProfesorService profesorService;
+	
+	private AlumnoService alumnoService;
 
 	private AdministradorService adminService;
 
@@ -85,6 +89,8 @@ public class AlumnosPresenter {
 				.getBean(PadreMadreOTutorService.class);
 		notificacionService = applicationContext
 				.getBean(NotificacionService.class);
+		alumnoService = applicationContext
+				.getBean(AlumnoService.class);
 	}
 
 	/**
@@ -164,9 +170,19 @@ public class AlumnosPresenter {
 	}
 	
 	public Container getFaltasAsistenciaAlumno(Alumno a){
-		Collection<FaltaDeAsistencia> faltas = profesorService.findAllFaltaSinJustificarMiAsignaturas(a);
+		
+		Collection<FaltaDeAsistencia> faltas = profesorService.findAllFaltaSinJustificarMiAsignaturas(a,getProfesor());
 		IndexedContainer container = new IndexedContainer(faltas);
 		return container;
+	}
+
+	/**
+	 * @author David
+	 * @param idAlumno
+	 * @return
+	 */
+	public Alumno getAlumno(Integer idAlumno) {
+		return alumnoService.findOne(idAlumno);
 	}
 
 }

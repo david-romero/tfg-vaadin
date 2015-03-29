@@ -27,6 +27,7 @@ import com.app.domain.model.types.Profesor;
 import com.app.infrastructure.exceptions.GeneralException;
 import com.app.presenter.event.AppEducacionalEvent.BrowserResizeEvent;
 import com.app.presenter.event.AppEducacionalEventBus;
+import com.app.ui.AppUI;
 import com.app.ui.user.calendario.presenter.CalendarioPresenter;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -44,6 +45,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.StreamResource;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.shared.Position;
@@ -158,6 +160,8 @@ public final class CalendarioView extends CssLayout implements View {
 
     private Component buildCalendarView() {
         VerticalLayout calendarLayout = new VerticalLayout();
+        Component c = createHeaderToolbar();
+        calendarLayout.addComponent(c);
         calendarLayout.setCaption("Calendar");
         calendarLayout.setMargin(true);
 
@@ -225,7 +229,7 @@ public final class CalendarioView extends CssLayout implements View {
                 -initialView.get(java.util.Calendar.DAY_OF_WEEK) + 1);
         
         int primerDiaMes = 1;
-        int mesActual  = initialView.get(java.util.Calendar.MONTH);
+        int mesActual  = initialView.get(java.util.Calendar.MONTH)+1;
         int anioActual = initialView.get(java.util.Calendar.YEAR);
         int ultimoDiaMes = initialView.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -245,6 +249,84 @@ public final class CalendarioView extends CssLayout implements View {
 
         return calendarLayout;
     }
+    
+    /**
+	 * @author David
+	 */
+	private Component createHeaderToolbar() {
+		HorizontalLayout header = new HorizontalLayout();
+		header.addStyleName(ValoTheme.WINDOW_TOP_TOOLBAR);
+		header.setWidth(100,Unit.PERCENTAGE);
+		Button showAll = new Button("",
+				new ClickListener() {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 5594631503767611801L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						java.util.Calendar initialView = java.util.Calendar.getInstance();
+				        initialView.add(java.util.Calendar.DAY_OF_WEEK,
+				                -initialView.get(java.util.Calendar.DAY_OF_WEEK) + 1);
+						int primerDiaMes = 1;
+				        int mesActual  = initialView.get(java.util.Calendar.MONTH);
+				        int anioActual = initialView.get(java.util.Calendar.YEAR);
+				        int ultimoDiaMes = initialView.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+				        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				        try {
+							Date inicioMes = sdf.parse("23/"+mesActual +"/"+anioActual);
+							Date finMes = sdf.parse("29/"+mesActual +"/"+anioActual);
+					        
+					        calendar.setStartDate(inicioMes);
+
+					        calendar.setEndDate(finMes);
+						} catch (ParseException e) {
+							
+							e.printStackTrace();
+						}
+					}
+				});
+		showAll.setIcon(FontAwesome.REFRESH);
+		showAll.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+		showAll.addStyleName(ValoTheme.BUTTON_SMALL);
+		Button add = new Button("",FontAwesome.PLUS);
+		add.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				java.util.Calendar initialView = java.util.Calendar.getInstance();
+		        initialView.add(java.util.Calendar.DAY_OF_WEEK,
+		                -initialView.get(java.util.Calendar.DAY_OF_WEEK) + 1);
+				int primerDiaMes = 1;
+		        int mesActual  = initialView.get(java.util.Calendar.MONTH)+1;
+		        int anioActual = initialView.get(java.util.Calendar.YEAR);
+		        int ultimoDiaMes = initialView.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+		        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		        try {
+					Date inicioMes = sdf.parse(primerDiaMes +"/"+mesActual +"/"+anioActual);
+					Date finMes = sdf.parse(ultimoDiaMes + "/"+mesActual +"/"+anioActual);
+			        
+			        calendar.setStartDate(inicioMes);
+
+			        calendar.setEndDate(finMes);
+				} catch (ParseException e) {
+					
+					e.printStackTrace();
+				}
+			}
+		});
+				
+		add.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+		add.addStyleName(ValoTheme.BUTTON_SMALL);
+		header.addComponent(showAll);
+		header.addComponent(add);
+		header.setComponentAlignment(add, Alignment.MIDDLE_RIGHT);
+		header.setComponentAlignment(showAll, Alignment.MIDDLE_RIGHT);
+		header.setHeightUndefined();
+		return header;
+		
+	}
 
     private Component buildCatalogView() {
         CssLayout catalog = new CssLayout();
