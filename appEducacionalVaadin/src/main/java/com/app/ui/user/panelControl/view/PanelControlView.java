@@ -10,6 +10,8 @@ package com.app.ui.user.panelControl.view;
 import java.util.Iterator;
 import java.util.List;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import com.app.domain.model.types.Notificacion;
 import com.app.domain.model.types.Persona;
 import com.app.presenter.event.AppEducacionalEvent.CloseOpenWindowsEvent;
@@ -334,7 +336,7 @@ public class PanelControlView extends Panel implements View {
 		notificationsLayout.setMargin(true);
 		notificationsLayout.setSpacing(true);
 
-		Label title = new Label("Notifications");
+		Label title = new Label("Notificaciones no leídas");
 		title.addStyleName(ValoTheme.LABEL_H3);
 		title.addStyleName(ValoTheme.LABEL_NO_MARGIN);
 		notificationsLayout.addComponent(title);
@@ -345,17 +347,32 @@ public class PanelControlView extends Panel implements View {
 		for (Notificacion notification : notifications) {
 			VerticalLayout notificationLayout = new VerticalLayout();
 			notificationLayout.addStyleName("notification-item");
-
-			Label titleLabel = new Label(notification.getEmisor() + " "
-					+ notification.getFecha() + " "
-					+ notification.getContenido());
+			PrettyTime prettyTime = new PrettyTime(getLocale());
+			String titulo = "";
+			if (notification.getEmisor().equals("Profesor")){
+				titulo = notification.getProfesor().getNombre() 
+						+ " " + notification.getProfesor().getApellidos() + " " +
+						FontAwesome.BULLHORN.getHtml() + " " + 
+						(notification.getTitulo().length() > 30 ? 
+								notification.getTitulo().substring(0,30) :
+									notification.getTitulo());
+			}else{
+				titulo = notification.getPadreMadreOTutor().getNombre() 
+						+ " " + notification.getPadreMadreOTutor().getApellidos() 
+						+ " " + FontAwesome.BULLHORN.getHtml() + " " + 
+						(notification.getTitulo().length() > 30 ? 
+								notification.getTitulo().substring(0,30) :
+									notification.getTitulo());
+			}
+			Label titleLabel = new Label(titulo);
+			titleLabel.setContentMode(ContentMode.HTML);
 			titleLabel.addStyleName("notification-title");
-			java.text.SimpleDateFormat sp = new java.text.SimpleDateFormat(
-					"dd/MM/yyyy");
-			Label timeLabel = new Label(sp.format(notification.getFecha()));
+			Label timeLabel = new Label(prettyTime.format(notification.getFecha()));
 			timeLabel.addStyleName("notification-time");
-
-			Label contentLabel = new Label(notification.getContenido());
+			String contenido = notification.getContenido().length() > 35 ?
+					notification.getContenido().substring(0,35) :
+						notification.getContenido();
+			Label contentLabel = new Label(contenido);
 			contentLabel.addStyleName("notification-content");
 			contentLabel.setContentMode(ContentMode.HTML);
 
@@ -367,7 +384,7 @@ public class PanelControlView extends Panel implements View {
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
 		footer.setWidth("100%");
-		Button showAll = new Button("View All Notifications",
+		Button showAll = new Button("Ver Notificaciones",
 				new ClickListener() {
 					/**
 					 * 

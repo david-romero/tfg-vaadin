@@ -72,7 +72,8 @@ public class PanelControlPresenter {
 	 * @return
 	 */
 	public int getNotificacionesNoLeidas() {
-		return getListNotificacionesNoLeidas().size();
+		return notificacionService
+				.findProfesorEmitidas(getProfesor()).size() + notificacionService.findProfesorRecibidas(getProfesor()).size();
 	}
 
 	/**
@@ -83,6 +84,9 @@ public class PanelControlPresenter {
 		List<Notificacion> list = Lists.newArrayList(notificacionService
 				.findProfesorEmitidas(getProfesor()));
 		list.addAll(notificacionService.findProfesorRecibidas(getProfesor()));
+		if ( list.size() > 2 ){
+			list = list.subList(0, 2);
+		}
 		return list;
 	}
 

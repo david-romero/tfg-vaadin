@@ -104,11 +104,10 @@ public class NotificacionesView extends CssLayout implements View {
 		header.setComponentAlignment(img, Alignment.MIDDLE_LEFT);
 		header.setComponentAlignment(titulo, Alignment.MIDDLE_RIGHT);
 		header.setComponentAlignment(timeAgo, Alignment.MIDDLE_RIGHT);
-		header.setExpandRatio(img, 1f);
-		header.setExpandRatio(emisor, 3f);
-		header.setExpandRatio(titulo, 7f);
-		header.setExpandRatio(timeAgo, 3f);
-		//header.addStyleName(ValoTheme.LAYOUT_CARD);
+		header.setExpandRatio(img, 0.05f);
+		header.setExpandRatio(emisor, 0.25f);
+		header.setExpandRatio(titulo, 0.55f);
+		header.setExpandRatio(timeAgo, 0.15f);
 		header.setMargin(false);
 		header.setSizeFull();
 		header.setSpacing(false);
