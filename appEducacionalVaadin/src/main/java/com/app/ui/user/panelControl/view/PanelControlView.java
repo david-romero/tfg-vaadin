@@ -10,30 +10,20 @@ package com.app.ui.user.panelControl.view;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-
-import com.app.applicationservices.services.AdministradorService;
-import com.app.applicationservices.services.NotificacionService;
-import com.app.applicationservices.services.PadreMadreOTutorService;
-import com.app.applicationservices.services.ProfesorService;
-import com.app.domain.model.types.Administrador;
 import com.app.domain.model.types.Notificacion;
-import com.app.domain.model.types.PadreMadreOTutor;
 import com.app.domain.model.types.Persona;
-import com.app.domain.model.types.Profesor;
-import com.app.infrastructure.security.Authority;
-import com.app.infrastructure.security.UserAccount;
 import com.app.presenter.event.AppEducacionalEvent.CloseOpenWindowsEvent;
 import com.app.presenter.event.AppEducacionalEvent.NotificationsCountUpdatedEvent;
 import com.app.presenter.event.AppEducacionalEventBus;
 import com.app.ui.AppUI;
+import com.app.ui.components.NotificacionCreateWindow;
 import com.app.ui.components.SparklineChart;
 import com.app.ui.components.TopGrossingMoviesChart;
 import com.app.ui.components.TopSixTheatersChart;
 import com.app.ui.components.TopTenMoviesTable;
+import com.app.ui.user.notificaciones.presenter.NotificacionesPresenter;
 import com.app.ui.user.panelControl.presenter.PanelControlPresenter;
 import com.google.common.eventbus.Subscribe;
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
@@ -57,7 +47,6 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -79,6 +68,7 @@ public class PanelControlView extends Panel implements View {
 
 	private Label titleLabel;
 	private NotificationsButton notificationsButton;
+	private NotificationCreateButton notificationCreateButton;
 	private CssLayout dashboardPanels;
 	private final VerticalLayout root;
 	private Window notificationsWindow;
@@ -157,7 +147,8 @@ public class PanelControlView extends Panel implements View {
 		header.addComponent(titleLabel);
 
 		notificationsButton = buildNotificationsButton();
-		HorizontalLayout tools = new HorizontalLayout(notificationsButton);
+		notificationCreateButton = buildNotificationCreateButton();
+		HorizontalLayout tools = new HorizontalLayout(notificationsButton,notificationCreateButton);
 		tools.setSpacing(true);
 		tools.addStyleName("toolbar");
 		header.addComponent(tools);
@@ -176,6 +167,26 @@ public class PanelControlView extends Panel implements View {
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				openNotificationsPopup(event);
+			}
+		});
+		return result;
+	}
+	
+	private NotificationCreateButton buildNotificationCreateButton() {
+		NotificationCreateButton result = new NotificationCreateButton();
+		result.addClickListener(new ClickListener() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 7959321831705470982L;
+
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				NotificacionesPresenter presenter = NotificacionesPresenter.getInstance();
+				Notificacion notificacion = presenter.create();
+				NotificacionCreateWindow window = 
+						new NotificacionCreateWindow(notificacion, presenter);
+				AppUI.getCurrent().addWindow(window);
 			}
 		});
 		return result;
@@ -459,6 +470,23 @@ public class PanelControlView extends Panel implements View {
 			}
 			setDescription(description);
 		}
+	}
+	
+	public static final class NotificationCreateButton extends Button {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2993136376885547514L;
+		public static final String ID = "dashboard-notifications";
+
+		public NotificationCreateButton() {
+			setIcon(FontAwesome.SEND);
+			setId(ID);
+			addStyleName("notifications");
+			addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+			AppEducacionalEventBus.register(this);
+		}
+
 	}
 
 }

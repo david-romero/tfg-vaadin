@@ -7,11 +7,12 @@
 */
 package com.app.ui.user.notificaciones.presenter;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
-import com.app.applicationservices.services.EventoService;
 import com.app.applicationservices.services.NotificacionService;
 import com.app.applicationservices.services.PadreMadreOTutorService;
 import com.app.applicationservices.services.ProfesorService;
@@ -23,7 +24,6 @@ import com.app.infrastructure.security.Authority;
 import com.app.infrastructure.security.UserAccount;
 import com.app.ui.AppUI;
 import com.app.ui.components.NotificacionCreateWindow;
-import com.app.ui.user.notificaciones.view.NotificacionesView;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button.ClickEvent;
@@ -36,6 +36,8 @@ import com.vaadin.ui.UI;
  */
 public class NotificacionesPresenter implements ClickListener{
 
+	private static NotificacionesPresenter instance;
+	
 	/**
 	 * 
 	 */
@@ -47,15 +49,13 @@ public class NotificacionesPresenter implements ClickListener{
 
 	private ProfesorService profesorService;
 
-	private Persona person;
-
 	private PadreMadreOTutorService tutorService;
-
-	private EventoService eventoService;
 	
-	private NotificacionesView view;
+	protected int inicio = 0;
 	
-	public NotificacionesPresenter(){
+	protected int salto = 20;
+	
+	private NotificacionesPresenter(){
 		loadBeans();
 	}
 
@@ -68,7 +68,6 @@ public class NotificacionesPresenter implements ClickListener{
 		notificacionService = applicationContext.getBean(NotificacionService.class);
 		tutorService = applicationContext
 				.getBean(PadreMadreOTutorService.class);
-		eventoService = applicationContext.getBean(EventoService.class);
 	}
 
 	/**
@@ -91,7 +90,6 @@ public class NotificacionesPresenter implements ClickListener{
 			default:
 				break;
 			}
-
 		return notifications;
 	}
 
@@ -100,10 +98,15 @@ public class NotificacionesPresenter implements ClickListener{
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		Notificacion notificacion = notificacionService.create();
-		notificacion.setProfesor(getProfesor());
+		Notificacion notificacion = create();
 		NotificacionCreateWindow window = new NotificacionCreateWindow(notificacion,this);
 		AppUI.getCurrent().addWindow(window);
+	}
+	
+	public Notificacion create(){
+		Notificacion notificacion = notificacionService.create();
+		notificacion.setProfesor(getProfesor());
+		return notificacion;
 	}
 	
 	
@@ -138,5 +141,39 @@ public class NotificacionesPresenter implements ClickListener{
 		return container;
 	}
 
+	/**
+	 * @author David
+	 * @return
+	 */
+	public static NotificacionesPresenter getInstance() {
+		if ( instance == null ){
+			instance = new NotificacionesPresenter();
+		}
+		return instance;
+	}
+	
+	public List<Notificacion> obtenerMasNotificaciones(){
+		List<Notificacion> notificaciones =
+				getNotificacines();
+		Collections.sort(notificaciones, new Comparator<Notificacion>(){
+
+			@Override
+			public int compare(Notificacion arg0, Notificacion arg1) {
+				return arg0.getFecha().compareTo(arg1.getFecha());
+			}
+			
+		});
+		Collections.reverse(notificaciones);
+		if ( notificaciones.size() > inicio + salto ){
+			notificaciones =
+					getNotificacines().subList(inicio, inicio+salto);
+			inicio = inicio + salto;
+		}
+		return notificaciones;
+	}
+
+	public boolean existenMasNotificaciones(){
+		return getNotificacines().size() > inicio + salto;
+	}
 
 }

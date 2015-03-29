@@ -25,7 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.app.infrastructure.security.Authority;
 import com.app.infrastructure.security.UserAccount;
 import com.app.presenter.event.AppEducacionalEventBus;
-import com.app.ui.login.LoginView;
+import com.app.ui.login.view.LoginView;
 import com.app.ui.user.UserView;
 import com.app.ui.user.admin.view.AdminView;
 import com.app.ui.user.profesor.view.ProfesorView;

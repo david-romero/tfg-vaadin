@@ -5,10 +5,11 @@
 * Copyright David
 * com.app.ui.login
 */
-package com.app.ui.login;
+package com.app.ui.login.view;
 
 import org.springframework.context.annotation.Scope;
 
+import com.app.ui.login.presenter.LoginPresenter;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Responsive;
@@ -26,11 +27,14 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
-class LoginForm extends VerticalLayout {
+public class LoginForm extends VerticalLayout {
+	
+	public LoginPresenter presenter;
 	
 	public LoginForm(){
-		
+		presenter = LoginPresenter.getInstace();
 	}
+	
 	/**
 	 * 
 	 */
@@ -51,15 +55,15 @@ class LoginForm extends VerticalLayout {
 		fields.setSpacing(true);
 		fields.addStyleName("fields");
 
-		txtLogin = new TextField("Username");
+		txtLogin = new TextField("Usuario");
 		txtLogin.setIcon(FontAwesome.USER);
 		txtLogin.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 
-		txtPassword = new PasswordField("Password");
+		txtPassword = new PasswordField("Contraseña");
 		txtPassword.setIcon(FontAwesome.LOCK);
 		txtPassword.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 
-		final Button signin = new Button("Sign In");
+		final Button signin = new Button("Acceder");
 		signin.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		signin.setClickShortcut(KeyCode.ENTER);
 		signin.focus();
@@ -67,6 +71,7 @@ class LoginForm extends VerticalLayout {
 		fields.addComponents(txtLogin, txtPassword, signin);
 		fields.setComponentAlignment(signin, Alignment.BOTTOM_LEFT);
 
+		signin.addClickListener(presenter);
 		return fields;
 	}
 
@@ -74,13 +79,13 @@ class LoginForm extends VerticalLayout {
 		CssLayout labels = new CssLayout();
 		labels.addStyleName("labels");
 
-		Label welcome = new Label("Welcome");
+		Label welcome = new Label("Bienvenido");
 		welcome.setSizeUndefined();
 		welcome.addStyleName(ValoTheme.LABEL_H4);
 		welcome.addStyleName(ValoTheme.LABEL_COLORED);
 		labels.addComponent(welcome);
 
-		Label title = new Label("QuickTickets Dashboard");
+		Label title = new Label("Guardians Dashboard");
 		title.setSizeUndefined();
 		title.addStyleName(ValoTheme.LABEL_H3);
 		title.addStyleName(ValoTheme.LABEL_LIGHT);
@@ -98,7 +103,7 @@ class LoginForm extends VerticalLayout {
 
 		loginPanel.addComponent(buildLabels());
 		loginPanel.addComponent(buildFields());
-		loginPanel.addComponent(new CheckBox("Remember me", true));
+		loginPanel.addComponent(new CheckBox("Recordar", true));
 		addComponent(loginPanel);
 		setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
 	}

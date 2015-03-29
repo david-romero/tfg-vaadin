@@ -55,9 +55,9 @@ public class PadreMadreOTutor extends Persona {
 	@Override
 	public String toString() {
 		return (getNombre() != null ? "" + getNombre() + " " : "")
-				+ (getApellidos() != null ? "" + getApellidos() + ", " : "")
-				+ (getTelefono() != null ? "Tlf: " + getTelefono() + ", " : "")
-				+ (getEmail() != null ? "Email: " + getEmail() : "");
+				+ (getApellidos() != null ? "" + getApellidos() : "")
+				+ (getTelefono() != null ? ", Tlf: " + getTelefono() : "")
+				+ (getEmail() != null ? ", Email: " + getEmail() : "");
 	}
 
 	/**

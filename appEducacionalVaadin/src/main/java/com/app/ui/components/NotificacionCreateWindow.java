@@ -68,8 +68,8 @@ public class NotificacionCreateWindow extends Window {
 		setModal(true);
 		setCloseShortcut(KeyCode.ESCAPE, null);
 		setResizable(false);
-		setHeight(85.0f, Unit.PERCENTAGE);
-		setWidth(55, Unit.PERCENTAGE);
+		setHeight(80f, Unit.PERCENTAGE);
+		setWidth(60, Unit.PERCENTAGE);
 		VerticalLayout content = new VerticalLayout();
 		content.addComponent(buildForm());
 		content.addComponent(buildFooter());
@@ -107,7 +107,7 @@ public class NotificacionCreateWindow extends Window {
 					presenter.save(notificacion,com.app.domain.model.types.Profesor.class);
 
 					Notification success = new Notification(
-							"Profile updated successfully");
+							"Notificación enviada correctamente");
 					success.setDelayMsec(2000);
 					success.setStyleName("bar success small");
 					success.setPosition(Position.BOTTOM_CENTER);
@@ -153,10 +153,9 @@ public class NotificacionCreateWindow extends Window {
 	 */
 	private Component buildForm() {
 		VerticalLayout root = new VerticalLayout();
-		root.setCaption("Notificación");
-		root.setIcon(FontAwesome.PAPER_PLANE);
+		setIcon(FontAwesome.SEND);
+		setCaption("Enviar Notificación");
 		root.setSpacing(true);
-		root.setMargin(true);
 		root.setSizeFull();
 		FormLayout details = new FormLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
