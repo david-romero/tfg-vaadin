@@ -51,26 +51,17 @@ public class CalificacionesView extends Panel implements View{
 	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.vaadin.ui.AbstractComponent#attach()
-	 */
-	@Override
-	public void attach() {
 		setSizeFull();
 		addStyleName(ValoTheme.PANEL_BORDERLESS);
 		super.attach();
 		setContent(root);
 		tabSheet.addStyleName("right-aligned-tabs");
-		root.addComponent(tabSheet);
+		//root.addComponent(tabSheet);
 		for ( Pair<Component,String> pair : tabsCaption ){
-			tabSheet.addTab(pair.getFirst()).setCaption(pair.getSecond());
-			/*addComponent(pair.getFirst());
-			break;*/
+			//tabSheet.addTab(pair.getFirst()).setCaption(pair.getSecond());
+			root.addComponent(pair.getFirst());
+			break;
 		}
 	}
-
 	
 }

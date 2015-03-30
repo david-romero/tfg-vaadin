@@ -10,15 +10,12 @@ package com.app.ui.user;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.bind.annotation.InitBinder;
 
 import com.app.applicationservices.services.AdministradorService;
 import com.app.applicationservices.services.PadreMadreOTutorService;
 import com.app.applicationservices.services.ProfesorService;
 import com.app.domain.model.types.Persona;
-import com.app.infrastructure.security.AuthManager;
 import com.app.infrastructure.security.Authority;
 import com.app.infrastructure.security.UserAccount;
 import com.app.presenter.event.AppEducacionalEvent.NotificationsCountUpdatedEvent;
@@ -33,13 +30,10 @@ import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.AcceptItem;
 import com.vaadin.ui.Alignment;
@@ -97,10 +91,9 @@ public class MenuComponent extends CustomComponent {
 		// DashboardEventBus.register(this);
 
 		loadBeans();
-		
+
 		setCompositionRoot(buildContent());
 
-		
 	}
 
 	/**
@@ -146,21 +139,21 @@ public class MenuComponent extends CustomComponent {
 		settings.addStyleName("user-menu");
 		final Persona user = getCurrentUser();
 		if (user.getImagen() != null && user.getImagen().length > 0) {
-			com.vaadin.server.StreamResource source; 
+			com.vaadin.server.StreamResource source;
 			StreamSource source2 = new StreamResource.StreamSource() {
-		        /**
+				/**
 				 * 
 				 */
 				private static final long serialVersionUID = -3823582436185258502L;
 
 				public InputStream getStream() {
-		            InputStream reportStream = null;
-		            reportStream = new ByteArrayInputStream(user.getImagen());
-		            return reportStream;
-		        }
-		    };
-		    source = new StreamResource(source2, "profile-picture.png") ;
-			settingsItem = settings.addItem("",  source, null);
+					InputStream reportStream = null;
+					reportStream = new ByteArrayInputStream(user.getImagen());
+					return reportStream;
+				}
+			};
+			source = new StreamResource(source2, "profile-picture.png");
+			settingsItem = settings.addItem("", source, null);
 		} else {
 			settingsItem = settings.addItem("", new ThemeResource(
 					"img/profile-pic-300px.jpg"), null);
@@ -253,54 +246,60 @@ public class MenuComponent extends CustomComponent {
 		menuItemsLayout.setHeight(100.0f, Unit.PERCENTAGE);
 
 		for (final UserMenuHelper view : UserMenuHelper.values()) {
-			Component menuItemComponent = new ValoMenuItemButton(view);
+			Authority auth = Lists.newArrayList(
+					getCurrentUser().getUserAccount().getAuthorities()).get(0);
+			boolean tienePermisos = view.getRoles().contains(auth);
+			if (tienePermisos) {
+				Component menuItemComponent = new ValoMenuItemButton(view);
 
-			if (view == UserMenuHelper.REPORTS) {
-				// Add drop target to reports button
-				DragAndDropWrapper reports = new DragAndDropWrapper(
-						menuItemComponent);
-				reports.setDragStartMode(DragStartMode.NONE);
-				reports.setDropHandler(new DropHandler() {
+				if (view == UserMenuHelper.REPORTS) {
+					// Add drop target to reports button
+					DragAndDropWrapper reports = new DragAndDropWrapper(
+							menuItemComponent);
+					reports.setDragStartMode(DragStartMode.NONE);
+					reports.setDropHandler(new DropHandler() {
 
-					/**
+						/**
 					 * 
 					 */
-					private static final long serialVersionUID = -3509580222538356821L;
+						private static final long serialVersionUID = -3509580222538356821L;
 
-					@Override
-					public void drop(final DragAndDropEvent event) {
-						UI.getCurrent()
-								.getNavigator()
-								.navigateTo(
-										UserMenuHelper.REPORTS.getViewName());
-						Table table = (Table) event.getTransferable()
-								.getSourceComponent();
+						@Override
+						public void drop(final DragAndDropEvent event) {
+							UI.getCurrent()
+									.getNavigator()
+									.navigateTo(
+											UserMenuHelper.REPORTS
+													.getViewName());
+							Table table = (Table) event.getTransferable()
+									.getSourceComponent();
 
-					}
+						}
 
-					@Override
-					public AcceptCriterion getAcceptCriterion() {
-						return AcceptItem.ALL;
-					}
+						@Override
+						public AcceptCriterion getAcceptCriterion() {
+							return AcceptItem.ALL;
+						}
 
-				});
-				menuItemComponent = reports;
+					});
+					menuItemComponent = reports;
+				}
+
+				if (view == UserMenuHelper.PANELCONTROL) {
+					notificationsBadge = new Label();
+					notificationsBadge.setId(NOTIFICATIONS_BADGE_ID);
+					menuItemComponent = buildBadgeWrapper(menuItemComponent,
+							notificationsBadge);
+				}
+				if (view == UserMenuHelper.REPORTS) {
+					reportsBadge = new Label();
+					reportsBadge.setId(REPORTS_BADGE_ID);
+					menuItemComponent = buildBadgeWrapper(menuItemComponent,
+							reportsBadge);
+				}
+
+				menuItemsLayout.addComponent(menuItemComponent);
 			}
-
-			if (view == UserMenuHelper.PANELCONTROL) {
-				notificationsBadge = new Label();
-				notificationsBadge.setId(NOTIFICATIONS_BADGE_ID);
-				menuItemComponent = buildBadgeWrapper(menuItemComponent,
-						notificationsBadge);
-			}
-			if (view == UserMenuHelper.REPORTS) {
-				reportsBadge = new Label();
-				reportsBadge.setId(REPORTS_BADGE_ID);
-				menuItemComponent = buildBadgeWrapper(menuItemComponent,
-						reportsBadge);
-			}
-
-			menuItemsLayout.addComponent(menuItemComponent);
 		}
 		return menuItemsLayout;
 

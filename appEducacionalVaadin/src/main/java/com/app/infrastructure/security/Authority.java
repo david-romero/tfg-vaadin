@@ -43,6 +43,15 @@ public class Authority implements GrantedAuthority {
 	public Authority() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * Constructor
+	 */
+	public Authority(String authority) {
+		super();
+		this.authority = authority;
+	}
 
 	// Values -----------------------------------------------------------------
 	/**
